@@ -9,12 +9,13 @@
 
 #### Pei digital dashboard
 <img src="./public/readme/dashboard.png" style="border-radius:10px">
-##### Create .env : 
+
+##### create .env : 
 
 ```yml
 cp .env.example .env
 ```
-##### Project run : 
+##### project run : 
 
 ```yml
 yarn && yarn dev
