@@ -4,13 +4,13 @@ import { Switch } from '@headlessui/react'
 import { toast } from 'react-toastify'
 import { classNames } from '../utils'
 import App from '../layouts/app'
+import Toggle from '../components/toggle'
 
-const integrations = [
+const forms = [
   { uuid: '', name: 'Formulario 1', date: '2022-12-11', author: 'John Doe' },
 ]
 
-export default function Integrations() {
-  const [enable, setEnable] = useState(true)
+export default function Form() {
   const [_, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
   const [current, setCurrent] = useState({
@@ -102,32 +102,10 @@ export default function Integrations() {
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-gray-200 bg-white">
-                            {integrations?.map((item) => (
+                            {forms?.map((item) => (
                               <tr key={item.uuid}>
-                                <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                                  <Switch.Group
-                                    as="div"
-                                    className="flex items-center"
-                                  >
-                                    <Switch
-                                      checked={enable}
-                                      onChange={setEnable}
-                                      className={classNames(
-                                        enable ? 'bg-cyan-700' : 'bg-gray-200',
-                                        'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2',
-                                      )}
-                                    >
-                                      <span
-                                        aria-hidden="true"
-                                        className={classNames(
-                                          enable
-                                            ? 'translate-x-5'
-                                            : 'translate-x-0',
-                                          'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
-                                        )}
-                                      />
-                                    </Switch>
-                                  </Switch.Group>
+                                <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
+                                  <Toggle/>
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
                                   <time dateTime={item.date}>
