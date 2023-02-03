@@ -1,12 +1,17 @@
 import { useState } from 'react'
-import moment from 'moment'
-import Navbar from '../layouts/navbar'
-import { classNames, generateGreetings } from '../utils'
-import { ArrowTrendingUpIcon } from '@heroicons/react/24/outline'
 import { CheckCircleIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
-import { useAuth } from '../hooks/useAuth'
+import { ArrowTrendingUpIcon } from '@heroicons/react/24/outline'
+
+import moment from 'moment'
+
 import App from '../layouts/app'
-import { Badge } from '../components/badge'
+import Navbar from '../layouts/navbar'
+
+import Badge from '../components/badge'
+
+import { useAuth } from '../hooks/useAuth'
+
+import { classNames, generateGreetings } from '../utils'
 
 export const actions = [
   {
@@ -232,7 +237,9 @@ export default function Dashboard() {
                             </p>
                           </td>
                           <td className="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
-                            <Badge children = {transaction.status}/>
+                            <Badge 
+                              name={transaction.status}
+                              type={transaction.status}/>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500">
                             <time dateTime={transaction.datetime}>
