@@ -22,7 +22,7 @@ const navigation = [
 const secondaryNavigation = [
   {
     name: 'Formularios',
-    href: '/integrations',
+    href: '/form',
     icon: SquaresPlusIcon,
   },
   { name: 'Settings', href: '/setting', icon: CogIcon },
