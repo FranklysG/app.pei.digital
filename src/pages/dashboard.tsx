@@ -1,13 +1,19 @@
 import { useState } from 'react'
-import moment from 'moment'
-import Navbar from '../layouts/navbar'
-import { classNames, generateGreetings } from '../utils'
-import { ArrowTrendingUpIcon } from '@heroicons/react/24/outline'
 import { CheckCircleIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
-import { useAuth } from '../hooks/useAuth'
-import App from '../layouts/app'
+import { ArrowTrendingUpIcon } from '@heroicons/react/24/outline'
 
-const actions = [
+import moment from 'moment'
+
+import App from '../layouts/app'
+import Navbar from '../layouts/navbar'
+
+import Badge from '../components/badge'
+
+import { useAuth } from '../hooks/useAuth'
+
+import { classNames, generateGreetings } from '../utils'
+
+export const actions = [
   {
     id: 1,
     name: 'Formulario Editados',
@@ -37,11 +43,6 @@ const actions = [
   },
   // More actions...
 ]
-const statusStyles = {
-  success: 'bg-green-100 text-green-800',
-  processing: 'bg-yellow-100 text-yellow-800',
-  failed: 'bg-red-100 text-gray-800',
-}
 
 export default function Dashboard() {
   const { user, verified } = useAuth()
@@ -89,7 +90,7 @@ export default function Dashboard() {
                         />
                       </picture>
 
-                      <h1 className="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
+                      <h1 className="!ml-3 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
                         {generateGreetings(hour)}, {user?.name}
                       </h1>
                     </div>
@@ -125,6 +126,7 @@ export default function Dashboard() {
               role="list"
               className="mt-2 divide-y divide-gray-200 overflow-hidden shadow sm:hidden"
             >
+              //////////////////////////
               {actions.map((transaction) => (
                 <li key={transaction.id}>
                   <a
@@ -152,6 +154,7 @@ export default function Dashboard() {
                   </a>
                 </li>
               ))}
+
             </ul>
 
             <nav
@@ -234,14 +237,9 @@ export default function Dashboard() {
                             </p>
                           </td>
                           <td className="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
-                            <span
-                              className={classNames(
-                                statusStyles[transaction.status],
-                                'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize',
-                              )}
-                            >
-                              {transaction.status}
-                            </span>
+                            <Badge 
+                              name={transaction.status}
+                              type={transaction.status}/>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500">
                             <time dateTime={transaction.datetime}>
@@ -249,7 +247,8 @@ export default function Dashboard() {
                             </time>
                           </td>
                         </tr>
-                      ))}
+                      ))
+                      }
                     </tbody>
                   </table>
                   {/* Pagination */}
