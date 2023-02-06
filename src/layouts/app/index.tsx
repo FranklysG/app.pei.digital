@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { ReactNode, useEffect, useState } from 'react'
 import Loading from '../../components/loading'
+import Panel from '../../components/panel'
 import { useAuth } from '../../hooks/useAuth'
 import { useWorkspace } from '../../hooks/useWorkspace'
 import useMount from '../../utils/useMount'

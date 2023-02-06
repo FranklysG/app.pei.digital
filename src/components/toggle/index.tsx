@@ -1,10 +1,10 @@
-import { useState } from "react"
-import { classNames } from "../../utils"
-import { Switch } from "@headlessui/react"
+import { useState } from 'react'
+import { classNames } from '../../utils'
+import { Switch } from '@headlessui/react'
 
-interface ToggleProps { }
+interface ToggleProps {}
 
-const Toggle = ({ }: ToggleProps) => {
+const Toggle = ({}: ToggleProps) => {
   const [enable, setEnable] = useState(true)
 
   return (
@@ -20,9 +20,7 @@ const Toggle = ({ }: ToggleProps) => {
         <span
           aria-hidden="true"
           className={classNames(
-            enable
-              ? 'translate-x-5'
-              : 'translate-x-0',
+            enable ? 'translate-x-5' : 'translate-x-0',
             'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
           )}
         />
@@ -31,5 +29,4 @@ const Toggle = ({ }: ToggleProps) => {
   )
 }
 
-
-export default Toggle;
+export default Toggle

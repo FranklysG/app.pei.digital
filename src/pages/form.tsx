@@ -1,9 +1,9 @@
-import moment from 'moment'
 import { useCallback, useEffect, useState } from 'react'
-import { Switch } from '@headlessui/react'
 import { toast } from 'react-toastify'
-import { classNames } from '../utils'
+import moment from 'moment'
+
 import App from '../layouts/app'
+
 import Toggle from '../components/toggle'
 
 const forms = [
@@ -105,7 +105,7 @@ export default function Form() {
                             {forms?.map((item) => (
                               <tr key={item.uuid}>
                                 <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
-                                  <Toggle/>
+                                  <Toggle />
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
                                   <time dateTime={item.date}>

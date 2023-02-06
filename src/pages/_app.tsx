@@ -5,6 +5,7 @@ import Head from 'next/head'
 import { ToastContainer } from 'react-toastify'
 import { AuthProvider } from '../hooks/useAuth'
 import { WorkspaceProvider } from '../hooks/useWorkspace'
+import { GlobalProvider } from '../hooks/useGlobal'
 
 export default function App({ Component, pageProps }) {
   return (
@@ -46,9 +47,11 @@ export default function App({ Component, pageProps }) {
         <link rel="canonical" href="https://postalcode.com" />
       </Head>
       <AuthProvider>
-        <WorkspaceProvider>
-          <Component {...pageProps} />
-        </WorkspaceProvider>
+        <GlobalProvider>
+          <WorkspaceProvider>
+            <Component {...pageProps} />
+          </WorkspaceProvider>
+        </GlobalProvider>
       </AuthProvider>
       <ToastContainer
         position="top-right"

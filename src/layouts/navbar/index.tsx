@@ -5,10 +5,11 @@ import { Bars3CenterLeftIcon, BellIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { classNames } from '../../utils'
 import { useAuth } from '../../hooks/useAuth'
+import { useGlobal } from '../../hooks/useGlobal'
 
 export default function Navbar() {
   const { logout, setMiddleware, setRedirectIfAuthenticated } = useAuth()
-  const [_, setSidebarOpen] = useState(false)
+  const { openSidebar, setOpenSidebar } = useGlobal()
 
   const handleUserLogout = useCallback(() => {
     setMiddleware('guest')
@@ -21,7 +22,7 @@ export default function Navbar() {
       <button
         type="button"
         className="border-r border-gray-200 px-4 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden"
-        onClick={() => setSidebarOpen(true)}
+        onClick={() => setOpenSidebar(!openSidebar)}
       >
         <span className="sr-only">Open sidebar</span>
         <Bars3CenterLeftIcon className="h-6 w-6" aria-hidden="true" />
@@ -62,13 +63,16 @@ export default function Navbar() {
           <Menu as="div" className="relative ml-3">
             <div>
               <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 lg:rounded-md lg:p-2 lg:hover:bg-gray-50">
-                <img
-                  width="2rem"
-                  height="2rem"
-                  className="h-8 w-8 rounded-full"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  alt="avatar"
-                />
+                <picture>
+                  <source src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
+                  <img
+                    width="2rem"
+                    height="2rem"
+                    className="h-8 w-8 rounded-full"
+                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    alt="avatar"
+                  />
+                </picture>
                 <span className="ml-3 hidden text-sm font-medium text-gray-700 lg:block">
                   <span className="sr-only">Open user menu for </span>Emilia
                   Birch
