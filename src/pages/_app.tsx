@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify'
 import { AuthProvider } from '../hooks/useAuth'
 import { WorkspaceProvider } from '../hooks/useWorkspace'
 import { GlobalProvider } from '../hooks/useGlobal'
+import { FormProvider } from '../hooks/useForm'
 
 export default function App({ Component, pageProps }) {
   return (
@@ -49,7 +50,9 @@ export default function App({ Component, pageProps }) {
       <AuthProvider>
         <GlobalProvider>
           <WorkspaceProvider>
-            <Component {...pageProps} />
+            <FormProvider>
+              <Component {...pageProps} />
+            </FormProvider>
           </WorkspaceProvider>
         </GlobalProvider>
       </AuthProvider>

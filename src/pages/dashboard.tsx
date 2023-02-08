@@ -11,6 +11,7 @@ import Badge from '../components/badge'
 import Panel from '../components/panel'
 
 import { useAuth } from '../hooks/useAuth'
+import { useForm } from '../hooks/useForm'
 import { useGlobal } from '../hooks/useGlobal'
 
 import Leave from './leave'
@@ -51,15 +52,18 @@ export const forms = [
 ]
 
 export default function Dashboard() {
+  //const form = useForm()
   const { user, verified } = useAuth()
   const { openPanel, setOpenPanel } = useGlobal()
   const [hour, setHour] = useState(moment().format('HH'))
+
+  //console.log(form)
 
   return (
     <App header={'Dashboard'}>
       <Navbar />
       <Panel>
-        <Leave />
+        <Leave/>
       </Panel>
       <section className="flex-1 pb-8">
         {/* Page header */}
