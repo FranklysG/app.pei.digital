@@ -17,47 +17,11 @@ import { useGlobal } from '../hooks/useGlobal'
 import Leave from './leave'
 import { classNames, generateGreetings } from '../utils'
 
-export const forms = [
-  {
-    id: 1,
-    name: 'Plano de estudo 3° A',
-    href: '#',
-    author: 'Ana Maria',
-    type: 'processing',
-    status: 'Pendente',
-    date: 'July 11, 2020',
-    datetime: '2020-07-11',
-  },
-  {
-    id: 2,
-    name: 'Plano de estudo 2° C',
-    href: '#',
-    author: 'Vera Lucia',
-    type: 'failed',
-    status: 'Recusado',
-    date: 'July 11, 2020',
-    datetime: '2020-07-11',
-  },
-  {
-    id: 3,
-    name: 'Plano de estudo 2° B',
-    href: '#',
-    author: 'Claudia Monteiro',
-    type: 'success',
-    status: 'Aprovado',
-    date: 'July 11, 2020',
-    datetime: '2020-07-11',
-  },
-  // More actions...
-]
-
 export default function Dashboard() {
-  //const form = useForm()
+  const { forms } = useForm()
   const { user, verified } = useAuth()
   const { openPanel, setOpenPanel } = useGlobal()
   const [hour, setHour] = useState(moment().format('HH'))
-
-  //console.log(form)
 
   return (
     <App header={'Dashboard'}>
@@ -154,10 +118,10 @@ export default function Dashboard() {
               role="list"
               className="mt-2 divide-y divide-gray-200 overflow-hidden shadow sm:hidden"
             >
-              {forms.map((item) => (
-                <li key={item.id}>
+              {forms?.map((item) => (
+                <li key={item.uuid}>
                   <a
-                    href={item.href}
+                    href={"api/generate"}
                     className="block bg-white px-4 py-4 hover:bg-gray-50"
                   >
                     <div className="grid gap-2">
@@ -219,12 +183,12 @@ export default function Dashboard() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
-                      {forms.map((item) => (
-                        <tr key={item.id} className="bg-white">
+                      {forms?.map((item) => (
+                        <tr key={item.uuid} className="bg-white">
                           <td className="w-full max-w-0 whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                             <div className="flex">
                               <a
-                                href={item.href}
+                                href={"api/generate"}
                                 className="group inline-flex space-x-2 truncate text-sm"
                               >
                                 <ArrowTrendingUpIcon
@@ -250,7 +214,7 @@ export default function Dashboard() {
                             />
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500">
-                            <time dateTime={item.datetime}>{item.date}</time>
+                            <time dateTime={item.created_at}>{item.date}</time>
                           </td>
                         </tr>
                       ))}

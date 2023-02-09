@@ -1,8 +1,9 @@
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
+import { FormType } from '../@types'
 import axios from '../lib/axios'
 
 type FormProps = { 
-  forms: [],
+  forms: FormType[],
 }
 
 type FormProviderProps = {
@@ -12,7 +13,7 @@ type FormProviderProps = {
 export const Form = createContext({} as FormProps)
 
 function FormProvider({ children }: FormProviderProps) {
-  const [forms, setForms] = useState();
+  const [forms, setForms] = useState<FormType[]>();
 
   useEffect(() => {
     (async () => {
