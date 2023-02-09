@@ -1,3 +1,6 @@
+import Button from "../components/button";
+import Input from "../components/input";
+
 export default function Leave() {
   return (
     <div className="space-y-6 pt-8 sm:space-y-5 sm:pt-10">
@@ -18,10 +21,11 @@ export default function Leave() {
             First name
           </label>
           <div className="mt-1 sm:col-span-2 sm:mt-0">
-            <input
+            <Input
               type="text"
               name="first-name"
               id="first-name"
+              placeholder=""
               autoComplete="given-name"
               className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm"
             />
@@ -99,6 +103,7 @@ export default function Leave() {
               id="street-address"
               autoComplete="street-address"
               className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="block w-full max-w-lg"
             />
           </div>
         </div>
@@ -157,6 +162,9 @@ export default function Leave() {
           </div>
         </div>
       </div>
+      <Button>
+        Enviar Formulário
+      </Button>
     </div>
   )
 }
