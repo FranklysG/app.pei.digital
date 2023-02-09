@@ -14,11 +14,14 @@ export interface WorkspaceType {
   updated_at: string
 }
 
-export interface IntegrationType {
+export interface FormType {
+  workspace_id: number
   uuid: string
   name: string
-  acitve: boolean
-  token: string
+  type: string
+  status: string
+  date: string
   created_at: string
   updated_at: string
+  author: string
 }
