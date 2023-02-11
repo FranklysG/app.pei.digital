@@ -22,12 +22,12 @@ export default function Dashboard() {
   const { user, verified } = useAuth()
   const { openPanel, setOpenPanel } = useGlobal()
   const [hour, setHour] = useState(moment().format('HH'))
-  
+
   return (
     <App header={'Dashboard'}>
       <Navbar />
       <Panel>
-        <Leave/>
+        <Leave />
       </Panel>
       <section className="flex-1 pb-8">
         {/* Page header */}
@@ -121,7 +121,7 @@ export default function Dashboard() {
               {forms?.map((item) => (
                 <li key={item.uuid}>
                   <a
-                    href={"api/generate"}
+                    href={'api/generate'}
                     className="block bg-white px-4 py-4 hover:bg-gray-50"
                   >
                     <div className="grid gap-2">
@@ -188,7 +188,7 @@ export default function Dashboard() {
                           <td className="w-full max-w-0 whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                             <div className="flex">
                               <a
-                                href={"api/generate"}
+                                href={'api/generate'}
                                 className="group inline-flex space-x-2 truncate text-sm"
                               >
                                 <ArrowTrendingUpIcon

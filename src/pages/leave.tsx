@@ -14,15 +14,22 @@ export default function Leave() {
   const { setMiddleware } = useAuth()
   const { workspace } = useWorkspace()
   const { openPanel, setOpenPanel } = useGlobal()
-  const { create } = useForm()
+  const { currentUuid, forms, create } = useForm()
 
-  const [name, setName] = useState('')
+  const [name, setName] = useState<string>('')
   const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
 
   const workspace_uuid = values(workspace).shift().uuid
 
   useEffect(() => {
+    if (currentUuid !== '') {
+      forms
+        .filter((item) => item.uuid === currentUuid)
+        .map((item) => {
+          setName(item.name)
+        })
+    }
     errors.length > 0 && errors.map((error) => toast.error(error))
   }, [errors])
 
@@ -64,6 +71,7 @@ export default function Leave() {
                 type="text"
                 name="first-name"
                 id="first-name"
+                value={name ?? ''}
                 placeholder=""
                 autoComplete="given-name"
                 handleOnChange={(value) => setName(value)}
