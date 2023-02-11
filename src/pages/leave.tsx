@@ -1,24 +1,26 @@
-import { useCallback, useEffect, useState } from "react";
-import { toast } from 'react-toastify';
-import { values } from "lodash";
+import { useCallback, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
+import { values } from 'lodash'
 
-import { useWorkspace } from "../hooks/useWorkspace";
-import { useForm } from "../hooks/useForm";
-import { useAuth } from "../hooks/useAuth";
+import { useWorkspace } from '../hooks/useWorkspace'
+import { useForm } from '../hooks/useForm'
+import { useAuth } from '../hooks/useAuth'
 
-import Button from "../components/button";
-import Input from "../components/input";
+import Button from '../components/button'
+import Input from '../components/input'
+import { useGlobal } from '../hooks/useGlobal'
 
 export default function Leave() {
-  const { setMiddleware } = useAuth();
-  const { create } = useForm()
+  const { setMiddleware } = useAuth()
   const { workspace } = useWorkspace()
+  const { openPanel, setOpenPanel } = useGlobal()
+  const { create } = useForm()
 
   const [name, setName] = useState('')
   const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
 
-  const workspace_uuid = values(workspace).shift().uuid;
+  const workspace_uuid = values(workspace).shift().uuid
 
   useEffect(() => {
     errors.length > 0 && errors.map((error) => toast.error(error))
@@ -26,16 +28,16 @@ export default function Leave() {
 
   const submitForm = useCallback(
     async (event: any) => {
-      event.preventDefault() 
+      event.preventDefault()
       setMiddleware('auth'),
-        create({ 
+        create({
           name,
           workspace_uuid,
           setStatus,
-          setErrors
+          setErrors,
         })
     },
-    [name, workspace_uuid, setStatus, setErrors]
+    [name, workspace_uuid, setStatus, setErrors],
   )
 
   return (
@@ -70,7 +72,11 @@ export default function Leave() {
             </div>
           </div>
         </div>
-        <Button>
+        <Button
+          handleOnClick={() => {
+            setOpenPanel(!openPanel)
+          }}
+        >
           Enviar Formulário
         </Button>
       </form>

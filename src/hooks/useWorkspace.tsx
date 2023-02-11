@@ -25,6 +25,7 @@ export const Workspace = createContext({} as WorkspaceProps)
 
 function WorkspaceProvider({ children }: WorkspaceProviderProps) {
   const [workspace, setWorkspace] = useState<WorkspaceType[]>([])
+
   const show = useCallback(async () => {
     await axios
       .get('/api/workspace')

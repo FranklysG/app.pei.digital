@@ -13,9 +13,8 @@ import Toggle from '../components/toggle'
 export default function Form() {
   const { forms, eliminate } = useForm()
   const { workspace } = useWorkspace()
-  //const workspace_uuid = values(workspace).shift().uuid;
 
-  const [_, setStatus] = useState<string>('')
+  const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
   const [current, setCurrent] = useState({
     name: '',
@@ -27,26 +26,16 @@ export default function Form() {
     errors.length > 0 && errors.map((error) => toast.error(error))
   }, [errors])
 
-  const handleUserUpdate = useCallback(() => {
-    if (current.uuid !== '') {
-       // update({
-      //   uuid: current.uuid,
-      //   name: current.name,
-      //   setErrors,
-      //   setStatus,
-      // })
-    } else {
-      // create({ name: current.name, setErrors, setStatus })
-    }
-  }, [current])
+  useEffect(() => {
+    status && toast.success(status)
+  }, [status])
 
-  const handleUserDelete = useCallback((uuid: string ) => {
+  const handleUserDelete = useCallback((uuid: string) => {
     eliminate({
+      uuid,
       setErrors,
       setStatus,
-      uuid
-    }) 
-    console.log(uuid)
+    })
   }, [])
 
   return (
@@ -128,7 +117,7 @@ export default function Form() {
                                   >
                                     Edit
                                   </button>
-                                    <span> / </span>
+                                  <span> / </span>
                                   <button
                                     onClick={() => {
                                       handleUserDelete(item.uuid)
