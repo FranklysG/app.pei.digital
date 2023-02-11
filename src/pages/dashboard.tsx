@@ -22,8 +22,6 @@ export default function Dashboard() {
   const { user, verified } = useAuth()
   const { openPanel, setOpenPanel } = useGlobal()
   const [hour, setHour] = useState(moment().format('HH'))
-
-  console.log(forms)
   
   return (
     <App header={'Dashboard'}>

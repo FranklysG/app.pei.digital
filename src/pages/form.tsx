@@ -1,16 +1,20 @@
 import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import moment from 'moment'
+import { values } from 'lodash'
 
 import App from '../layouts/app'
 
+import { useForm } from '../hooks/useForm'
+import { useWorkspace } from '../hooks/useWorkspace'
+
 import Toggle from '../components/toggle'
 
-const forms = [
-  { uuid: '', name: 'Formulario 1', date: '2022-12-11', author: 'John Doe' },
-]
-
 export default function Form() {
+  const { forms, eliminate } = useForm()
+  const { workspace } = useWorkspace()
+  //const workspace_uuid = values(workspace).shift().uuid;
+
   const [_, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
   const [current, setCurrent] = useState({
@@ -25,7 +29,7 @@ export default function Form() {
 
   const handleUserUpdate = useCallback(() => {
     if (current.uuid !== '') {
-      // update({
+       // update({
       //   uuid: current.uuid,
       //   name: current.name,
       //   setErrors,
@@ -36,15 +40,14 @@ export default function Form() {
     }
   }, [current])
 
-  const setStateValue = (
-    setStateAction: (value: any) => void,
-    key: string,
-    value: string,
-  ) => {
-    setStateAction((prevState) => {
-      return { ...prevState, [key]: value }
-    })
-  }
+  const handleUserDelete = useCallback((uuid: string ) => {
+    eliminate({
+      setErrors,
+      setStatus,
+      uuid
+    }) 
+    console.log(uuid)
+  }, [])
 
   return (
     <App header={'Workspaces'}>
@@ -120,19 +123,19 @@ export default function Form() {
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                                   <button
-                                    onClick={() => {
-                                      setCurrent((prevState) => {
-                                        return {
-                                          ...prevState,
-                                          uuid: item.uuid,
-                                          name: item.name,
-                                          token: item.date,
-                                        }
-                                      })
-                                    }}
+                                    onClick={() => {}}
                                     className="text-cyan-600 hover:text-cyan-900"
                                   >
                                     Edit
+                                  </button>
+                                    <span> / </span>
+                                  <button
+                                    onClick={() => {
+                                      handleUserDelete(item.uuid)
+                                    }}
+                                    className="text-cyan-600 hover:text-cyan-900"
+                                  >
+                                    Deletar
                                   </button>
                                 </td>
                               </tr>

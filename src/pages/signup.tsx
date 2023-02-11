@@ -23,10 +23,10 @@ export default function SignUp() {
 
   const submitForm = useCallback(
     async (event: any) => {
-      event.preventDefault() //
+      event.preventDefault() 
       setMiddleware('guest'), //auth
         setRedirectIfAuthenticated('/dashboard'),
-        register({ //
+        register({ //add new form
           name,
           email,
           password,
