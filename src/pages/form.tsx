@@ -2,53 +2,55 @@ import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import moment from 'moment'
 
+import { ArrowDownOnSquareIcon } from '@heroicons/react/24/outline'
+
 import App from '../layouts/app'
+import Leave from './leave'
+
+import { useForm } from '../hooks/useForm'
+import { useWorkspace } from '../hooks/useWorkspace'
 
 import Toggle from '../components/toggle'
-
-const forms = [
-  { uuid: '', name: 'Formulario 1', date: '2022-12-11', author: 'John Doe' },
-]
+import { useGlobal } from '../hooks/useGlobal'
+import Panel from '../components/panel'
 
 export default function Form() {
-  const [_, setStatus] = useState<string>('')
+  const { openPanel, setOpenPanel } = useGlobal()
+  const { forms, /* update, */ eliminate, generate, setCurrentUuid } = useForm()
+
+  const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
-  const [current, setCurrent] = useState({
-    name: '',
-    uuid: '',
-    token: '',
-  })
 
   useEffect(() => {
     errors.length > 0 && errors.map((error) => toast.error(error))
   }, [errors])
 
-  const handleUserUpdate = useCallback(() => {
-    if (current.uuid !== '') {
-      // update({
-      //   uuid: current.uuid,
-      //   name: current.name,
-      //   setErrors,
-      //   setStatus,
-      // })
-    } else {
-      // create({ name: current.name, setErrors, setStatus })
-    }
-  }, [current])
+  useEffect(() => {
+    status && toast.success(status)
+  }, [status])
 
-  const setStateValue = (
-    setStateAction: (value: any) => void,
-    key: string,
-    value: string,
-  ) => {
-    setStateAction((prevState) => {
-      return { ...prevState, [key]: value }
+  const handleUserDelete = useCallback((uuid: string) => {
+    eliminate({
+      uuid,
+      setErrors,
+      setStatus,
     })
-  }
+  }, [])
+
+  const handleUserGenerate = useCallback((uuid: string) => {
+    generate({
+      uuid,
+      setErrors,
+      setStatus,
+    })
+  }, [])
 
   return (
     <App header={'Workspaces'}>
-      <article className="max-w-7xl pb-10 lg:py-12 lg:px-8">
+      <Panel>
+        <Leave />
+      </Panel>
+      <article className="pb-10 lg:py-12 lg:px-8">
         <div className="lg:grid lg:gap-x-5">
           {/* Generate token details */}
           <div className="space-y-6 sm:px-6 lg:col-span-9 lg:px-0">
@@ -97,6 +99,12 @@ export default function Form() {
                               </th>
                               <th
                                 scope="col"
+                                className="px-6 py-3 text-left text-sm font-semibold text-gray-900"
+                              >
+                                Download
+                              </th>
+                              <th
+                                scope="col"
                                 className="col-span-2 px-6 py-3 text-left text-sm font-semibold text-gray-900"
                               ></th>
                             </tr>
@@ -118,21 +126,32 @@ export default function Form() {
                                 <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                                   {item.author}
                                 </td>
+                                <td className="whitespace-nowrap text-center px-6 py-4 text-sm text-gray-500">
+                                  <ArrowDownOnSquareIcon
+                                    className="flex w-5 h-5 cursor-pointer"
+                                    onClick={() =>
+                                      handleUserGenerate(item.uuid)
+                                    }
+                                  />
+                                </td>
                                 <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                                   <button
                                     onClick={() => {
-                                      setCurrent((prevState) => {
-                                        return {
-                                          ...prevState,
-                                          uuid: item.uuid,
-                                          name: item.name,
-                                          token: item.date,
-                                        }
-                                      })
+                                      setCurrentUuid(item.uuid)
+                                      setOpenPanel(!openPanel)
                                     }}
                                     className="text-cyan-600 hover:text-cyan-900"
                                   >
                                     Edit
+                                  </button>
+                                  <span> / </span>
+                                  <button
+                                    onClick={() => {
+                                      handleUserDelete(item.uuid)
+                                    }}
+                                    className="text-cyan-600 hover:text-cyan-900"
+                                  >
+                                    Deletar
                                   </button>
                                 </td>
                               </tr>

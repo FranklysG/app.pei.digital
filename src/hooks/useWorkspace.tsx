@@ -29,7 +29,7 @@ function WorkspaceProvider({ children }: WorkspaceProviderProps) {
   const show = useCallback(async () => {
     await axios
       .get('/api/workspace')
-      .then((res) => res.data.content.data)
+      .then((res) => res.data.data)
       .then((data) => {
         setWorkspace(data)
       })

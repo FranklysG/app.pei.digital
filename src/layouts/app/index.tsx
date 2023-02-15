@@ -4,6 +4,7 @@ import Loading from '../../components/loading'
 import Panel from '../../components/panel'
 import { useAuth } from '../../hooks/useAuth'
 import { useWorkspace } from '../../hooks/useWorkspace'
+import Leave from '../../pages/leave'
 import useMount from '../../utils/useMount'
 import Sidebar from '../sidebar'
 
