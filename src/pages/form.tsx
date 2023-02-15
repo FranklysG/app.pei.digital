@@ -16,7 +16,7 @@ import Panel from '../components/panel'
 
 export default function Form() {
   const { openPanel, setOpenPanel } = useGlobal()
-  const { forms, eliminate, generate, setCurrentUuid } = useForm()
+  const { forms, /* update, */ eliminate, generate, setCurrentUuid } = useForm()
 
   const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])

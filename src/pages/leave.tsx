@@ -14,7 +14,7 @@ export default function Leave() {
   const { setMiddleware } = useAuth()
   const { workspace } = useWorkspace()
   const { openPanel, setOpenPanel } = useGlobal()
-  const { currentUuid, forms, create } = useForm()
+  const { currentUuid, forms, create, update } = useForm()
 
   const [name, setName] = useState<string>('')
   const [status, setStatus] = useState<string>('')
@@ -36,13 +36,24 @@ export default function Leave() {
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
-      setMiddleware('auth'),
-        create({
+      setMiddleware('auth')
+
+      if(currentUuid !== '') {
+        update({
+          uuid: currentUuid,
           name,
-          workspace_uuid,
           setStatus,
           setErrors,
         })
+        return;
+      }
+
+      create({
+        name,
+        workspace_uuid,
+        setStatus,
+        setErrors,
+      })
     },
     [name, workspace_uuid, setStatus, setErrors],
   )
@@ -71,10 +82,12 @@ export default function Leave() {
                 type="text"
                 name="first-name"
                 id="first-name"
+
                 value={name ?? ''}
+                handleOnChange={(value) => setName(value)}
+
                 placeholder=""
                 autoComplete="given-name"
-                handleOnChange={(value) => setName(value)}
                 className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 sm:max-w-xs sm:text-sm"
               />
             </div>

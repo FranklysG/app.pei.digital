@@ -16,7 +16,7 @@ type FormProps = {
   create: ({ setErrors, setStatus, ...props }: any) => void
   eliminate: ({ setErrors, setStatus, ...props }: any) => void
   generate: ({ setErrors, setStatus, ...props }: any) => void
-
+  update: ({ setErrors, setStatus, ...props }: any) => void
   currentUuid: string
   setCurrentUuid: (data: string) => void
 }
@@ -50,6 +50,25 @@ function FormProvider({ children }: FormProviderProps) {
     [],
   )
 
+  const update = useCallback(
+    async ({ setErrors, setStatus, ...props }: any) => {
+      setErrors([])
+      setStatus(null)
+
+      await axios
+        .put('/api/forms', props)
+
+        .then((response) => {
+          setStatus(response.data.message)
+          show()
+        })
+
+        .catch((error) => {
+          if (error.response.status !== 422) throw error
+        })
+    },
+    [],
+  )
   const eliminate = useCallback(
     async ({ setErrors, setStatus, ...props }: any) => {
       setErrors([])
@@ -113,6 +132,7 @@ function FormProvider({ children }: FormProviderProps) {
   const values = {
     forms,
     create,
+    update,
     eliminate,
     generate,
     currentUuid,
