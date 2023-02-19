@@ -98,6 +98,7 @@ function FormProvider({ children }: FormProviderProps) {
           responseType: 'blob',
         })
         .then((response) => {
+          if (response.data.size < 100) throw response
           setStatus('Relatorio baixado com sucesso :)')
           const url = window.URL.createObjectURL(new Blob([response.data]))
           const link = document.createElement('a')
@@ -108,8 +109,7 @@ function FormProvider({ children }: FormProviderProps) {
           link.click()
         })
         .catch((error) => {
-          if (error.response.status !== 422) throw error
-          setErrors('Download indisponivel, tente mais tarte :)')
+          setErrors(['Oops.. Tente mais tarte :)'])
         })
     },
     [],
