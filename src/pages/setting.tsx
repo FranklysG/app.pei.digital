@@ -1,6 +1,14 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Switch } from '@headlessui/react'
+import { toast } from 'react-toastify'
+
+import { useAuth } from '../hooks/useAuth'
+import { useSetting } from '../hooks/useSetting'
+
 import App from '../layouts/app'
+
+import Input from '../components/input'
+
 import { classNames } from '../utils'
 
 const user = {
@@ -12,10 +20,38 @@ const user = {
 }
 
 export default function Setting() {
+  const { setMiddleware } = useAuth()
+  const { setting, update } = useSetting()
   const [availableToHire, setAvailableToHire] = useState(true)
-  const [privateAccount, setPrivateAccount] = useState(false)
-  const [allowCommenting, setAllowCommenting] = useState(true)
-  const [allowMentions, setAllowMentions] = useState(true)
+
+  const [uuid, setUuid] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState(setting?.last_name)
+  const [errors, setErrors] = useState([])
+  const [status, setStatus] = useState<string | string[]>('')
+
+  useEffect(() => {
+    setUuid(setting?.uuid)
+    setFirstName(setting?.first_name)
+    setLastName(setting?.last_name)
+  }, [])
+
+  useEffect(() => {
+    errors.length > 0 && errors.map((error) => toast.error(error))
+  }, [errors])
+
+  useEffect(() => {
+    status && toast.success(status)
+  }, [status])
+
+  const submitForm = useCallback(
+    async (event: any) => {
+      event.preventDefault()
+      setMiddleware('auth')
+      update({ uuid, firstName, lastName, setErrors, setStatus })
+    },
+    [firstName, lastName, setErrors, setStatus],
+  )
 
   return (
     <App header={'Profile'}>
@@ -24,7 +60,7 @@ export default function Setting() {
           {/* Payment details */}
           <div className="space-y-6 sm:px-6 lg:col-span-12 lg:px-0">
             <section aria-labelledby="payment-details-heading">
-              <form action="#" method="POST">
+              <form onSubmit={submitForm}>
                 {/* Profile section */}
                 <div className="shadow sm:overflow-hidden sm:rounded-md">
                   <div className="py-6 px-4 sm:p-6 lg:pb-8">
@@ -47,10 +83,12 @@ export default function Setting() {
                           >
                             Nome
                           </label>
-                          <input
+                          <Input
                             type="text"
                             name="first-name"
                             id="first-name"
+                            value={firstName ?? ''}
+                            handleOnChange={(value) => setFirstName(value)}
                             autoComplete="given-name"
                             className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm"
                           />
@@ -63,10 +101,12 @@ export default function Setting() {
                           >
                             Sobrenome
                           </label>
-                          <input
+                          <Input
                             type="text"
                             name="last-name"
                             id="last-name"
+                            value={lastName ?? ''}
+                            handleOnChange={(value) => setLastName(value)}
                             autoComplete="family-name"
                             className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm"
                           />

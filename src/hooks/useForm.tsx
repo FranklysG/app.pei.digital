@@ -69,6 +69,7 @@ function FormProvider({ children }: FormProviderProps) {
     },
     [],
   )
+
   const eliminate = useCallback(
     async ({ setErrors, setStatus, ...props }: any) => {
       setErrors([])
