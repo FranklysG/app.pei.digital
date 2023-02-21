@@ -26,7 +26,7 @@ export default function Setting() {
 
   const [uuid, setUuid] = useState('')
   const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState(setting?.last_name)
+  const [lastName, setLastName] = useState('')
   const [errors, setErrors] = useState([])
   const [status, setStatus] = useState<string | string[]>('')
 
