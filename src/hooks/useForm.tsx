@@ -37,7 +37,7 @@ function FormProvider({ children }: FormProviderProps) {
       setStatus(null)
 
       await axios
-        .post('/api/forms', props)
+        .post('/api/form', props)
         .then((response) => {
           setStatus(response.data.message)
           show()
@@ -56,7 +56,7 @@ function FormProvider({ children }: FormProviderProps) {
       setStatus(null)
 
       await axios
-        .put('/api/forms', props)
+        .put('/api/form', props)
 
         .then((response) => {
           setStatus(response.data.message)
@@ -75,7 +75,7 @@ function FormProvider({ children }: FormProviderProps) {
       setStatus(null)
 
       await axios
-        .delete('/api/forms', {
+        .delete('/api/form', {
           data: props,
         })
         .then((response) => {
@@ -93,7 +93,7 @@ function FormProvider({ children }: FormProviderProps) {
   const generate = useCallback(
     async ({ setErrors, setStatus, ...props }: any) => {
       await axios
-        .get('/api/forms/generate', {
+        .get('/api/form/generate', {
           params: props,
           responseType: 'blob',
         })
@@ -117,7 +117,7 @@ function FormProvider({ children }: FormProviderProps) {
 
   const show = useCallback(async () => {
     await axios
-      .get('/api/forms')
+      .get('/api/form')
       .then((response) => response.data.data)
       .then((data: any) => setForms(data))
       .catch((error: any) => {
