@@ -3,13 +3,15 @@ import { toast } from 'react-toastify'
 import { values } from 'lodash'
 
 import { useWorkspace } from '../hooks/useWorkspace'
+import { useGlobal } from '../hooks/useGlobal'
 import { useForm } from '../hooks/useForm'
 import { useAuth } from '../hooks/useAuth'
 
 import Button from '../components/button'
 import Input from '../components/input'
 import Label from '../components/label'
-import { useGlobal } from '../hooks/useGlobal'
+import Textarea from '../components/textarea'
+import Select from '../components/select'
 
 export default function Leave() {
   const { setMiddleware } = useAuth()
@@ -103,7 +105,7 @@ export default function Leave() {
     
           {/* 1. Identificação do Aluno */}
           <div className="sm:items-start sm:gap-4 sm:pt-5">
-            <Label className="text-base sm:mt-px sm:pt-2 my-6"> 1. Identificação do aluno </Label>
+            <Label className="text-base sm:mt-px sm:pt-2 my-3"> 1. Identificação do aluno </Label>
             
             <div className="flex justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Label>Nome:</Label>
@@ -186,20 +188,32 @@ export default function Leave() {
                 value={mothersName ?? ''}
                 handleOnChange={(value) => setMothersName(value)}
 
-                className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs "
               />
             </div>
           </div>
 
           {/* 2. Diagnostico e a data do ultimo laudo */}
           <div className="sm:items-start sm:gap-4 sm:pt-5">
-            <Label className="text-base sm:mt-px sm:pt-2 my-6"> 2. Diagnóstico e a data do último laudo:</Label>
+            <Label className="text-base sm:mt-px sm:pt-2 my-3"> 2. Diagnóstico e a data do último laudo:</Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
-              <Input /* textarea */
-                type="text"
-                name="text"
-                className="w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-              />
+              <Textarea name='diagnosis'/>
+            </div>
+          </div>
+
+          {/* 3. Nome e Especialidade do profissional...*/}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-3"> 3. Nome e Especialidade do profissional responsável pelo diagnóstico:</Label>
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              <Select/>
+            </div>
+          </div>
+
+          {/* 4. Dados obtidos através da família...*/}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-3"> 4. Dados obtidos através da família e da equipe que acompanha o caso:</Label>
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              <Textarea name='diagnosis'/>
             </div>
           </div>
         </div>
