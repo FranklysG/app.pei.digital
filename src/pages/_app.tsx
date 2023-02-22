@@ -7,6 +7,7 @@ import { AuthProvider } from '../hooks/useAuth'
 import { WorkspaceProvider } from '../hooks/useWorkspace'
 import { GlobalProvider } from '../hooks/useGlobal'
 import { FormProvider } from '../hooks/useForm'
+import { SettingProvider } from '../hooks/useSetting'
 
 export default function App({ Component, pageProps }) {
   return (
@@ -49,11 +50,13 @@ export default function App({ Component, pageProps }) {
       </Head>
       <AuthProvider>
         <GlobalProvider>
-          <WorkspaceProvider>
-            <FormProvider>
-              <Component {...pageProps} />
-            </FormProvider>
-          </WorkspaceProvider>
+          <SettingProvider>
+            <WorkspaceProvider>
+              <FormProvider>
+                <Component {...pageProps} />
+              </FormProvider>
+            </WorkspaceProvider>
+          </SettingProvider>
         </GlobalProvider>
       </AuthProvider>
       <ToastContainer

@@ -37,7 +37,7 @@ function FormProvider({ children }: FormProviderProps) {
       setStatus(null)
 
       await axios
-        .post('/api/forms', props)
+        .post('/api/form', props)
         .then((response) => {
           setStatus(response.data.message),
           setCurrentUuid('')
@@ -57,7 +57,7 @@ function FormProvider({ children }: FormProviderProps) {
       setStatus(null)
 
       await axios
-        .put('/api/forms', props)
+        .put('/api/form', props)
 
         .then((response) => {
           setStatus(response.data.message)
@@ -71,13 +71,14 @@ function FormProvider({ children }: FormProviderProps) {
     },
     [],
   )
+
   const eliminate = useCallback(
     async ({ setErrors, setStatus, ...props }: any) => {
       setErrors([])
       setStatus(null)
 
       await axios
-        .delete('/api/forms', {
+        .delete('/api/form', {
           data: props,
         })
         .then((response) => {
@@ -95,11 +96,12 @@ function FormProvider({ children }: FormProviderProps) {
   const generate = useCallback(
     async ({ setErrors, setStatus, ...props }: any) => {
       await axios
-        .get('/api/forms/generate', {
+        .get('/api/form/generate', {
           params: props,
           responseType: 'blob',
         })
         .then((response) => {
+          if (response.data.size < 100) throw response
           setStatus('Relatorio baixado com sucesso :)')
           const url = window.URL.createObjectURL(new Blob([response.data]))
           const link = document.createElement('a')
@@ -110,8 +112,7 @@ function FormProvider({ children }: FormProviderProps) {
           link.click()
         })
         .catch((error) => {
-          if (error.response.status !== 422) throw error
-          setErrors('Download indisponivel, tente mais tarte :)')
+          setErrors(['Oops.. Tente mais tarte :)'])
         })
     },
     [],
@@ -119,7 +120,7 @@ function FormProvider({ children }: FormProviderProps) {
 
   const show = useCallback(async () => {
     await axios
-      .get('/api/forms')
+      .get('/api/form')
       .then((response) => response.data.data)
       .then((data: any) => setForms(data))
       .catch((error: any) => {

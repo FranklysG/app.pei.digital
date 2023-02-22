@@ -14,6 +14,16 @@ export interface WorkspaceType {
   updated_at: string
 }
 
+export interface SettingType {
+  uuid: string
+  first_name: string
+  last_name: string
+  contact_movel: string
+  contact_email: string
+  created_at: string
+  updated_at: string
+}
+
 export interface FormType {
   workspace_id: number
   uuid: string
