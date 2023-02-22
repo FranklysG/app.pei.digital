@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, ChangeEvent } from 'react'
 interface InputProps {
   id?: string
   name?: string
-  type?: 'text' | 'search' | 'password' | 'email' | 'checkbox'
+  type?: 'text' | 'search' | 'password' | 'email' | 'checkbox' | 'date'
   placeholder?: string
   className?: string
   disabled?: boolean

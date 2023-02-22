@@ -8,6 +8,7 @@ import { useAuth } from '../hooks/useAuth'
 
 import Button from '../components/button'
 import Input from '../components/input'
+import Label from '../components/label'
 import { useGlobal } from '../hooks/useGlobal'
 
 export default function Leave() {
@@ -16,7 +17,15 @@ export default function Leave() {
   const { openPanel, setOpenPanel } = useGlobal()
   const { currentUuid, forms, create, update } = useForm()
 
+  const [title, setTitle] = useState<string>('')
   const [name, setName] = useState<string>('')
+  const [schoolYear, setSchoolYear] = useState<string>('')
+  const [classroom, setClassroom] = useState<string>('')
+  const [shift, setShift] = useState<string>('')
+  const [dateOfBirth, setDateOfBirth] = useState<string>('')
+  const [fathersName, setFathersName] = useState<string>('')
+  const [mothersName, setMothersName] = useState<string>('')
+
   const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
 
@@ -47,7 +56,6 @@ export default function Leave() {
         })
         return;
       }
-
       create({
         name,
         workspace_uuid,
@@ -59,36 +67,138 @@ export default function Leave() {
   )
 
   return (
-    <div className="space-y-6 pt-8 sm:space-y-5 sm:pt-10">
+    <div className="space-y-6 pt-8 sm:space-y-5 sm:pt-10 sm:pb-8">
       <form onSubmit={submitForm} className="space-y-6">
-        <div>
+        <div className="text-center">
           <h3 className="text-lg font-medium leading-6 text-gray-900">
-            Personal Information
+            PROGRAMA EDUCACIONAL PERSONALIZADO
           </h3>
           <p className="mt-1 max-w-2xl text-sm text-gray-500">
-            Use a permanent address where you can receive mail.
+            ESCOLA MUNICIPAL ELIAS ALFREDO CURY
           </p>
         </div>
         <div className="space-y-6 sm:space-y-5">
-          <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-            <label
+          <div className="sm:grid sm:place-content-center sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+            <Label
               htmlFor="first-name"
-              className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+              className="text-base sm:mt-px sm:pt-2"
             >
               Título
-            </label>
+            </Label>   
             <div className="mt-1 sm:col-span-2 sm:mt-0">
               <Input
                 type="text"
                 name="first-name"
                 id="first-name"
 
+                value={title ?? ''}
+                handleOnChange={(value) => setTitle(value)}
+
+                placeholder=""
+                autoComplete="given-name"
+                className="block w-full max-w-lg rounded-md sm:max-w-xs"
+              />
+            </div>
+          </div>
+    
+          {/* 1. Identificação do Aluno */}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-6"> 1. Identificação do aluno </Label>
+            
+            <div className="flex justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              <Label>Nome:</Label>
+              <Input 
+                type="text"
+                name="name"
+                id="name"
+
                 value={name ?? ''}
                 handleOnChange={(value) => setName(value)}
 
                 placeholder=""
                 autoComplete="given-name"
-                className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 sm:max-w-xs sm:text-sm"
+                className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+              />
+            </div>
+
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4  sm:pt-5">
+              <Label>Ano:</Label>
+              <Input 
+                type="text"
+                name="SchoolYear"
+
+                value={schoolYear ?? ''}
+                handleOnChange={(value) => setSchoolYear(value)}
+
+                className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+              />
+              <Label> Turma:</Label>
+              <Input 
+                type="text"
+                name="Class"
+
+                value={classroom ?? ''}
+                handleOnChange={(value) => setClassroom(value)}
+
+                className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+              />
+              <Label> Turno:</Label>
+              <Input 
+                type="text"
+                name="Shift"
+
+                value={shift ?? ''}
+                handleOnChange={(value) => setShift(value)}
+
+                className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+              />
+            </div>
+
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4  sm:pt-5">
+              <Label>Data de Nascimento:</Label>
+              <Input 
+                type="date"
+                name="DateOfBirth"
+
+                value={dateOfBirth ?? ''}
+                handleOnChange={(value) => setDateOfBirth(value)}
+
+                className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+              />
+            </div>
+
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4  sm:pt-5">
+              <Label>Pai:</Label>
+              <Input
+                type="text"
+                name="Fathers-name"
+
+                value={fathersName ?? ''}
+                handleOnChange={(value) => setFathersName(value)}
+
+                className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+              />
+              <Label>Mãe:</Label>
+              <Input 
+                type="text"
+                name="Mothers-name"
+
+                value={mothersName ?? ''}
+                handleOnChange={(value) => setMothersName(value)}
+
+                className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+              />
+            </div>
+          </div>
+
+          {/* 2. Diagnostico e a data do ultimo laudo */}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-6"> 2. Diagnóstico e a data do último laudo:</Label>
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              <Input /* textarea */
+                type="text"
+                name="text"
+                className="w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
               />
             </div>
           </div>
