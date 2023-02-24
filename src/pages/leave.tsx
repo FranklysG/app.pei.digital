@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { values } from 'lodash'
 
+import { useSpecialist } from '../hooks/useSpecialist'
 import { useWorkspace } from '../hooks/useWorkspace'
 import { useGlobal } from '../hooks/useGlobal'
 import { useForm } from '../hooks/useForm'
@@ -12,12 +13,14 @@ import Input from '../components/input'
 import Label from '../components/label'
 import Textarea from '../components/textarea'
 import Select from '../components/select'
+import useMount from '../utils/useMount'
 
 export default function Leave() {
   const { setMiddleware } = useAuth()
   const { workspace } = useWorkspace()
   const { openPanel, setOpenPanel } = useGlobal()
   const { currentUuid, forms, create, update } = useForm()
+  const { specialists, show } = useSpecialist()
 
   const [title, setTitle] = useState<string>('')
   const [name, setName] = useState<string>('')
@@ -32,6 +35,7 @@ export default function Leave() {
   const [errors, setErrors] = useState([])
 
   const workspace_uuid = values(workspace).shift().uuid
+  
 
   useEffect(() => {
     if (currentUuid !== '') {
@@ -41,9 +45,11 @@ export default function Leave() {
           setName(item.name)
         })
     }
-    errors.length > 0 && errors.map((error) => toast.error(error))
-  }, [errors])
 
+    errors.length > 0 && errors.map((error) => toast.error(error))
+    
+  }, [errors])
+  
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
@@ -67,6 +73,10 @@ export default function Leave() {
     },
     [name, workspace_uuid, setStatus, setErrors],
   )
+/* 
+  useMount(() => {
+    show
+  }) */
 
   return (
     <div className="space-y-6 pt-8 sm:space-y-5 sm:pt-10 sm:pb-8">
@@ -205,8 +215,28 @@ export default function Leave() {
           <div className="sm:items-start sm:gap-4 sm:pt-5">
             <Label className="text-base sm:mt-px sm:pt-2 my-3"> 3. Nome e Especialidade do profissional responsável pelo diagnóstico:</Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
-              <Select/>
             </div>
+
+            <select>
+              <option> Selecione a UF </option>
+              {specialists
+                .map(specialist => (
+                  <option key={specialist.uuid} value={specialist.uuid}>
+                    {specialist.name}
+                  </option>
+                ))}
+            </select>
+
+
+           {/*         
+           <Select
+                value={''}
+              {...specialists.map((item) => (
+                
+                <option></option>
+              ))}
+
+            /> */}
           </div>
 
           {/* 4. Dados obtidos através da família...*/}
