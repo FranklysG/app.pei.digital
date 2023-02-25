@@ -12,6 +12,7 @@ import { SettingType } from '../@types'
 
 type SettingProps = {
   setting: SettingType
+  create: ({ setErrors, setStatus, ...props }: any) => void
   update: ({ setErrors, setStatus, ...props }: any) => void
 }
 
@@ -37,6 +38,29 @@ function SettingProvider({ children }: SettingProviderProps) {
   useMount(() => {
     show()
   })
+
+  const create = useCallback(
+    async ({ setErrors, setStatus, ...props }: any) => {
+      setErrors([])
+      setStatus(null)
+
+      await axios
+        .post('/api/setting', {
+          first_name: props.firstName,
+          last_name: props.lastName,
+        })
+
+        .then((response) => {
+          setStatus(response.data.message)
+          show()
+        })
+
+        .catch((error) => {
+          if (error.response.status !== 422) throw error
+        })
+    },
+    [],
+  )
 
   const update = useCallback(
     async ({ setErrors, setStatus, ...props }: any) => {
@@ -65,6 +89,7 @@ function SettingProvider({ children }: SettingProviderProps) {
   const values = {
     setting,
     update,
+    create,
   }
   return <Setting.Provider value={values}>{children}</Setting.Provider>
 }
