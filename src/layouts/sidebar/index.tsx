@@ -13,6 +13,7 @@ import {
 import Link from 'next/link'
 import { classNames } from '../../utils'
 import { useGlobal } from '../../hooks/useGlobal'
+import { useAuth } from '../../hooks/useAuth'
 
 const navigation = [{ name: 'Dashboard', href: '/dashboard', icon: HomeIcon }]
 const secondaryNavigation = [
@@ -30,8 +31,8 @@ const secondaryNavigation = [
 interface SidebarProps {}
 
 export default function Sidebar({}: SidebarProps) {
-  const { openSidebar, setOpenSidebar } = useGlobal()
   const router = useRouter()
+  const { openSidebar, setOpenSidebar } = useGlobal()
   const [current, setCurrent] = useState(router.pathname)
 
   return (
