@@ -13,14 +13,13 @@ import Input from '../components/input'
 import Label from '../components/label'
 import Textarea from '../components/textarea'
 import Select from '../components/select'
-import useMount from '../utils/useMount'
 
 export default function Leave() {
   const { setMiddleware } = useAuth()
   const { workspace } = useWorkspace()
   const { openPanel, setOpenPanel } = useGlobal()
   const { currentUuid, forms, create, update } = useForm()
-  const { specialists, show } = useSpecialist()
+  const { specialists } = useSpecialist()
 
   const [title, setTitle] = useState<string>('')
   const [name, setName] = useState<string>('')
@@ -36,7 +35,6 @@ export default function Leave() {
 
   const workspace_uuid = values(workspace).shift().uuid
   
-
   useEffect(() => {
     if (currentUuid !== '') {
       forms
@@ -73,10 +71,6 @@ export default function Leave() {
     },
     [name, workspace_uuid, setStatus, setErrors],
   )
-/* 
-  useMount(() => {
-    show
-  }) */
 
   return (
     <div className="space-y-6 pt-8 sm:space-y-5 sm:pt-10 sm:pb-8">
@@ -217,26 +211,14 @@ export default function Leave() {
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
             </div>
 
-            <select>
-              <option> Selecione a UF </option>
+            <Select>
               {specialists
-                .map(specialist => (
-                  <option key={specialist.uuid} value={specialist.uuid}>
-                    {specialist.name}
-                  </option>
-                ))}
-            </select>
-
-
-           {/*         
-           <Select
-                value={''}
-              {...specialists.map((item) => (
-                
-                <option></option>
+              .map(specialist => (
+                <option key={specialist.uuid} value={specialist.uuid}>
+                  {specialist.name}
+                </option>
               ))}
-
-            /> */}
+            </Select>
           </div>
 
           {/* 4. Dados obtidos através da família...*/}
