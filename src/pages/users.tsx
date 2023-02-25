@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 
 import App from '../layouts/app'
@@ -9,10 +10,13 @@ import { useUser } from '../hooks/useUser'
 
 import Toggle from '../components/toggle'
 import Panel from '../components/panel'
+import { useAuth } from '../hooks/useAuth'
 
 export default function Users() {
+  const router = useRouter()
   const { openPanel, setOpenPanel } = useGlobal()
   const { users } = useUser()
+  const { user } = useAuth()
   const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
 
@@ -23,6 +27,13 @@ export default function Users() {
   useEffect(() => {
     status && toast.success(status)
   }, [status])
+
+  useEffect(() => {
+    if (user.role != 'admin') {
+      toast.info('Parece que você não tem permissão :)')
+      router.push('dashboard')
+    }
+  })
 
   return (
     <App header={'Usuarios'}>
