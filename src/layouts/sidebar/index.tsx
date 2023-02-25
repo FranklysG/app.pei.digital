@@ -2,30 +2,26 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { useRouter } from 'next/router'
 import {
-  Bars3CenterLeftIcon,
   CogIcon,
-  CreditCardIcon,
   HomeIcon,
   QuestionMarkCircleIcon,
   ShieldCheckIcon,
   SquaresPlusIcon,
+  UsersIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import Logo from '../../assets/svg/Logo'
 import { classNames } from '../../utils'
 import { useGlobal } from '../../hooks/useGlobal'
 
-const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
-  // { name: "Reports", href: "#", icon: DocumentChartBarIcon, current: false },
-]
+const navigation = [{ name: 'Dashboard', href: '/dashboard', icon: HomeIcon }]
 const secondaryNavigation = [
   {
     name: 'Formularios',
     href: '/form',
     icon: SquaresPlusIcon,
   },
+  { name: 'Users', href: '/users', icon: UsersIcon },
   { name: 'Settings', href: '/setting', icon: CogIcon },
   { name: 'Help', href: '#', icon: QuestionMarkCircleIcon },
   { name: 'Privacy', href: '#', icon: ShieldCheckIcon },

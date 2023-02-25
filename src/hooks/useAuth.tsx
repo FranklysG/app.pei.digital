@@ -10,6 +10,7 @@ import React, {
   useState,
 } from 'react'
 import { useRouter } from 'next/router'
+import { UserType } from '../@types'
 
 import axios from '../lib/axios'
 

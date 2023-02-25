@@ -8,6 +8,7 @@ import { WorkspaceProvider } from '../hooks/useWorkspace'
 import { GlobalProvider } from '../hooks/useGlobal'
 import { FormProvider } from '../hooks/useForm'
 import { SettingProvider } from '../hooks/useSetting'
+import { UserProvider } from '../hooks/useUser'
 
 export default function App({ Component, pageProps }) {
   return (
@@ -52,9 +53,11 @@ export default function App({ Component, pageProps }) {
         <GlobalProvider>
           <SettingProvider>
             <WorkspaceProvider>
-              <FormProvider>
-                <Component {...pageProps} />
-              </FormProvider>
+              <UserProvider>
+                <FormProvider>
+                  <Component {...pageProps} />
+                </FormProvider>
+              </UserProvider>
             </WorkspaceProvider>
           </SettingProvider>
         </GlobalProvider>

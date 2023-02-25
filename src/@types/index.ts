@@ -24,6 +24,16 @@ export interface SettingType {
   updated_at: string
 }
 
+export interface UserType {
+  uuid: string
+  name: string
+  email: string
+  email_verified_at: boolean | null
+  role: string
+  created_at: string
+  updated_at: string
+}
+
 export interface FormType {
   workspace_id: number
   uuid: string
