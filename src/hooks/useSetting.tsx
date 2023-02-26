@@ -57,7 +57,10 @@ function SettingProvider({ children }: SettingProviderProps) {
         })
 
         .catch((error) => {
-          if (error.response.status !== 422) throw error
+          if (error.response.status !== 422) {
+            console.log(error)
+            return
+          }
         })
     },
     [],
@@ -81,7 +84,10 @@ function SettingProvider({ children }: SettingProviderProps) {
         })
 
         .catch((error) => {
-          if (error.response.status !== 422) throw error
+          if (error.response.status !== 422) {
+            console.log(error)
+            return
+          }
         })
     },
     [],

@@ -54,7 +54,10 @@ function UserProvider({ children }: UserProviderProps) {
         })
 
         .catch((error) => {
-          if (error.response.status !== 422) throw error
+          if (error.response.status !== 422) {
+            console.log(error)
+            return
+          }
         })
     },
     [],
@@ -72,7 +75,10 @@ function UserProvider({ children }: UserProviderProps) {
           show()
         })
         .catch((error) => {
-          if (error.response.status !== 422) throw error
+          if (error.response.status !== 422) {
+            console.log(error)
+            return
+          }
           setErrors(Object.values(error.response.data.errors).flat())
         })
     },
@@ -93,7 +99,10 @@ function UserProvider({ children }: UserProviderProps) {
           show()
         })
         .catch((error) => {
-          if (error.response.status !== 422) throw error
+          if (error.response.status !== 422) {
+            console.log(error)
+            return
+          }
           setErrors(Object.values(error.response.data.errors).flat())
         })
     },

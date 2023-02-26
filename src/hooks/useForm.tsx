@@ -44,7 +44,10 @@ function FormProvider({ children }: FormProviderProps) {
           show()
         })
         .catch((error) => {
-          if (error.response.status !== 422) throw error
+          if (error.response.status !== 422) {
+            console.log(error)
+            return
+          }
           setErrors(Object.values(error.response.data.errors).flat())
         })
     },
@@ -66,7 +69,10 @@ function FormProvider({ children }: FormProviderProps) {
         })
 
         .catch((error) => {
-          if (error.response.status !== 422) throw error
+          if (error.response.status !== 422) {
+            console.log(error)
+            return
+          }
         })
     },
     [],
@@ -86,7 +92,10 @@ function FormProvider({ children }: FormProviderProps) {
           show()
         })
         .catch((error) => {
-          if (error.response.status !== 422) throw error
+          if (error.response.status !== 422) {
+            console.log(error)
+            return
+          }
           setErrors(Object.values(error.response.data.errors).flat())
         })
     },

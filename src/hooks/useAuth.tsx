@@ -53,15 +53,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   )
 
   const csrf = useCallback(
-    async () =>
-      await axios
-        .get('/sanctum/csrf-cookie')
-        .then((response) => {
-          console.log(response)
-        })
-        .catch((error) => {
-          console.log(error)
-        }),
+    async () => await axios.get('/sanctum/csrf-cookie'),
     [],
   )
 
@@ -73,7 +65,10 @@ function AuthProvider({ children }: AuthProviderProps) {
       .post('/register', props)
       .then(() => mutate())
       .catch((error) => {
-        if (error.response.status !== 422) throw error
+        if (error.response.status !== 422) {
+          console.log(error)
+          return
+        }
 
         setErrors(Object.values(error.response.data.errors).flat())
       })
@@ -89,8 +84,10 @@ function AuthProvider({ children }: AuthProviderProps) {
       .post('/login', props)
       .then(() => mutate())
       .catch((error) => {
-        if (error.response.status !== 422) throw error
-
+        if (error.response.status !== 422) {
+          console.log(error)
+          return
+        }
         setErrors(Object.values(error.response.data.errors).flat())
       })
     setLoading(false)
@@ -107,7 +104,10 @@ function AuthProvider({ children }: AuthProviderProps) {
         .post('/forgot-password', { email })
         .then((response) => setStatus(response.data.status))
         .catch((error) => {
-          if (error.response.status !== 422) throw error
+          if (error.response.status !== 422) {
+            console.log(error)
+            return
+          }
 
           setErrors(Object.values(error.response.data.errors).flat())
         })
@@ -128,7 +128,10 @@ function AuthProvider({ children }: AuthProviderProps) {
           router.push('/login?reset=' + btoa(response.data.status)),
         )
         .catch((error) => {
-          if (error.response.status !== 422) throw error
+          if (error.response.status !== 422) {
+            console.log(error)
+            return
+          }
 
           setErrors(Object.values(error.response.data.errors).flat())
         })
@@ -147,11 +150,11 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = useCallback(async () => {
     if (!error) {
+      document.cookie =
+        'peidigital-session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
       await axios
         .post('/logout')
         .then(() => {
-          document.cookie =
-            'peidigital-session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
           router.push('/signin')
           mutate()
         })
