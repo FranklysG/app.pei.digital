@@ -12,6 +12,7 @@ import { useAuth } from '../hooks/useAuth'
 import Toggle from '../components/toggle'
 import Panel from '../components/panel'
 import { PlusIcon } from '@heroicons/react/24/outline'
+import Loading from '../components/loading'
 
 export default function Users() {
   const router = useRouter()
@@ -30,11 +31,11 @@ export default function Users() {
   }, [status])
 
   useEffect(() => {
-    if (user.role != 'admin') {
+    if (user?.role != 'admin') {
       toast.info('Parece que você não tem permissão :)')
       router.push('dashboard')
     }
-  })
+  }, [user])
 
   const handleUserDelete = useCallback((uuid: string) => {
     eliminate({
@@ -43,6 +44,10 @@ export default function Users() {
       setStatus,
     })
   }, [])
+
+  if (!user?.role) {
+    return <Loading />
+  }
 
   return (
     <App header={'Usuarios'}>

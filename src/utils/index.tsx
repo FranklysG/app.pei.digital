@@ -8,14 +8,14 @@ export const classNames = (...classes) => {
 
 export const generateGreetings = (hour: string) => {
   if (hour >= '3' && hour < '12') {
-    return 'Good Morning'
-  } else if (hour >= '12' && hour < '15') {
-    return 'Good Afternoon'
-  } else if (hour >= '15' && hour < '20') {
-    return 'Good Evening'
+    return 'Bom dia'
+  } else if (hour >= '12' && hour < '18') {
+    return 'Boa Tarde'
+  } else if (hour >= '18' && hour < '20') {
+    return 'Boa Noite'
   } else if (hour >= '20' && hour < '3') {
-    return 'Good Night'
+    return 'Boa Noite'
   } else {
-    return 'Hello'
+    return 'Olá'
   }
 }

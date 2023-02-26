@@ -136,7 +136,9 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = useCallback(async () => {
     if (!error) {
-      await axios.post('/logout').then(() => mutate())
+      await axios.post('/logout').then(() => {
+        mutate()
+      })
     }
   }, [error])
 
