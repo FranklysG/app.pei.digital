@@ -5,6 +5,7 @@ import React, {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from 'react'
 import { FormType } from '../@types'
@@ -122,14 +123,12 @@ function FormProvider({ children }: FormProviderProps) {
       .get('/api/form')
       .then((response) => response.data.data)
       .then((data: any) => setForms(data))
-      .catch((error: any) => {
-        if (error.response.status !== 422) throw error
-      })
+      .catch((error) => {})
   }, [])
 
-  useMount(() => {
+  useEffect(() => {
     show()
-  })
+  }, [])
 
   const values = {
     forms,

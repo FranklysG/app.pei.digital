@@ -3,6 +3,7 @@ import React, {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from 'react'
 
@@ -99,9 +100,9 @@ function UserProvider({ children }: UserProviderProps) {
     [],
   )
 
-  useMount(() => {
+  useEffect(() => {
     show()
-  })
+  }, [])
 
   const values = {
     users,

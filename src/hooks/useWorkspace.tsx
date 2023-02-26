@@ -5,6 +5,7 @@ import React, {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from 'react'
 
@@ -36,9 +37,9 @@ function WorkspaceProvider({ children }: WorkspaceProviderProps) {
       .catch((error) => {})
   }, [])
 
-  useMount(() => {
+  useEffect(() => {
     show()
-  })
+  }, [])
 
   const values = {
     workspace,

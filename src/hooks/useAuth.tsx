@@ -53,7 +53,15 @@ function AuthProvider({ children }: AuthProviderProps) {
   )
 
   const csrf = useCallback(
-    async () => await axios.get('/sanctum/csrf-cookie'),
+    async () =>
+      await axios
+        .get('/sanctum/csrf-cookie')
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        }),
     [],
   )
 
@@ -132,13 +140,24 @@ function AuthProvider({ children }: AuthProviderProps) {
     await axios
       .post('/email/verification-notification')
       .then((response) => setStatus(response.data.status))
+      .catch((error) => {
+        console.log(error)
+      })
   }, [])
 
   const logout = useCallback(async () => {
     if (!error) {
-      await axios.post('/logout').then(() => {
-        mutate()
-      })
+      await axios
+        .post('/logout')
+        .then(() => {
+          document.cookie =
+            'peidigital-session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+          router.push('/signin')
+          mutate()
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }, [error])
 

@@ -3,6 +3,7 @@ import React, {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from 'react'
 
@@ -85,6 +86,10 @@ function SettingProvider({ children }: SettingProviderProps) {
     },
     [],
   )
+
+  useEffect(() => {
+    show()
+  }, [])
 
   const values = {
     setting,
