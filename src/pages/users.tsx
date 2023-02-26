@@ -1,21 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 
 import App from '../layouts/app'
-import Leave from './leave'
+import User from './user'
 
 import { useGlobal } from '../hooks/useGlobal'
 import { useUser } from '../hooks/useUser'
+import { useAuth } from '../hooks/useAuth'
 
 import Toggle from '../components/toggle'
 import Panel from '../components/panel'
-import { useAuth } from '../hooks/useAuth'
+import { PlusIcon } from '@heroicons/react/24/outline'
 
 export default function Users() {
   const router = useRouter()
   const { openPanel, setOpenPanel } = useGlobal()
-  const { users } = useUser()
+  const { users, setCurrentUuid, eliminate } = useUser()
   const { user } = useAuth()
   const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
@@ -35,10 +36,18 @@ export default function Users() {
     }
   })
 
+  const handleUserDelete = useCallback((uuid: string) => {
+    eliminate({
+      uuid,
+      setErrors,
+      setStatus,
+    })
+  }, [])
+
   return (
     <App header={'Usuarios'}>
       <Panel>
-        <Leave />
+        <User />
       </Panel>
       <article className="pb-10 lg:py-12 lg:px-8">
         <div className="lg:grid lg:gap-x-5">
@@ -54,6 +63,23 @@ export default function Users() {
                   >
                     Usuarios nessa escola
                   </h2>
+                </div>
+                <div className="min-w-0 flex-1 mt-5 md:mt-0">
+                  {/* Button Plus */}
+                  <div className="flex justify-center md:justify-end ">
+                    <button
+                      type="button"
+                      className="flex items-center justify-center rounded-full bg-cyan-600 p-2 text-white hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
+                      onClick={() => {
+                        setCurrentUuid('')
+                        setOpenPanel(!openPanel)
+                      }}
+                    >
+                      <span className="mr-3">Criar usuario</span>
+                      <PlusIcon className="h-6 w-6" aria-hidden="true" />
+                      <span className="sr-only">Criar usuario</span>
+                    </button>
+                  </div>
                 </div>
                 <div className="mt-6 flex flex-col">
                   <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -111,6 +137,7 @@ export default function Users() {
                                 <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                                   <button
                                     onClick={() => {
+                                      setCurrentUuid(item.uuid)
                                       setOpenPanel(!openPanel)
                                     }}
                                     className="text-cyan-600 hover:text-cyan-900"
@@ -119,7 +146,7 @@ export default function Users() {
                                   </button>
                                   <span> / </span>
                                   <button
-                                    onClick={() => {}}
+                                    onClick={() => handleUserDelete(item.uuid)}
                                     className="text-cyan-600 hover:text-cyan-900"
                                   >
                                     Deletar

@@ -39,8 +39,7 @@ function FormProvider({ children }: FormProviderProps) {
       await axios
         .post('/api/form', props)
         .then((response) => {
-          setStatus(response.data.message),
-          setCurrentUuid('')
+          setStatus(response.data.message), setCurrentUuid('')
           show()
         })
         .catch((error) => {

@@ -13,6 +13,10 @@ import { UserType } from '../@types'
 type UserProps = {
   users: UserType[]
   update: ({ setErrors, setStatus, ...props }: any) => void
+  create: ({ setErrors, setStatus, ...props }: any) => void
+  eliminate: ({ setErrors, setStatus, ...props }: any) => void
+  currentUuid: string
+  setCurrentUuid: (data: string) => void
 }
 
 type UserProviderProps = {
@@ -23,6 +27,7 @@ export const User = createContext({} as UserProps)
 
 function UserProvider({ children }: UserProviderProps) {
   const [users, setUsers] = useState<UserType[]>()
+  const [currentUuid, setCurrentUuid] = useState<string>('')
 
   const show = useCallback(async () => {
     await axios
@@ -33,10 +38,6 @@ function UserProvider({ children }: UserProviderProps) {
       })
       .catch((error) => {})
   }, [])
-
-  useMount(() => {
-    show()
-  })
 
   const update = useCallback(
     async ({ setErrors, setStatus, ...props }: any) => {
@@ -58,9 +59,57 @@ function UserProvider({ children }: UserProviderProps) {
     [],
   )
 
+  const create = useCallback(
+    async ({ setErrors, setStatus, ...props }: any) => {
+      setErrors([])
+      setStatus(null)
+
+      await axios
+        .post('/api/user', props)
+        .then((response) => {
+          setStatus(response.data.message), setCurrentUuid('')
+          show()
+        })
+        .catch((error) => {
+          if (error.response.status !== 422) throw error
+          setErrors(Object.values(error.response.data.errors).flat())
+        })
+    },
+    [],
+  )
+
+  const eliminate = useCallback(
+    async ({ setErrors, setStatus, ...props }: any) => {
+      setErrors([])
+      setStatus(null)
+
+      await axios
+        .delete('/api/user', {
+          data: props,
+        })
+        .then((response) => {
+          setStatus(response.data.message)
+          show()
+        })
+        .catch((error) => {
+          if (error.response.status !== 422) throw error
+          setErrors(Object.values(error.response.data.errors).flat())
+        })
+    },
+    [],
+  )
+
+  useMount(() => {
+    show()
+  })
+
   const values = {
     users,
     update,
+    create,
+    eliminate,
+    currentUuid,
+    setCurrentUuid,
   }
   return <User.Provider value={values}>{children}</User.Provider>
 }
