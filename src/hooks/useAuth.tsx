@@ -65,7 +65,10 @@ function AuthProvider({ children }: AuthProviderProps) {
       .post('/register', props)
       .then(() => mutate())
       .catch((error) => {
-        if (error.response.status !== 422) throw error
+        if (error.response.status !== 422) {
+          console.log(error)
+          return
+        }
 
         setErrors(Object.values(error.response.data.errors).flat())
       })
@@ -81,8 +84,10 @@ function AuthProvider({ children }: AuthProviderProps) {
       .post('/login', props)
       .then(() => mutate())
       .catch((error) => {
-        if (error.response.status !== 422) throw error
-
+        if (error.response.status !== 422) {
+          console.log(error)
+          return
+        }
         setErrors(Object.values(error.response.data.errors).flat())
       })
     setLoading(false)
@@ -99,7 +104,10 @@ function AuthProvider({ children }: AuthProviderProps) {
         .post('/forgot-password', { email })
         .then((response) => setStatus(response.data.status))
         .catch((error) => {
-          if (error.response.status !== 422) throw error
+          if (error.response.status !== 422) {
+            console.log(error)
+            return
+          }
 
           setErrors(Object.values(error.response.data.errors).flat())
         })
@@ -120,7 +128,10 @@ function AuthProvider({ children }: AuthProviderProps) {
           router.push('/login?reset=' + btoa(response.data.status)),
         )
         .catch((error) => {
-          if (error.response.status !== 422) throw error
+          if (error.response.status !== 422) {
+            console.log(error)
+            return
+          }
 
           setErrors(Object.values(error.response.data.errors).flat())
         })
@@ -132,11 +143,24 @@ function AuthProvider({ children }: AuthProviderProps) {
     await axios
       .post('/email/verification-notification')
       .then((response) => setStatus(response.data.status))
+      .catch((error) => {
+        console.log(error)
+      })
   }, [])
 
   const logout = useCallback(async () => {
     if (!error) {
-      await axios.post('/logout').then(() => mutate())
+      document.cookie =
+        'peidigital-session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+      await axios
+        .post('/logout')
+        .then(() => {
+          router.push('/signin')
+          mutate()
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }, [error])
 

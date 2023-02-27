@@ -34,7 +34,7 @@ export default function Leave() {
   const [errors, setErrors] = useState([])
 
   const workspace_uuid = values(workspace).shift().uuid
-  
+
   useEffect(() => {
     if (currentUuid !== '') {
       forms
@@ -45,22 +45,21 @@ export default function Leave() {
     }
 
     errors.length > 0 && errors.map((error) => toast.error(error))
-    
   }, [errors])
-  
+
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
       setMiddleware('auth')
 
-      if(currentUuid !== '') {
+      if (currentUuid !== '') {
         update({
           uuid: currentUuid,
           name,
           setStatus,
           setErrors,
         })
-        return;
+        return
       }
       create({
         name,
@@ -85,42 +84,38 @@ export default function Leave() {
         </div>
         <div className="space-y-6 sm:space-y-5">
           <div className="sm:grid sm:place-content-center sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-            <Label
-              htmlFor="first-name"
-              className="text-base sm:mt-px sm:pt-2"
-            >
+            <Label htmlFor="first-name" className="text-base sm:mt-px sm:pt-2">
               Título
-            </Label>   
+            </Label>
             <div className="mt-1 sm:col-span-2 sm:mt-0">
               <Input
                 type="text"
                 name="first-name"
                 id="first-name"
-
                 value={title ?? ''}
                 handleOnChange={(value) => setTitle(value)}
-
                 placeholder=""
                 autoComplete="given-name"
                 className="block w-full max-w-lg rounded-md sm:max-w-xs"
               />
             </div>
           </div>
-    
+
           {/* 1. Identificação do Aluno */}
           <div className="sm:items-start sm:gap-4 sm:pt-5">
-            <Label className="text-base sm:mt-px sm:pt-2 my-3"> 1. Identificação do aluno </Label>
-            
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              1. Identificação do aluno{' '}
+            </Label>
+
             <div className="flex justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Label>Nome:</Label>
-              <Input 
+              <Input
                 type="text"
                 name="name"
                 id="name"
-
                 value={name ?? ''}
                 handleOnChange={(value) => setName(value)}
-
                 placeholder=""
                 autoComplete="given-name"
                 className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -129,46 +124,38 @@ export default function Leave() {
 
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4  sm:pt-5">
               <Label>Ano:</Label>
-              <Input 
+              <Input
                 type="text"
                 name="SchoolYear"
-
                 value={schoolYear ?? ''}
                 handleOnChange={(value) => setSchoolYear(value)}
-
                 className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
               />
               <Label> Turma:</Label>
-              <Input 
+              <Input
                 type="text"
                 name="Class"
-
                 value={classroom ?? ''}
                 handleOnChange={(value) => setClassroom(value)}
-
                 className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
               />
               <Label> Turno:</Label>
-              <Input 
+              <Input
                 type="text"
                 name="Shift"
-
                 value={shift ?? ''}
                 handleOnChange={(value) => setShift(value)}
-
                 className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
               />
             </div>
 
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4  sm:pt-5">
               <Label>Data de Nascimento:</Label>
-              <Input 
+              <Input
                 type="date"
                 name="DateOfBirth"
-
                 value={dateOfBirth ?? ''}
                 handleOnChange={(value) => setDateOfBirth(value)}
-
                 className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
               />
             </div>
@@ -178,20 +165,16 @@ export default function Leave() {
               <Input
                 type="text"
                 name="Fathers-name"
-
                 value={fathersName ?? ''}
                 handleOnChange={(value) => setFathersName(value)}
-
                 className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
               />
               <Label>Mãe:</Label>
-              <Input 
+              <Input
                 type="text"
                 name="Mothers-name"
-
                 value={mothersName ?? ''}
                 handleOnChange={(value) => setMothersName(value)}
-
                 className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs "
               />
             </div>
@@ -199,21 +182,28 @@ export default function Leave() {
 
           {/* 2. Diagnostico e a data do ultimo laudo */}
           <div className="sm:items-start sm:gap-4 sm:pt-5">
-            <Label className="text-base sm:mt-px sm:pt-2 my-3"> 2. Diagnóstico e a data do último laudo:</Label>
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              2. Diagnóstico e a data do último laudo:
+            </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
-              <Textarea name='diagnosis'/>
+              <Textarea name="diagnosis" />
             </div>
           </div>
 
           {/* 3. Nome e Especialidade do profissional...*/}
           <div className="sm:items-start sm:gap-4 sm:pt-5">
-            <Label className="text-base sm:mt-px sm:pt-2 my-3"> 3. Nome e Especialidade do profissional responsável pelo diagnóstico:</Label>
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              3. Nome e Especialidade do profissional responsável pelo
+              diagnóstico:
+            </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              <Select />
             </div>
 
             <Select>
-              {specialists
-              .map(specialist => (
+              {specialists.map((specialist) => (
                 <option key={specialist.uuid} value={specialist.uuid}>
                   {specialist.name}
                 </option>
@@ -223,9 +213,13 @@ export default function Leave() {
 
           {/* 4. Dados obtidos através da família...*/}
           <div className="sm:items-start sm:gap-4 sm:pt-5">
-            <Label className="text-base sm:mt-px sm:pt-2 my-3"> 4. Dados obtidos através da família e da equipe que acompanha o caso:</Label>
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              4. Dados obtidos através da família e da equipe que acompanha o
+              caso:
+            </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
-              <Textarea name='diagnosis'/>
+              <Textarea name="diagnosis" />
             </div>
           </div>
         </div>

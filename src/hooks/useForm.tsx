@@ -5,6 +5,7 @@ import React, {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from 'react'
 import { FormType } from '../@types'
@@ -39,12 +40,14 @@ function FormProvider({ children }: FormProviderProps) {
       await axios
         .post('/api/form', props)
         .then((response) => {
-          setStatus(response.data.message),
-          setCurrentUuid('')
+          setStatus(response.data.message), setCurrentUuid('')
           show()
         })
         .catch((error) => {
-          if (error.response.status !== 422) throw error
+          if (error.response.status !== 422) {
+            console.log(error)
+            return
+          }
           setErrors(Object.values(error.response.data.errors).flat())
         })
     },
@@ -66,7 +69,10 @@ function FormProvider({ children }: FormProviderProps) {
         })
 
         .catch((error) => {
-          if (error.response.status !== 422) throw error
+          if (error.response.status !== 422) {
+            console.log(error)
+            return
+          }
         })
     },
     [],
@@ -86,7 +92,10 @@ function FormProvider({ children }: FormProviderProps) {
           show()
         })
         .catch((error) => {
-          if (error.response.status !== 422) throw error
+          if (error.response.status !== 422) {
+            console.log(error)
+            return
+          }
           setErrors(Object.values(error.response.data.errors).flat())
         })
     },
@@ -123,14 +132,12 @@ function FormProvider({ children }: FormProviderProps) {
       .get('/api/form')
       .then((response) => response.data.data)
       .then((data: any) => setForms(data))
-      .catch((error: any) => {
-        if (error.response.status !== 422) throw error
-      })
+      .catch((error) => {})
   }, [])
 
-  useMount(() => {
+  useEffect(() => {
     show()
-  })
+  }, [])
 
   const values = {
     forms,

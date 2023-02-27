@@ -21,7 +21,7 @@ const user = {
 
 export default function Setting() {
   const { setMiddleware } = useAuth()
-  const { setting, update } = useSetting()
+  const { setting, update, create } = useSetting()
   const [availableToHire, setAvailableToHire] = useState(true)
 
   const [uuid, setUuid] = useState('')
@@ -48,9 +48,13 @@ export default function Setting() {
     async (event: any) => {
       event.preventDefault()
       setMiddleware('auth')
-      update({ uuid, firstName, lastName, setErrors, setStatus })
+      if (uuid) {
+        update({ uuid, firstName, lastName, setErrors, setStatus })
+        return
+      }
+      create({ firstName, lastName, setErrors, setStatus })
     },
-    [firstName, lastName, setErrors, setStatus],
+    [uuid, firstName, lastName, setErrors, setStatus],
   )
 
   return (
@@ -88,6 +92,7 @@ export default function Setting() {
                             name="first-name"
                             id="first-name"
                             value={firstName ?? ''}
+                            placeholder={'Adicione seu nome'}
                             handleOnChange={(value) => setFirstName(value)}
                             autoComplete="given-name"
                             className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm"
@@ -106,6 +111,7 @@ export default function Setting() {
                             name="last-name"
                             id="last-name"
                             value={lastName ?? ''}
+                            placeholder={'Adicione seu sobrenome'}
                             handleOnChange={(value) => setLastName(value)}
                             autoComplete="family-name"
                             className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm"
