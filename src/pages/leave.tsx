@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { values } from 'lodash'
 
+import { useSpecialist } from '../hooks/useSpecialist'
 import { useWorkspace } from '../hooks/useWorkspace'
 import { useGlobal } from '../hooks/useGlobal'
 import { useForm } from '../hooks/useForm'
@@ -18,6 +19,7 @@ export default function Leave() {
   const { workspace } = useWorkspace()
   const { openPanel, setOpenPanel } = useGlobal()
   const { currentUuid, forms, create, update } = useForm()
+  const { specialists } = useSpecialist()
 
   const [title, setTitle] = useState<string>('')
   const [name, setName] = useState<string>('')
@@ -41,6 +43,7 @@ export default function Leave() {
           setName(item.name)
         })
     }
+
     errors.length > 0 && errors.map((error) => toast.error(error))
   }, [errors])
 
@@ -198,6 +201,14 @@ export default function Leave() {
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Select />
             </div>
+
+            <Select>
+              {specialists.map((specialist) => (
+                <option key={specialist.uuid} value={specialist.uuid}>
+                  {specialist.name}
+                </option>
+              ))}
+            </Select>
           </div>
 
           {/* 4. Dados obtidos através da família...*/}
