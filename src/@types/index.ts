@@ -35,3 +35,12 @@ export interface FormType {
   updated_at: string
   author: string
 }
+
+export interface SpecialistType {
+  uuid: string
+  name: string
+  area: string
+  residence: string
+  created_at: string
+  updated_at: string
+}
