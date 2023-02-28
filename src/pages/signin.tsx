@@ -1,16 +1,13 @@
-import Link from 'next/link'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import Link from 'next/link'
 import { useAuth } from '../hooks/useAuth'
+
 import Button from '../components/button'
 import Input from '../components/input'
 import Label from '../components/label'
 import Guest from '../layouts/guest'
-import Facebook from '../assets/svg/Facebook'
-import Twitter from '../assets/svg/Twitter'
-import Github from '../assets/svg/Github'
-import Logo from '../assets/svg/LogoCyan'
 
 export default function SignIn() {
   const router = useRouter()

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Switch } from '@headlessui/react'
 import { toast } from 'react-toastify'
 

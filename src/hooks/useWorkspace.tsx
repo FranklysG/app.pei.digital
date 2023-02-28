@@ -1,5 +1,3 @@
-import useSWR from 'swr'
-import { useRouter } from 'next/router'
 import React, {
   createContext,
   ReactNode,
@@ -15,7 +13,6 @@ import { WorkspaceType } from '../@types'
 
 type WorkspaceProps = {
   workspace: WorkspaceType[]
-  show: () => Promise<void>
 }
 
 type WorkspaceProviderProps = {
@@ -37,14 +34,13 @@ function WorkspaceProvider({ children }: WorkspaceProviderProps) {
       .catch((error) => {})
   }, [])
 
-  useEffect(() => {
+  useMount(() => {
     show()
-  }, [])
+  })
 
   const values = {
     workspace,
     setWorkspace,
-    show,
   }
   return <Workspace.Provider value={values}>{children}</Workspace.Provider>
 }

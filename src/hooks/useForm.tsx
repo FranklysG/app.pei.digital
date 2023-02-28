@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-import { times } from 'lodash'
 import React, {
   createContext,
   ReactNode,
@@ -135,9 +133,9 @@ function FormProvider({ children }: FormProviderProps) {
       .catch((error) => {})
   }, [])
 
-  useEffect(() => {
+  useMount(() => {
     show()
-  }, [])
+  })
 
   const values = {
     forms,

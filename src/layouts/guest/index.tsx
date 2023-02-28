@@ -17,11 +17,14 @@ export default function Guest({ children }: GuestProps) {
           {children}
         </div>
         <div className="hidden lg:block relative w-0 flex-1">
-          <img
-            className="absolute inset-0 h-full w-full object-cover"
-            src="https://source.unsplash.com/random/?/yongsan-family-park"
-            alt=""
-          />
+          <picture>
+            <source src="https://source.unsplash.com/random/?/children-study" />
+            <img
+              className="absolute inset-0 h-full w-full object-cover"
+              src="https://source.unsplash.com/random/?/children-study"
+              alt=""
+            />
+          </picture>
         </div>
       </div>
     </div>
