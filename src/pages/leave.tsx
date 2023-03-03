@@ -29,6 +29,8 @@ export default function Leave() {
   const [birthdate, setBirthdate] = useState<string>('')
   const [father, setFather] = useState<string>('')
   const [mother, setMother] = useState<string>('')
+  
+  const [medical_uuid, setMedical_uuid] = useState<string>('')
 
   const [diagnostic, setDiagnostic] = useState<string>('')
   const [description, setDescription] = useState<string>('')
@@ -218,7 +220,9 @@ export default function Leave() {
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
             </div>
 
-            <Select>
+            <Select
+              defaultValue={medical_uuid}
+            >
               {specialists.map((specialist) => (
                 <option key={specialist.uuid} value={specialist.uuid}>
                   {specialist.name}
