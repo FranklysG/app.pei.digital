@@ -93,10 +93,6 @@ function SettingProvider({ children }: SettingProviderProps) {
     [],
   )
 
-  useEffect(() => {
-    show()
-  }, [])
-
   const values = {
     setting,
     update,

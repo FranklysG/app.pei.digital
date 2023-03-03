@@ -55,11 +55,11 @@ export default function App({ Component, pageProps }) {
           <SettingProvider>
             <WorkspaceProvider>
               <UserProvider>
-                <FormProvider>
-                  <SpecialistProvider>
+                <SpecialistProvider>
+                  <FormProvider>
                     <Component {...pageProps} />
-                  </SpecialistProvider>
-                </FormProvider>
+                  </FormProvider>
+                </SpecialistProvider>
               </UserProvider>
             </WorkspaceProvider>
           </SettingProvider>
