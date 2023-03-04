@@ -15,11 +15,9 @@ interface AppProps {
 
 export default function App({ header, children }: AppProps) {
   const { loading, setMiddleware } = useAuth()
-  const { show } = useWorkspace()
   const [load, setLoad] = useState(true)
 
   useMount(() => {
-    show()
     setTimeout(() => setLoad(false), 2000)
   })
 
