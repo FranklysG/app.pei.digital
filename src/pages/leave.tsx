@@ -23,12 +23,17 @@ export default function Leave() {
 
   const [title, setTitle] = useState<string>('')
   const [name, setName] = useState<string>('')
-  const [schoolYear, setSchoolYear] = useState<string>('')
+  const [year, setYear] = useState<string>('')
   const [classroom, setClassroom] = useState<string>('')
-  const [shift, setShift] = useState<string>('')
-  const [dateOfBirth, setDateOfBirth] = useState<string>('')
-  const [fathersName, setFathersName] = useState<string>('')
-  const [mothersName, setMothersName] = useState<string>('')
+  const [bout, setBout] = useState<string>('')
+  const [birthdate, setBirthdate] = useState<string>('')
+  const [father, setFather] = useState<string>('')
+  const [mother, setMother] = useState<string>('')
+  
+  const [medicalUuid, setMedicalUuid] = useState<string>('')
+
+  const [diagnostic, setDiagnostic] = useState<string>('')
+  const [description, setDescription] = useState<string>('')
 
   const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
@@ -40,13 +45,24 @@ export default function Leave() {
       forms
         .filter((item) => item.uuid === currentUuid)
         .map((item) => {
+          setTitle(item.title)
+
           setName(item.name)
+          setYear(item.year)
+          setClassroom(item.class)
+          setBout(item.bout)
+          setBirthdate(item.birthdate)
+          setFather(item.father)
+          setMother(item.mother)
+
+          setDiagnostic(item.diagnostic)
+          setDescription(item.description)
+          setMedicalUuid(item.medical_uuid)
         })
-    }
-
-    errors.length > 0 && errors.map((error) => toast.error(error))
-  }, [errors])
-
+      }
+      errors.length > 0 && errors.map((error) => toast.error(error))
+    }, [errors])
+    
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
@@ -126,15 +142,15 @@ export default function Leave() {
               <Label>Ano:</Label>
               <Input
                 type="text"
-                name="SchoolYear"
-                value={schoolYear ?? ''}
-                handleOnChange={(value) => setSchoolYear(value)}
+                name="year"
+                value={year ?? ''}
+                handleOnChange={(value) => setYear(value)}
                 className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
               />
               <Label> Turma:</Label>
               <Input
                 type="text"
-                name="Class"
+                name="class"
                 value={classroom ?? ''}
                 handleOnChange={(value) => setClassroom(value)}
                 className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -143,8 +159,8 @@ export default function Leave() {
               <Input
                 type="text"
                 name="Shift"
-                value={shift ?? ''}
-                handleOnChange={(value) => setShift(value)}
+                value={bout ?? ''}
+                handleOnChange={(value) => setBout(value)}
                 className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
               />
             </div>
@@ -152,10 +168,10 @@ export default function Leave() {
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4  sm:pt-5">
               <Label>Data de Nascimento:</Label>
               <Input
-                type="date"
+                type="text"
                 name="DateOfBirth"
-                value={dateOfBirth ?? ''}
-                handleOnChange={(value) => setDateOfBirth(value)}
+                value={birthdate ?? ''}
+                handleOnChange={(value) => setBirthdate(value)}
                 className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
               />
             </div>
@@ -165,16 +181,16 @@ export default function Leave() {
               <Input
                 type="text"
                 name="Fathers-name"
-                value={fathersName ?? ''}
-                handleOnChange={(value) => setFathersName(value)}
+                value={father ?? ''}
+                handleOnChange={(value) => setFather(value)}
                 className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
               />
               <Label>Mãe:</Label>
               <Input
                 type="text"
                 name="Mothers-name"
-                value={mothersName ?? ''}
-                handleOnChange={(value) => setMothersName(value)}
+                value={mother ?? ''}
+                handleOnChange={(value) => setMother(value)}
                 className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs "
               />
             </div>
@@ -187,7 +203,10 @@ export default function Leave() {
               2. Diagnóstico e a data do último laudo:
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
-              <Textarea name="diagnosis" />
+              <Textarea 
+                name="diagnosis"
+                defaultValue={diagnostic ?? ''}
+                handleOnChange={(value) => setDiagnostic(value)} />
             </div>
           </div>
 
@@ -199,10 +218,11 @@ export default function Leave() {
               diagnóstico:
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
-              <Select />
             </div>
 
-            <Select>
+            <Select
+              defaultValue={medicalUuid}
+            >
               {specialists.map((specialist) => (
                 <option key={specialist.uuid} value={specialist.uuid}>
                   {specialist.name}
@@ -219,7 +239,12 @@ export default function Leave() {
               caso:
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
-              <Textarea name="diagnosis" />
+              <Textarea 
+                name="diagnosis"
+                defaultValue={description ?? ''}
+                handleOnChange={(value) => setDescription(value)} 
+                className="h-52"
+              />
             </div>
           </div>
         </div>

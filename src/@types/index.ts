@@ -1,3 +1,5 @@
+import internal from "stream"
+
 export interface Requests {
   id: string
   name: string
@@ -37,13 +39,23 @@ export interface UserType {
 export interface FormType {
   workspace_id: number
   uuid: string
+  title: string
   name: string
+  year: string
+  class: string
+  bout: string
+  birthdate: string
+  father: string
+  mother: string
+  diagnostic: string
+  description: string
   type: string
   status: string
   date: string
   created_at: string
   updated_at: string
   author: string
+  medical_uuid: string
 }
 
 export interface SpecialistType {

@@ -10,6 +10,7 @@ interface TextareaProps {
   required?: boolean
   handleOnChange?: Dispatch<SetStateAction<string>>
   value?: string | number
+  defaultValue: string
   autoFocus?: boolean
 }
 
@@ -17,13 +18,13 @@ export default function Textarea({
   placeholder,
   className,
   required,
-  handleOnChange,
+  defaultValue,
   value
 }: TextareaProps) {
 
   return (
     <textarea
-      value={value}
+      defaultValue={defaultValue}
       required={required}
       placeholder={placeholder || 'type here...'}
       
