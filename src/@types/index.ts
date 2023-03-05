@@ -55,6 +55,7 @@ export interface FormType {
   created_at: string
   updated_at: string
   author: string
+  medical_uuid: string
 }
 
 export interface SpecialistType {

@@ -30,7 +30,7 @@ export default function Leave() {
   const [father, setFather] = useState<string>('')
   const [mother, setMother] = useState<string>('')
   
-  const [medical_uuid, setMedical_uuid] = useState<string>('')
+  const [medicalUuid, setMedicalUuid] = useState<string>('')
 
   const [diagnostic, setDiagnostic] = useState<string>('')
   const [description, setDescription] = useState<string>('')
@@ -57,12 +57,12 @@ export default function Leave() {
 
           setDiagnostic(item.diagnostic)
           setDescription(item.description)
+          setMedicalUuid(item.medical_uuid)
         })
-    }
-
-    errors.length > 0 && errors.map((error) => toast.error(error))
-  }, [errors])
-
+      }
+      errors.length > 0 && errors.map((error) => toast.error(error))
+    }, [errors])
+    
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
@@ -205,7 +205,7 @@ export default function Leave() {
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea 
                 name="diagnosis"
-                value={diagnostic ?? ''}
+                defaultValue={diagnostic ?? ''}
                 handleOnChange={(value) => setDiagnostic(value)} />
             </div>
           </div>
@@ -221,7 +221,7 @@ export default function Leave() {
             </div>
 
             <Select
-              defaultValue={medical_uuid}
+              defaultValue={medicalUuid}
             >
               {specialists.map((specialist) => (
                 <option key={specialist.uuid} value={specialist.uuid}>
@@ -241,7 +241,7 @@ export default function Leave() {
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea 
                 name="diagnosis"
-                value={description ?? ''}
+                defaultValue={description ?? ''}
                 handleOnChange={(value) => setDescription(value)} 
                 className="h-52"
               />
