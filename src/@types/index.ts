@@ -56,6 +56,17 @@ export interface FormType {
   updated_at: string
   author: string
   medical_uuid: string
+
+  specialtys: SpecialtysType[]
+}
+
+export interface SpecialtysType {
+  name: string
+  location: string 
+  professional: string 
+  day: string 
+  hour: string
+  contact: string
 }
 
 export interface SpecialistType {
@@ -66,3 +77,4 @@ export interface SpecialistType {
   created_at: string
   updated_at: string
 }
+

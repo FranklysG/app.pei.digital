@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 
 interface SelectProps {
-  children: ReactNode
-  defaultValue: string
+  children?: ReactNode
+  defaultValue?: string
   value?: string | number
   placeholder?: string
   className?: string

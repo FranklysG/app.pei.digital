@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { values } from 'lodash'
 
+import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
+
 import { useSpecialist } from '../hooks/useSpecialist'
 import { useWorkspace } from '../hooks/useWorkspace'
 import { useGlobal } from '../hooks/useGlobal'
@@ -13,6 +15,7 @@ import Input from '../components/input'
 import Label from '../components/label'
 import Textarea from '../components/textarea'
 import Select from '../components/select'
+import Table from '../components/table'
 
 export default function Leave() {
   const { setMiddleware } = useAuth()
@@ -29,11 +32,13 @@ export default function Leave() {
   const [birthdate, setBirthdate] = useState<string>('')
   const [father, setFather] = useState<string>('')
   const [mother, setMother] = useState<string>('')
-  
   const [medicalUuid, setMedicalUuid] = useState<string>('')
 
   const [diagnostic, setDiagnostic] = useState<string>('')
   const [description, setDescription] = useState<string>('')
+
+  const [specialtys, setSpecialtys] = useState([])
+
 
   const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
@@ -59,10 +64,26 @@ export default function Leave() {
           setDescription(item.description)
           setMedicalUuid(item.medical_uuid)
         })
-      }
-      errors.length > 0 && errors.map((error) => toast.error(error))
-    }, [errors])
-    
+    }
+    errors.length > 0 && errors.map((error) => toast.error(error))
+  }, [errors])
+
+  let handleChange = (i, e) => {
+    let newInputValues = [...specialtys];
+    newInputValues[i][e.target.name] = e.target.value;
+    setSpecialtys(newInputValues);
+  }
+
+  let addInputFields = () => {
+    setSpecialtys([...specialtys, ([])]);
+  }
+
+  let removeInputFields = (i) => {
+    let newInputValues = [...specialtys];
+    newInputValues.splice(i, 1);
+    setSpecialtys(newInputValues);
+  };
+
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
@@ -110,7 +131,6 @@ export default function Leave() {
                 id="first-name"
                 value={title ?? ''}
                 handleOnChange={(value) => setTitle(value)}
-                placeholder=""
                 autoComplete="given-name"
                 className="block w-full max-w-lg rounded-md sm:max-w-xs"
               />
@@ -203,7 +223,7 @@ export default function Leave() {
               2. Diagnóstico e a data do último laudo:
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
-              <Textarea 
+              <Textarea
                 name="diagnosis"
                 defaultValue={diagnostic ?? ''}
                 handleOnChange={(value) => setDiagnostic(value)} />
@@ -239,14 +259,174 @@ export default function Leave() {
               caso:
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
-              <Textarea 
+              <Textarea
                 name="diagnosis"
                 defaultValue={description ?? ''}
-                handleOnChange={(value) => setDescription(value)} 
+                handleOnChange={(value) => setDescription(value)}
                 className="h-52"
               />
             </div>
           </div>
+
+          {/* 5. Tipos de tratamento clínico...*/}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              5. Realiza algum tipo de atendimento clínico, terapêutico ou
+              atividades extracurriculares?
+            </Label>
+
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              <table className="text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th
+                      className="border-r px-2 py-2 dark:border-neutral-500">
+                      Especialidade
+                    </th>
+                    <th
+                      className="border-r px-5 py-2 dark:border-neutral-500">
+                      Local
+                    </th>
+                    <th
+                      className="border-r px-3 py-2 dark:border-neutral-500">
+                      Profissional
+                    </th>
+                    <th
+                      className="border-r px-7 py-2 dark:border-neutral-500">
+                      Dia
+                    </th>
+                    <th
+                      className="border-r px-4 py-2 dark:border-neutral-500">
+                      Horário
+                    </th>
+                    <th
+                      className="border-r px-5 py-2 dark:border-neutral-500">
+                      Contato
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {specialtys.length === 0 ? (
+                    <tr>
+                      <td colSpan={6}>Nenhum item encontrado.</td>
+                      <button
+                        type="button"
+                        className="flex justify-center items-center"
+                        onClick={() => addInputFields()}
+                      >
+                        <PlusIcon
+                          className="h-6 w-6 text-gray-ring-gray-800"
+                          aria-hidden="true" />
+                      </button>
+                    </tr>
+                  ) : (specialtys.map((item, index) => (
+                    <tr key={index} className="border-b dark:border-neutral-500">
+                      <td
+                        className="whitespace-nowrap border-r px-4 py-2 font-medium dark:border-neutral-500">
+                        <Input
+                          type="text"
+                          name="nameSpecialtys"
+                          id="nameSpecialtys"
+                          value={item.nome ?? ''}
+                          handleOnChange={(value) => setSpecialtys(item.nome)}
+
+                          className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                        />
+                      </td>
+                      <td
+                        className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
+                        <Input
+                          type="text"
+                          name="location"
+                          id="location"
+                          value={item.location}
+                          handleOnChange={(value) => setSpecialtys(item.location)}
+
+                          className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                        />
+                      </td>
+                      <td
+                        className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
+                        <Input
+                          type="text"
+                          name="professional"
+                          id="professional"
+                          value={item.professional ?? ''}
+                          handleOnChange={(value) => setSpecialtys(item.professional)}
+
+                          className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                        />
+                      </td>
+                      <td
+                        className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
+                        <Input
+                          type="text"
+                          name="day"
+                          id="day"
+                          value={item.day ?? ''}
+                          handleOnChange={(value) => setSpecialtys(item.day)}
+
+                          className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                        />
+                      </td>
+                      <td
+                        className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
+                        <Input
+                          type="text"
+                          name="hour"
+                          id="hour"
+                          value={item.hour ?? ''}
+                          handleOnChange={(value) => setSpecialtys(item.hour)}
+
+                          className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                        />
+                      </td>
+                      <td
+                        className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                        <Input
+                          type="text"
+                          name="contact"
+                          id="contact"
+                          value={item.contact ?? ''}
+                          handleOnChange={(value) => setSpecialtys(item.contact)}
+
+                          className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs" />
+                      </td>
+                      {index === 0 ? (
+                        <button
+                          type="button"
+                          className="flex justify-evenly items-center"
+                          onClick={() => addInputFields()}
+                        >
+                          <PlusIcon
+                            className="h-6 w-6 text-gray-ring-gray-800"
+                            aria-hidden="true" />
+                        </button>
+
+                      ) : null}
+                      {index ? (
+                        <button
+                          type="button"
+                          className="remove"
+                          onClick={() => removeInputFields(index)}
+                        >
+                          <TrashIcon
+                            className="h-6 w-6 text-gray-ring-gray-800"
+                            aria-hidden="true"
+                          />
+                        </button>
+                      ) : null}
+                    </tr>
+                  )))
+                  }
+                </tbody>
+
+              </table>
+
+            </div>
+          </div>
+
         </div>
         <Button
           handleOnClick={() => {
