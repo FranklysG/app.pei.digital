@@ -68,7 +68,7 @@ export default function Leave() {
     errors.length > 0 && errors.map((error) => toast.error(error))
   }, [errors])
 
-  let handleChange = (index, id, value) => {
+  const handleChange = (index, id, value) => {
     let newValues = [...specialtys]
     newValues[index][id] = value
     setSpecialtys(newValues)
