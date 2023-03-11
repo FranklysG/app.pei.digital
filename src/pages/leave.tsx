@@ -15,7 +15,6 @@ import Input from '../components/input'
 import Label from '../components/label'
 import Textarea from '../components/textarea'
 import Select from '../components/select'
-import Table from '../components/table'
 
 export default function Leave() {
   const { setMiddleware } = useAuth()
@@ -38,7 +37,6 @@ export default function Leave() {
   const [description, setDescription] = useState<string>('')
 
   const [specialtys, setSpecialtys] = useState([])
-
 
   const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
@@ -69,20 +67,20 @@ export default function Leave() {
   }, [errors])
 
   let handleChange = (i, e) => {
-    let newInputValues = [...specialtys];
-    newInputValues[i][e.target.name] = e.target.value;
-    setSpecialtys(newInputValues);
+    let newInputValues = [...specialtys]
+    newInputValues[i][e.target.name] = e.target.value
+    setSpecialtys(newInputValues)
   }
 
   let addInputFields = () => {
-    setSpecialtys([...specialtys, ([])]);
+    setSpecialtys([...specialtys, []])
   }
 
   let removeInputFields = (i) => {
-    let newInputValues = [...specialtys];
-    newInputValues.splice(i, 1);
-    setSpecialtys(newInputValues);
-  };
+    let newInputValues = [...specialtys]
+    newInputValues.splice(i, 1)
+    setSpecialtys(newInputValues)
+  }
 
   const submitForm = useCallback(
     async (event: any) => {
@@ -226,7 +224,8 @@ export default function Leave() {
               <Textarea
                 name="diagnosis"
                 defaultValue={diagnostic ?? ''}
-                handleOnChange={(value) => setDiagnostic(value)} />
+                handleOnChange={(value) => setDiagnostic(value)}
+              />
             </div>
           </div>
 
@@ -237,12 +236,9 @@ export default function Leave() {
               3. Nome e Especialidade do profissional responsável pelo
               diagnóstico:
             </Label>
-            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
-            </div>
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5"></div>
 
-            <Select
-              defaultValue={medicalUuid}
-            >
+            <Select defaultValue={medicalUuid}>
               {specialists.map((specialist) => (
                 <option key={specialist.uuid} value={specialist.uuid}>
                   {specialist.name}
@@ -280,28 +276,22 @@ export default function Leave() {
               <table className="text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th
-                      className="border-r px-2 py-2 dark:border-neutral-500">
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
                       Especialidade
                     </th>
-                    <th
-                      className="border-r px-5 py-2 dark:border-neutral-500">
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
                       Local
                     </th>
-                    <th
-                      className="border-r px-3 py-2 dark:border-neutral-500">
+                    <th className="border-r px-3 py-2 dark:border-neutral-500">
                       Profissional
                     </th>
-                    <th
-                      className="border-r px-7 py-2 dark:border-neutral-500">
+                    <th className="border-r px-7 py-2 dark:border-neutral-500">
                       Dia
                     </th>
-                    <th
-                      className="border-r px-4 py-2 dark:border-neutral-500">
+                    <th className="border-r px-4 py-2 dark:border-neutral-500">
                       Horário
                     </th>
-                    <th
-                      className="border-r px-5 py-2 dark:border-neutral-500">
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
                       Contato
                     </th>
                   </tr>
@@ -317,116 +307,113 @@ export default function Leave() {
                       >
                         <PlusIcon
                           className="h-6 w-6 text-gray-ring-gray-800"
-                          aria-hidden="true" />
+                          aria-hidden="true"
+                        />
                       </button>
                     </tr>
-                  ) : (specialtys.map((item, index) => (
-                    <tr key={index} className="border-b dark:border-neutral-500">
-                      <td
-                        className="whitespace-nowrap border-r px-4 py-2 font-medium dark:border-neutral-500">
-                        <Input
-                          type="text"
-                          name="nameSpecialtys"
-                          id="nameSpecialtys"
-                          value={item.nome ?? ''}
-                          handleOnChange={(value) => setSpecialtys(item.nome)}
-
-                          className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-                        />
-                      </td>
-                      <td
-                        className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
-                        <Input
-                          type="text"
-                          name="location"
-                          id="location"
-                          value={item.location}
-                          handleOnChange={(value) => setSpecialtys(item.location)}
-
-                          className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-                        />
-                      </td>
-                      <td
-                        className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
-                        <Input
-                          type="text"
-                          name="professional"
-                          id="professional"
-                          value={item.professional ?? ''}
-                          handleOnChange={(value) => setSpecialtys(item.professional)}
-
-                          className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-                        />
-                      </td>
-                      <td
-                        className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
-                        <Input
-                          type="text"
-                          name="day"
-                          id="day"
-                          value={item.day ?? ''}
-                          handleOnChange={(value) => setSpecialtys(item.day)}
-
-                          className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-                        />
-                      </td>
-                      <td
-                        className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
-                        <Input
-                          type="text"
-                          name="hour"
-                          id="hour"
-                          value={item.hour ?? ''}
-                          handleOnChange={(value) => setSpecialtys(item.hour)}
-
-                          className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-                        />
-                      </td>
-                      <td
-                        className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                        <Input
-                          type="text"
-                          name="contact"
-                          id="contact"
-                          value={item.contact ?? ''}
-                          handleOnChange={(value) => setSpecialtys(item.contact)}
-
-                          className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs" />
-                      </td>
-                      {index === 0 ? (
-                        <button
-                          type="button"
-                          className="flex justify-evenly items-center"
-                          onClick={() => addInputFields()}
-                        >
-                          <PlusIcon
-                            className="h-6 w-6 text-gray-ring-gray-800"
-                            aria-hidden="true" />
-                        </button>
-
-                      ) : null}
-                      {index ? (
-                        <button
-                          type="button"
-                          className="remove"
-                          onClick={() => removeInputFields(index)}
-                        >
-                          <TrashIcon
-                            className="h-6 w-6 text-gray-ring-gray-800"
-                            aria-hidden="true"
+                  ) : (
+                    specialtys.map((item, index) => (
+                      <tr
+                        key={index}
+                        className="border-b dark:border-neutral-500"
+                      >
+                        <td className="whitespace-nowrap border-r px-4 py-2 font-medium dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name="nameSpecialtys"
+                            id="nameSpecialtys"
+                            value={item.nome ?? ''}
+                            handleOnChange={(value) => setSpecialtys(item.nome)}
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
-                        </button>
-                      ) : null}
-                    </tr>
-                  )))
-                  }
+                        </td>
+                        <td className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name="location"
+                            id="location"
+                            value={item.location}
+                            handleOnChange={(value) =>
+                              setSpecialtys(item.location)
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name="professional"
+                            id="professional"
+                            value={item.professional ?? ''}
+                            handleOnChange={(value) =>
+                              setSpecialtys(item.professional)
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name="day"
+                            id="day"
+                            value={item.day ?? ''}
+                            handleOnChange={(value) => setSpecialtys(item.day)}
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name="hour"
+                            id="hour"
+                            value={item.hour ?? ''}
+                            handleOnChange={(value) => setSpecialtys(item.hour)}
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name="contact"
+                            id="contact"
+                            value={item.contact ?? ''}
+                            handleOnChange={(value) =>
+                              setSpecialtys(item.contact)
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        {index === 0 ? (
+                          <button
+                            type="button"
+                            className="flex justify-evenly items-center"
+                            onClick={() => addInputFields()}
+                          >
+                            <PlusIcon
+                              className="h-6 w-6 text-gray-ring-gray-800"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        ) : null}
+                        {index ? (
+                          <button
+                            type="button"
+                            className="remove"
+                            onClick={() => removeInputFields(index)}
+                          >
+                            <TrashIcon
+                              className="h-6 w-6 text-gray-ring-gray-800"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        ) : null}
+                      </tr>
+                    ))
+                  )}
                 </tbody>
-
               </table>
-
             </div>
           </div>
-
         </div>
         <Button
           handleOnClick={() => {
