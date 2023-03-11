@@ -1,4 +1,4 @@
-import internal from "stream"
+import internal from 'stream'
 
 export interface Requests {
   id: string
@@ -61,10 +61,11 @@ export interface FormType {
 }
 
 export interface SpecialtysType {
+  uuid: string
   name: string
-  location: string 
-  professional: string 
-  day: string 
+  location: string
+  professional: string
+  day: string
   hour: string
   contact: string
 }
@@ -77,4 +78,3 @@ export interface SpecialistType {
   created_at: string
   updated_at: string
 }
-

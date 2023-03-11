@@ -121,7 +121,7 @@ export default function Form() {
                                   </time>
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                                  {item.name}
+                                  {item.title}
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                                   {item.author}

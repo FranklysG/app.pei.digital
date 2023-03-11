@@ -36,7 +36,7 @@ export default function Panel({ children }: PanelProps) {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <Dialog.Panel className="relative flex w-full max-w-md sm:max-w-xl flex-1 flex-col bg-white pt-5 pb-4">
+              <Dialog.Panel className="relative flex w-full max-w-md sm:max-w-4xl flex-1 flex-col bg-white pt-5 pb-4">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-in-out duration-300"

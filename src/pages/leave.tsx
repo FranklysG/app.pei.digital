@@ -15,6 +15,7 @@ import Input from '../components/input'
 import Label from '../components/label'
 import Textarea from '../components/textarea'
 import Select from '../components/select'
+import { SpecialtysType } from '../@types'
 
 export default function Leave() {
   const { setMiddleware } = useAuth()
@@ -61,22 +62,23 @@ export default function Leave() {
           setDiagnostic(item.diagnostic)
           setDescription(item.description)
           setMedicalUuid(item.medical_uuid)
+          setSpecialtys(item.specialtys)
         })
     }
     errors.length > 0 && errors.map((error) => toast.error(error))
   }, [errors])
 
-  let handleChange = (i, e) => {
-    let newInputValues = [...specialtys]
-    newInputValues[i][e.target.name] = e.target.value
-    setSpecialtys(newInputValues)
+  let handleChange = (index, id, value) => {
+    let newValues = [...specialtys]
+    newValues[index][id] = value
+    setSpecialtys(newValues)
   }
 
-  let addInputFields = () => {
+  const addInputFields = () => {
     setSpecialtys([...specialtys, []])
   }
 
-  let removeInputFields = (i) => {
+  const removeInputFields = (i) => {
     let newInputValues = [...specialtys]
     newInputValues.splice(i, 1)
     setSpecialtys(newInputValues)
@@ -294,25 +296,29 @@ export default function Leave() {
                     <th className="border-r px-5 py-2 dark:border-neutral-500">
                       Contato
                     </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        className="flex justify-evenly items-center"
+                        onClick={() => addInputFields()}
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {specialtys.length === 0 ? (
-                    <tr>
-                      <td colSpan={6}>Nenhum item encontrado.</td>
-                      <button
-                        type="button"
-                        className="flex justify-center items-center"
-                        onClick={() => addInputFields()}
-                      >
-                        <PlusIcon
-                          className="h-6 w-6 text-gray-ring-gray-800"
-                          aria-hidden="true"
-                        />
-                      </button>
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
                     </tr>
                   ) : (
-                    specialtys.map((item, index) => (
+                    specialtys.map((item: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -322,8 +328,10 @@ export default function Leave() {
                             type="text"
                             name="nameSpecialtys"
                             id="nameSpecialtys"
-                            value={item.nome ?? ''}
-                            handleOnChange={(value) => setSpecialtys(item.nome)}
+                            value={item.name || ''}
+                            handleOnChange={(value) =>
+                              handleChange(index, 'name', value)
+                            }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
                         </td>
@@ -332,9 +340,9 @@ export default function Leave() {
                             type="text"
                             name="location"
                             id="location"
-                            value={item.location}
+                            value={item.location || ''}
                             handleOnChange={(value) =>
-                              setSpecialtys(item.location)
+                              handleChange(index, 'location', value)
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -344,9 +352,9 @@ export default function Leave() {
                             type="text"
                             name="professional"
                             id="professional"
-                            value={item.professional ?? ''}
+                            value={item.professional || ''}
                             handleOnChange={(value) =>
-                              setSpecialtys(item.professional)
+                              handleChange(index, 'professional', value)
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -356,8 +364,10 @@ export default function Leave() {
                             type="text"
                             name="day"
                             id="day"
-                            value={item.day ?? ''}
-                            handleOnChange={(value) => setSpecialtys(item.day)}
+                            value={item.day || ''}
+                            handleOnChange={(value) =>
+                              handleChange(index, 'day', value)
+                            }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
                         </td>
@@ -366,8 +376,10 @@ export default function Leave() {
                             type="text"
                             name="hour"
                             id="hour"
-                            value={item.hour ?? ''}
-                            handleOnChange={(value) => setSpecialtys(item.hour)}
+                            value={item.hour || ''}
+                            handleOnChange={(value) =>
+                              handleChange(index, 'hour', value)
+                            }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
                         </td>
@@ -376,37 +388,25 @@ export default function Leave() {
                             type="text"
                             name="contact"
                             id="contact"
-                            value={item.contact ?? ''}
+                            value={item.contact || ''}
                             handleOnChange={(value) =>
-                              setSpecialtys(item.contact)
+                              handleChange(index, 'contact', value)
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
                         </td>
-                        {index === 0 ? (
-                          <button
-                            type="button"
-                            className="flex justify-evenly items-center"
-                            onClick={() => addInputFields()}
-                          >
-                            <PlusIcon
-                              className="h-6 w-6 text-gray-ring-gray-800"
-                              aria-hidden="true"
-                            />
-                          </button>
-                        ) : null}
-                        {index ? (
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
                           <button
                             type="button"
                             className="remove"
                             onClick={() => removeInputFields(index)}
                           >
                             <TrashIcon
-                              className="h-6 w-6 text-gray-ring-gray-800"
+                              className="h-4 w-4 text-gray-ring-gray-600"
                               aria-hidden="true"
                             />
                           </button>
-                        ) : null}
+                        </td>
                       </tr>
                     ))
                   )}

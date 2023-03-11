@@ -1,5 +1,7 @@
 import Head from 'next/head'
 import { ReactNode } from 'react'
+import Image from 'next/image'
+import banner from '../../assets/img/banner.jpg'
 
 interface GuestProps {
   children: ReactNode
@@ -16,16 +18,11 @@ export default function Guest({ children }: GuestProps) {
         <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           {children}
         </div>
-        <div className="hidden lg:block relative w-0 flex-1">
-          <picture>
-            <source src="https://source.unsplash.com/random/?/children-study" />
-            <img
-              className="absolute inset-0 h-full w-full object-cover"
-              src="https://source.unsplash.com/random/?/children-study"
-              alt=""
-            />
-          </picture>
-        </div>
+        <Image
+          className="hidden lg:block relative flex-1 inset-0 h-full w-full object-cover"
+          src={banner}
+          alt=""
+        />
       </div>
     </div>
   )
