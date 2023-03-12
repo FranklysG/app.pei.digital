@@ -18,11 +18,13 @@ export default function Guest({ children }: GuestProps) {
         <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           {children}
         </div>
-        <Image
-          className="hidden lg:block relative flex-1 inset-0 h-full w-full object-cover"
-          src={banner}
-          alt=""
-        />
+        <div className="hidden lg:flex flex-1">
+          <Image
+            className="hidden lg:block relative flex-1 inset-0 h-full w-full object-cover"
+            src={banner}
+            alt=""
+          />
+        </div>
       </div>
     </div>
   )
