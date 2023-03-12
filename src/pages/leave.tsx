@@ -151,7 +151,7 @@ export default function Leave() {
           <h3 className="text-lg font-medium leading-6 text-gray-900">
             PROGRAMA EDUCACIONAL PERSONALIZADO
           </h3>
-          <p className="mt-1 max-w-2xl text-sm text-gray-500">
+          <p className="mt-1 text-sm text-gray-500">
             ESCOLA MUNICIPAL ELIAS ALFREDO CURY
           </p>
         </div>
@@ -168,7 +168,7 @@ export default function Leave() {
                 value={title ?? ''}
                 handleOnChange={(value) => setTitle(value)}
                 autoComplete="given-name"
-                className="block w-full max-w-lg rounded-md sm:max-w-xs"
+                className="block w-full rounded-md shadow-sm"
               />
             </div>
           </div>
@@ -180,7 +180,7 @@ export default function Leave() {
               1. Identificação do aluno{' '}
             </Label>
 
-            <div className="flex justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Label>Nome:</Label>
               <Input
                 type="text"
@@ -192,9 +192,18 @@ export default function Leave() {
                 autoComplete="given-name"
                 className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
               />
+
+              <Label>Data de Nascimento:</Label>
+              <Input
+                type="text"
+                name="DateOfBirth"
+                value={birthdate ?? ''}
+                handleOnChange={(value) => setBirthdate(value)}
+                className="block w-32 rounded-md shadow-sm sm:max-w-xs"
+              />
             </div>
 
-            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4  sm:pt-5">
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:pt-5">
               <Label>Ano:</Label>
               <Input
                 type="text"
@@ -221,18 +230,7 @@ export default function Leave() {
               />
             </div>
 
-            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4  sm:pt-5">
-              <Label>Data de Nascimento:</Label>
-              <Input
-                type="text"
-                name="DateOfBirth"
-                value={birthdate ?? ''}
-                handleOnChange={(value) => setBirthdate(value)}
-                className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-              />
-            </div>
-
-            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4  sm:pt-5">
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:pt-5">
               <Label>Pai:</Label>
               <Input
                 type="text"
