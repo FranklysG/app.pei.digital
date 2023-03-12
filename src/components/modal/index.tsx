@@ -1,11 +1,9 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
-import { useIntegration } from '../../hooks/useIntegration'
 import { toast } from 'react-toastify'
 
 export default function Modal() {
-  const { create } = useIntegration()
   const [open, setOpen] = useState(true)
   const [errors, setErrors] = useState([])
   const [status, setStatus] = useState<string | string[]>('')
@@ -17,7 +15,6 @@ export default function Modal() {
   }, [errors])
 
   const handleUsercreate = useCallback(async () => {
-    create({ name: name, setErrors, setStatus })
     setOpen(false)
   }, [name])
 

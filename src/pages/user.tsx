@@ -25,7 +25,7 @@ export default function User() {
   const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
 
-  const workspace_uuid = values(workspace).shift().uuid
+  const workspace_uuid = values(workspace).shift()?.uuid
 
   useEffect(() => {
     if (currentUuid !== '') {

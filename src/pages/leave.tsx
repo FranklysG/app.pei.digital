@@ -43,7 +43,7 @@ export default function Leave() {
   const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
 
-  const workspace_uuid = values(workspace).shift().uuid
+  const workspace_uuid = values(workspace).shift()?.uuid
 
   useEffect(() => {
     if (currentUuid !== '') {
@@ -280,7 +280,7 @@ export default function Leave() {
               defaultValue={medicalUuid}
               handleOnChange={(e) => setMedicalUuid(e.target.value)}
             >
-              {specialists.map((item: SpecialistType) => (
+              {specialists?.map((item: SpecialistType) => (
                 <option key={item.uuid} value={item.uuid}>
                   {item.name}
                 </option>
@@ -357,7 +357,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((item: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"

@@ -94,9 +94,9 @@ export default function Dashboard() {
                   <button
                     type="button"
                     className="flex items-center justify-center rounded-full bg-cyan-600 p-2 text-white hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
-                    onClick={() => { 
-                      setCurrentUuid(''); 
-                      setOpenPanel(!openPanel) 
+                    onClick={() => {
+                      setCurrentUuid('')
+                      setOpenPanel(!openPanel)
                     }}
                   >
                     <span className="mr-3">Adicionar novo formulário</span>
