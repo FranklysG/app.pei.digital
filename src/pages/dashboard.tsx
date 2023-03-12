@@ -18,7 +18,7 @@ import Leave from './leave'
 import { classNames, generateGreetings } from '../utils'
 
 export default function Dashboard() {
-  const { forms } = useForm()
+  const { forms, setCurrentUuid } = useForm()
   const { user, verified } = useAuth()
   const { openPanel, setOpenPanel } = useGlobal()
   const [hour, setHour] = useState(moment().format('HH'))
@@ -82,7 +82,7 @@ export default function Dashboard() {
                           )}
                           aria-hidden="true"
                         />
-                        {verified ? 'Verified' : 'uverified'} account
+                        Conta {verified ? 'Verificada' : 'Não Verificada'}
                       </dd>
                     </dl>
                   </div>
@@ -94,7 +94,10 @@ export default function Dashboard() {
                   <button
                     type="button"
                     className="flex items-center justify-center rounded-full bg-cyan-600 p-2 text-white hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
-                    onClick={() => setOpenPanel(!openPanel)}
+                    onClick={() => { 
+                      setCurrentUuid(''); 
+                      setOpenPanel(!openPanel) 
+                    }}
                   >
                     <span className="mr-3">Adicionar novo formulário</span>
                     <PlusIcon className="h-6 w-6" aria-hidden="true" />
@@ -126,7 +129,7 @@ export default function Dashboard() {
                   >
                     <div className="grid gap-2">
                       <span className="flex justify-between">
-                        <h4 className="text-gray-600">{item.author}</h4>
+                        <h4 className="text-gray-600">{item.title}</h4>
                         <Badge
                           className="text-2xl"
                           name={item.status}
@@ -135,7 +138,7 @@ export default function Dashboard() {
                         />
                       </span>
                       <span className="flex justify-start">
-                        <h2 className="font-semibold text-lg">{item.name}</h2>
+                        <h2 className="font-semibold text-lg">{item.author}</h2>
                       </span>
                       <span className="flex justify-between">
                         <h4 className="text-gray-600">{item.date}</h4>
@@ -160,13 +163,13 @@ export default function Dashboard() {
                           className="bg-gray-50 px-6 py-3 text-left text-sm font-semibold text-gray-900"
                           scope="col"
                         >
-                          Ação
+                          Titulo
                         </th>
                         <th
                           className="bg-gray-50 px-6 py-3 text-right text-sm font-semibold text-gray-900"
                           scope="col"
                         >
-                          Author
+                          responsável
                         </th>
                         <th
                           className="hidden bg-gray-50 px-6 py-3 text-left text-sm font-semibold text-gray-900 md:block"
@@ -178,7 +181,7 @@ export default function Dashboard() {
                           className="bg-gray-50 px-6 py-3 text-right text-sm font-semibold text-gray-900"
                           scope="col"
                         >
-                          Date
+                          Data
                         </th>
                       </tr>
                     </thead>
@@ -196,7 +199,7 @@ export default function Dashboard() {
                                   aria-hidden="true"
                                 />
                                 <p className="truncate text-gray-500 group-hover:text-gray-900">
-                                  {item.name}
+                                  {item.title}
                                 </p>
                               </a>
                             </div>

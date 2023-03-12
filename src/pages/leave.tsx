@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { values } from 'lodash'
 
+import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
+
 import { useSpecialist } from '../hooks/useSpecialist'
 import { useWorkspace } from '../hooks/useWorkspace'
 import { useGlobal } from '../hooks/useGlobal'
@@ -14,6 +16,8 @@ import Label from '../components/label'
 import Textarea from '../components/textarea'
 import Select from '../components/select'
 
+import { SpecialistType, SpecialtysType } from '../@types'
+
 export default function Leave() {
   const { setMiddleware } = useAuth()
   const { workspace } = useWorkspace()
@@ -24,16 +28,17 @@ export default function Leave() {
   const [title, setTitle] = useState<string>('')
   const [name, setName] = useState<string>('')
   const [year, setYear] = useState<string>('')
-  const [classroom, setClassroom] = useState<string>('')
+  const [classRoom, setClassRoom] = useState<string>('')
   const [bout, setBout] = useState<string>('')
   const [birthdate, setBirthdate] = useState<string>('')
   const [father, setFather] = useState<string>('')
   const [mother, setMother] = useState<string>('')
-  
   const [medicalUuid, setMedicalUuid] = useState<string>('')
 
   const [diagnostic, setDiagnostic] = useState<string>('')
   const [description, setDescription] = useState<string>('')
+
+  const [specialtys, setSpecialtys] = useState([])
 
   const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
@@ -49,7 +54,7 @@ export default function Leave() {
 
           setName(item.name)
           setYear(item.year)
-          setClassroom(item.class)
+          setClassRoom(item.class)
           setBout(item.bout)
           setBirthdate(item.birthdate)
           setFather(item.father)
@@ -58,11 +63,28 @@ export default function Leave() {
           setDiagnostic(item.diagnostic)
           setDescription(item.description)
           setMedicalUuid(item.medical_uuid)
+          setSpecialtys(item.specialtys)
         })
-      }
-      errors.length > 0 && errors.map((error) => toast.error(error))
-    }, [errors])
-    
+    }
+    errors.length > 0 && errors.map((error) => toast.error(error))
+  }, [errors])
+
+  const handleChange = (index, id, value) => {
+    let newValues = [...specialtys]
+    newValues[index][id] = value
+    setSpecialtys(newValues)
+  }
+
+  const addInputFields = () => {
+    setSpecialtys([...specialtys, []])
+  }
+
+  const removeInputFields = (i) => {
+    let newInputValues = [...specialtys]
+    newInputValues.splice(i, 1)
+    setSpecialtys(newInputValues)
+  }
+
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
@@ -71,20 +93,55 @@ export default function Leave() {
       if (currentUuid !== '') {
         update({
           uuid: currentUuid,
+          specialist_uuid: medicalUuid,
+          title,
           name,
-          setStatus,
+          year,
+          diagnostic,
+          class: classRoom,
+          bout,
+          birthdate,
+          father,
+          mother,
+          description,
           setErrors,
+          setStatus,
         })
         return
       }
       create({
-        name,
         workspace_uuid,
-        setStatus,
+        specialist_uuid: medicalUuid,
+        title,
+        name,
+        year,
+        diagnostic,
+        class: classRoom,
+        bout,
+        birthdate,
+        father,
+        mother,
+        description,
         setErrors,
+        setStatus,
       })
     },
-    [name, workspace_uuid, setStatus, setErrors],
+    [
+      workspace_uuid,
+      medicalUuid,
+      title,
+      name,
+      year,
+      diagnostic,
+      classRoom,
+      bout,
+      birthdate,
+      father,
+      mother,
+      description,
+      setStatus,
+      setErrors,
+    ],
   )
 
   return (
@@ -110,7 +167,6 @@ export default function Leave() {
                 id="first-name"
                 value={title ?? ''}
                 handleOnChange={(value) => setTitle(value)}
-                placeholder=""
                 autoComplete="given-name"
                 className="block w-full max-w-lg rounded-md sm:max-w-xs"
               />
@@ -151,8 +207,8 @@ export default function Leave() {
               <Input
                 type="text"
                 name="class"
-                value={classroom ?? ''}
-                handleOnChange={(value) => setClassroom(value)}
+                value={classRoom ?? ''}
+                handleOnChange={(value) => setClassRoom(value)}
                 className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
               />
               <Label> Turno:</Label>
@@ -203,10 +259,11 @@ export default function Leave() {
               2. Diagnóstico e a data do último laudo:
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
-              <Textarea 
-                name="diagnosis"
-                defaultValue={diagnostic ?? ''}
-                handleOnChange={(value) => setDiagnostic(value)} />
+              <Textarea
+                name="diagnostic"
+                value={diagnostic ?? ''}
+                handleOnChange={(event) => setDiagnostic(event.target.value)}
+              />
             </div>
           </div>
 
@@ -217,15 +274,15 @@ export default function Leave() {
               3. Nome e Especialidade do profissional responsável pelo
               diagnóstico:
             </Label>
-            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
-            </div>
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5"></div>
 
             <Select
               defaultValue={medicalUuid}
+              handleOnChange={(e) => setMedicalUuid(e.target.value)}
             >
-              {specialists.map((specialist) => (
-                <option key={specialist.uuid} value={specialist.uuid}>
-                  {specialist.name}
+              {specialists.map((item: SpecialistType) => (
+                <option key={item.uuid} value={item.uuid}>
+                  {item.name}
                 </option>
               ))}
             </Select>
@@ -239,12 +296,161 @@ export default function Leave() {
               caso:
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
-              <Textarea 
-                name="diagnosis"
-                defaultValue={description ?? ''}
-                handleOnChange={(value) => setDescription(value)} 
+              <Textarea
+                name="description"
+                value={description ?? ''}
+                handleOnChange={(event) => setDescription(event.target.value)}
                 className="h-52"
               />
+            </div>
+          </div>
+
+          {/* 5. Tipos de tratamento clínico...*/}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              5. Realiza algum tipo de atendimento clínico, terapêutico ou
+              atividades extracurriculares?
+            </Label>
+
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              <table className="text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
+                      Especialidade
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Local
+                    </th>
+                    <th className="border-r px-3 py-2 dark:border-neutral-500">
+                      Profissional
+                    </th>
+                    <th className="border-r px-7 py-2 dark:border-neutral-500">
+                      Dia
+                    </th>
+                    <th className="border-r px-4 py-2 dark:border-neutral-500">
+                      Horário
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Contato
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        className="flex justify-evenly items-center"
+                        onClick={() => addInputFields()}
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {specialtys.length === 0 ? (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
+                    </tr>
+                  ) : (
+                    specialtys.map((item: SpecialtysType, index) => (
+                      <tr
+                        key={index}
+                        className="border-b dark:border-neutral-500"
+                      >
+                        <td className="whitespace-nowrap border-r px-4 py-2 font-medium dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name="nameSpecialtys"
+                            id="nameSpecialtys"
+                            value={item.name || ''}
+                            handleOnChange={(value) =>
+                              handleChange(index, 'name', value)
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name="location"
+                            id="location"
+                            value={item.location || ''}
+                            handleOnChange={(value) =>
+                              handleChange(index, 'location', value)
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name="professional"
+                            id="professional"
+                            value={item.professional || ''}
+                            handleOnChange={(value) =>
+                              handleChange(index, 'professional', value)
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name="day"
+                            id="day"
+                            value={item.day || ''}
+                            handleOnChange={(value) =>
+                              handleChange(index, 'day', value)
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name="hour"
+                            id="hour"
+                            value={item.hour || ''}
+                            handleOnChange={(value) =>
+                              handleChange(index, 'hour', value)
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name="contact"
+                            id="contact"
+                            value={item.contact || ''}
+                            handleOnChange={(value) =>
+                              handleChange(index, 'contact', value)
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                          <button
+                            type="button"
+                            className="remove"
+                            onClick={() => removeInputFields(index)}
+                          >
+                            <TrashIcon
+                              className="h-4 w-4 text-gray-ring-gray-600"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

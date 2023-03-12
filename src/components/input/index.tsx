@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, ChangeEvent } from 'react'
 
 interface InputProps {
   id?: string
+  defaultValue?: string
   name?: string
   type?: 'text' | 'search' | 'password' | 'email' | 'checkbox' | 'date'
   placeholder?: string
@@ -27,7 +28,7 @@ export default function Input({
       value={value}
       type={type}
       required={required}
-      className={`${className} border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm`}
+      className={`${className} border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500`}
       placeholder={placeholder || 'type here...'}
       onChange={(e: ChangeEvent<HTMLInputElement>) =>
         handleOnChange(e.target.value)

@@ -1,4 +1,4 @@
-import internal from "stream"
+import internal from 'stream'
 
 export interface Requests {
   id: string
@@ -56,6 +56,18 @@ export interface FormType {
   updated_at: string
   author: string
   medical_uuid: string
+
+  specialtys: SpecialtysType[]
+}
+
+export interface SpecialtysType {
+  uuid: string
+  name: string
+  location: string
+  professional: string
+  day: string
+  hour: string
+  contact: string
 }
 
 export interface SpecialistType {
