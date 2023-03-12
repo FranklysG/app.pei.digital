@@ -27,7 +27,7 @@ export default function Leave() {
   const [title, setTitle] = useState<string>('')
   const [name, setName] = useState<string>('')
   const [year, setYear] = useState<string>('')
-  const [classroom, setClassroom] = useState<string>('')
+  const [classRoom, setClassRoom] = useState<string>('')
   const [bout, setBout] = useState<string>('')
   const [birthdate, setBirthdate] = useState<string>('')
   const [father, setFather] = useState<string>('')
@@ -53,7 +53,7 @@ export default function Leave() {
 
           setName(item.name)
           setYear(item.year)
-          setClassroom(item.class)
+          setClassRoom(item.class)
           setBout(item.bout)
           setBirthdate(item.birthdate)
           setFather(item.father)
@@ -91,21 +91,39 @@ export default function Leave() {
 
       if (currentUuid !== '') {
         update({
-          uuid: currentUuid,
-          name,
-          setStatus,
           setErrors,
+          setStatus,
+          uuid: currentUuid,
+          specialist_uuid: medicalUuid,
+          name,
+          year,
+          class: classRoom,
+          bout,
+          birthdate,
+          father,
+          mother,
+          diagnostic,
+          description,
         })
         return
       }
       create({
-        name,
-        workspace_uuid,
-        setStatus,
         setErrors,
+        setStatus,
+        workspace_uuid,
+        specialist_uuid: medicalUuid,
+        name,
+        year,
+        class: classRoom,
+        bout,
+        birthdate,
+        father,
+        mother,
+        diagnostic,
+        description,
       })
     },
-    [name, workspace_uuid, setStatus, setErrors],
+    [name, workspace_uuid, name, year, classRoom, bout, birthdate, father, mother, diagnostic, description, medicalUuid, setStatus, setErrors],
   )
 
   return (
@@ -171,8 +189,8 @@ export default function Leave() {
               <Input
                 type="text"
                 name="class"
-                value={classroom ?? ''}
-                handleOnChange={(value) => setClassroom(value)}
+                value={classRoom ?? ''}
+                handleOnChange={(value) => setClassRoom(value)}
                 className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
               />
               <Label> Turno:</Label>

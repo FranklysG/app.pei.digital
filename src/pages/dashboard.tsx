@@ -18,7 +18,7 @@ import Leave from './leave'
 import { classNames, generateGreetings } from '../utils'
 
 export default function Dashboard() {
-  const { forms } = useForm()
+  const { forms, setCurrentUuid } = useForm()
   const { user, verified } = useAuth()
   const { openPanel, setOpenPanel } = useGlobal()
   const [hour, setHour] = useState(moment().format('HH'))
@@ -94,7 +94,10 @@ export default function Dashboard() {
                   <button
                     type="button"
                     className="flex items-center justify-center rounded-full bg-cyan-600 p-2 text-white hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
-                    onClick={() => setOpenPanel(!openPanel)}
+                    onClick={() => { 
+                      setCurrentUuid(''); 
+                      setOpenPanel(!openPanel) 
+                    }}
                   >
                     <span className="mr-3">Adicionar novo formulário</span>
                     <PlusIcon className="h-6 w-6" aria-hidden="true" />
