@@ -15,7 +15,8 @@ import Input from '../components/input'
 import Label from '../components/label'
 import Textarea from '../components/textarea'
 import Select from '../components/select'
-import { SpecialtysType } from '../@types'
+
+import { SpecialistType, SpecialtysType } from '../@types'
 
 export default function Leave() {
   const { setMiddleware } = useAuth()
@@ -91,39 +92,56 @@ export default function Leave() {
 
       if (currentUuid !== '') {
         update({
-          setErrors,
-          setStatus,
           uuid: currentUuid,
           specialist_uuid: medicalUuid,
+          title,
           name,
           year,
+          diagnostic,
           class: classRoom,
           bout,
           birthdate,
           father,
           mother,
-          diagnostic,
           description,
+          setErrors,
+          setStatus,
         })
         return
       }
       create({
-        setErrors,
-        setStatus,
         workspace_uuid,
         specialist_uuid: medicalUuid,
+        title,
         name,
         year,
+        diagnostic,
         class: classRoom,
         bout,
         birthdate,
         father,
         mother,
-        diagnostic,
         description,
+        setErrors,
+        setStatus,
       })
     },
-    [name, workspace_uuid, name, year, classRoom, bout, birthdate, father, mother, diagnostic, description, medicalUuid, setStatus, setErrors],
+    [
+      workspace_uuid,
+      medicalUuid,
+      title,
+      name,
+      year,
+      diagnostic,
+      classRoom,
+      bout,
+      birthdate,
+      father,
+      mother,
+      description,
+      setStatus,
+      setErrors,
+    ],
   )
 
   return (
@@ -242,9 +260,9 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name="diagnosis"
-                defaultValue={diagnostic ?? ''}
-                handleOnChange={(value) => setDiagnostic(value)}
+                name="diagnostic"
+                value={diagnostic ?? ''}
+                handleOnChange={(event) => setDiagnostic(event.target.value)}
               />
             </div>
           </div>
@@ -258,10 +276,13 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5"></div>
 
-            <Select defaultValue={medicalUuid}>
-              {specialists.map((specialist) => (
-                <option key={specialist.uuid} value={specialist.uuid}>
-                  {specialist.name}
+            <Select
+              defaultValue={medicalUuid}
+              handleOnChange={(e) => setMedicalUuid(e.target.value)}
+            >
+              {specialists.map((item: SpecialistType) => (
+                <option key={item.uuid} value={item.uuid}>
+                  {item.name}
                 </option>
               ))}
             </Select>
@@ -276,9 +297,9 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name="diagnosis"
-                defaultValue={description ?? ''}
-                handleOnChange={(value) => setDescription(value)}
+                name="description"
+                value={description ?? ''}
+                handleOnChange={(event) => setDescription(event.target.value)}
                 className="h-52"
               />
             </div>

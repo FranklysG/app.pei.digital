@@ -8,26 +8,24 @@ interface TextareaProps {
   disabled?: boolean
   autoComplete?: string
   required?: boolean
-  handleOnChange?: Dispatch<SetStateAction<string>>
-  value?: string | number
-  defaultValue: string
+  handleOnChange: (data: any) => void
+  value: string
   autoFocus?: boolean
 }
 
-export default function Textarea({   
+export default function Textarea({
   placeholder,
   className,
   required,
-  defaultValue,
-  value
+  value,
+  handleOnChange,
 }: TextareaProps) {
-
   return (
     <textarea
-      defaultValue={defaultValue}
+      value={value}
       required={required}
       placeholder={placeholder || 'type here...'}
-      
+      onChange={handleOnChange}
       className={`${className} resize-none w-full max-w-lg shadow-smborder border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm`}
     />
   )
