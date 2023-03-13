@@ -24,7 +24,7 @@ export default function Textarea({
     <textarea
       value={value}
       required={required}
-      placeholder={placeholder || 'type here...'}
+      placeholder={placeholder || 'Digite aqui...'}
       onChange={handleOnChange}
       className={`${className} block w-full h-full shadow-sm resize-none border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm`}
     />

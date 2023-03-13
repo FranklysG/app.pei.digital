@@ -24,7 +24,7 @@ export default function Select({
       defaultValue={defaultValue}
       value={value}
       onChange={handleOnChange}
-      placeholder={placeholder || 'type here...'}
+      placeholder={placeholder || 'Digite aqui...'}
       className={`${className} resize-none w-full shadow-smborder border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm`}
     >
       {children}

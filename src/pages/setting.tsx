@@ -58,7 +58,7 @@ export default function Setting() {
   )
 
   return (
-    <App header={'Profile'}>
+    <App header={'Configurações'}>
       <article className="max-w-7xl pb-10 lg:py-12 lg:px-8">
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-5">
           {/* Payment details */}
@@ -73,8 +73,8 @@ export default function Setting() {
                         Perfil
                       </h2>
                       <p className="mt-1 text-sm text-gray-500">
-                        Esta informação será exibida publicamente, então esteja
-                        cuidado com o que você compartilha.
+                      Esta informação será exibida publicamente, 
+                      portanto, tenha cuidado ao compartilhar.
                       </p>
                     </div>
 
@@ -144,8 +144,8 @@ export default function Setting() {
                                   htmlFor="mobile-user-photo"
                                   className="pointer-events-none relative text-sm font-medium leading-4 text-gray-700"
                                 >
-                                  <span>Change</span>
-                                  <span className="sr-only"> user photo</span>
+                                  <span>Mudar</span>
+                                  <span className="sr-only"> foto do usuário</span>
                                 </label>
                                 <input
                                   id="mobile-user-photo"
@@ -172,8 +172,8 @@ export default function Setting() {
                             htmlFor="desktop-user-photo"
                             className="absolute inset-0 flex h-full w-full items-center justify-center bg-black bg-opacity-75 text-sm font-medium text-white opacity-0 focus-within:opacity-100 hover:opacity-100"
                           >
-                            <span>Change</span>
-                            <span className="sr-only"> user photo</span>
+                            <span>Mudar</span>
+                            <span className="sr-only"> foto do usuário</span>
                             <input
                               type="file"
                               id="desktop-user-photo"
@@ -194,7 +194,7 @@ export default function Setting() {
                           Privacidade
                         </h2>
                         <p className="mt-1 text-sm text-gray-500">
-                          Termos de uso da aplicação
+                          Termos de uso da aplicação.
                         </p>
                       </div>
                       <ul role="list" className="mt-2 divide-y divide-gray-200">
@@ -205,14 +205,14 @@ export default function Setting() {
                           <div className="flex flex-col">
                             <Switch.Label
                               as="p"
-                              className="text-sm font-medium text-gray-900"
+                              className="text-lg font-medium text-gray-900"
                               passive
                             >
-                              Nome Visivel
+                              Nome Visível  
                             </Switch.Label>
                             <Switch.Description className="text-sm text-gray-500">
-                              Seu nome será visivel a todos que editarem o mesmo
-                              formulario
+                              Seu nome será visível a todos que editarem o mesmo
+                              formulário.
                             </Switch.Description>
                           </div>
                           <Switch

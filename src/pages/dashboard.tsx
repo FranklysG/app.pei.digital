@@ -72,8 +72,8 @@ export default function Dashboard() {
                       </h1>
                     </div>
                     <dl className="flex flex-col ml-16 -mt-9 sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
-                      <dt className="sr-only">Company</dt>
-                      <dt className="sr-only">Account status</dt>
+                      <dt className="sr-only">Empresa</dt>
+                      <dt className="sr-only">Status da Conta</dt>
                       <dd className="mt-3 flex items-center text-sm font-medium capitalize text-gray-500 sm:mr-6 sm:mt-0">
                         <CheckCircleIcon
                           className={classNames(
@@ -111,7 +111,7 @@ export default function Dashboard() {
 
         <div className="mt-8">
           <h2 className="mt-8 px-4 text-xl font-bold leading-6 text-gray-900 sm:px-6 lg:px-8">
-            Ultimas atividades
+            Últimas atividades
           </h2>
 
           {/* Activity list (smallest breakpoint only) */}
@@ -163,13 +163,13 @@ export default function Dashboard() {
                           className="bg-gray-50 px-6 py-3 text-left text-sm font-semibold text-gray-900"
                           scope="col"
                         >
-                          Titulo
+                          Título
                         </th>
                         <th
                           className="bg-gray-50 px-6 py-3 text-right text-sm font-semibold text-gray-900"
                           scope="col"
                         >
-                          responsável
+                          Responsável
                         </th>
                         <th
                           className="hidden bg-gray-50 px-6 py-3 text-left text-sm font-semibold text-gray-900 md:block"
@@ -230,8 +230,8 @@ export default function Dashboard() {
                   >
                     <div className="hidden sm:block">
                       <p className="text-sm text-gray-700">
-                        Encontrados <span className="font-medium">1</span> to{' '}
-                        <span className="font-medium">10</span> of{' '}
+                        Encontrados <span className="font-medium">1</span> a{' '}
+                        <span className="font-medium">10</span> de{' '}
                         <span className="font-medium">20</span> resultados
                       </p>
                     </div>
@@ -246,7 +246,7 @@ export default function Dashboard() {
                         href="#"
                         className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                       >
-                        Proximo
+                        Próximo
                       </a>
                     </div>
                   </nav>

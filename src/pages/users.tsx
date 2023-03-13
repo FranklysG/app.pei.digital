@@ -50,7 +50,7 @@ export default function Users() {
   }
 
   return (
-    <App header={'Usuarios'}>
+    <App header={'Usuários'}>
       <Panel>
         <User />
       </Panel>
@@ -66,7 +66,7 @@ export default function Users() {
                     id="workspace-history-heading"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    Usuarios nessa escola
+                    Usuários nessa escola
                   </h2>
                 </div>
                 <div className="min-w-0 flex-1 mt-5 md:mt-0">
@@ -80,9 +80,9 @@ export default function Users() {
                         setOpenPanel(!openPanel)
                       }}
                     >
-                      <span className="mr-3">Criar usuario</span>
+                      <span className="mr-3">Criar usuário</span>
                       <PlusIcon className="h-6 w-6" aria-hidden="true" />
-                      <span className="sr-only">Criar usuario</span>
+                      <span className="sr-only">Criar usuário</span>
                     </button>
                   </div>
                 </div>
@@ -116,7 +116,7 @@ export default function Users() {
                                 scope="col"
                                 className="px-6 py-3 text-left text-sm font-semibold text-gray-900"
                               >
-                                Regra
+                                Permissão
                               </th>
                               <th
                                 scope="col"
@@ -147,7 +147,7 @@ export default function Users() {
                                     }}
                                     className="text-cyan-600 hover:text-cyan-900"
                                   >
-                                    Edit
+                                    Editar
                                   </button>
                                   <span> / </span>
                                   <button

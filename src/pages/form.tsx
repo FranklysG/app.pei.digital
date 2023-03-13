@@ -46,7 +46,7 @@ export default function Form() {
   }, [])
 
   return (
-    <App header={'Workspaces'}>
+    <App header={'Formulários'}>
       <Panel>
         <Leave />
       </Panel>
@@ -62,7 +62,7 @@ export default function Form() {
                     id="workspace-history-heading"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    Historico de formularios
+                    Histórico de formulários
                   </h2>
                 </div>
                 <div className="mt-6 flex flex-col">
@@ -89,7 +89,7 @@ export default function Form() {
                                 scope="col"
                                 className="px-6 py-3 text-left text-sm font-semibold text-gray-900"
                               >
-                                Name
+                                Nome
                               </th>
                               <th
                                 scope="col"
@@ -117,7 +117,7 @@ export default function Form() {
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
                                   <time dateTime={item.date}>
-                                    {moment(item.date).format('YYYY-MM-DD')}
+                                    {moment(item.date).format('DD-MM-YYYY')}
                                   </time>
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
@@ -126,7 +126,7 @@ export default function Form() {
                                 <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                                   {item.author}
                                 </td>
-                                <td className="whitespace-nowrap text-center px-6 py-4 text-sm text-gray-500">
+                                <td className="whitespace-nowrap text-center px-12 py-4 text-sm text-gray-500">
                                   <ArrowDownOnSquareIcon
                                     className="flex w-5 h-5 cursor-pointer"
                                     onClick={() =>
@@ -142,7 +142,7 @@ export default function Form() {
                                     }}
                                     className="text-cyan-600 hover:text-cyan-900"
                                   >
-                                    Edit
+                                    Editar
                                   </button>
                                   <span> / </span>
                                   <button
