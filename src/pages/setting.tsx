@@ -73,8 +73,8 @@ export default function Setting() {
                         Perfil
                       </h2>
                       <p className="mt-1 text-sm text-gray-500">
-                      Esta informação será exibida publicamente, 
-                      portanto, tenha cuidado ao compartilhar.
+                        Esta informação será exibida publicamente, portanto,
+                        tenha cuidado ao compartilhar.
                       </p>
                     </div>
 
@@ -145,7 +145,10 @@ export default function Setting() {
                                   className="pointer-events-none relative text-sm font-medium leading-4 text-gray-700"
                                 >
                                   <span>Mudar</span>
-                                  <span className="sr-only"> foto do usuário</span>
+                                  <span className="sr-only">
+                                    {' '}
+                                    foto do usuário
+                                  </span>
                                 </label>
                                 <input
                                   id="mobile-user-photo"
@@ -208,7 +211,7 @@ export default function Setting() {
                               className="text-lg font-medium text-gray-900"
                               passive
                             >
-                              Nome Visível  
+                              Nome Visível
                             </Switch.Label>
                             <Switch.Description className="text-sm text-gray-500">
                               Seu nome será visível a todos que editarem o mesmo

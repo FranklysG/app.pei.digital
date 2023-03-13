@@ -38,7 +38,7 @@ export default function Leave() {
   const [diagnostic, setDiagnostic] = useState<string>('')
   const [description, setDescription] = useState<string>('')
 
-  const [specialtys, setSpecialtys] = useState([])
+  const [specialtys, setSpecialtys] = useState<SpecialtysType[]>([])
 
   const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
@@ -66,24 +66,33 @@ export default function Leave() {
           setSpecialtys(item.specialtys)
         })
     }
+  }, [currentUuid])
+
+  useEffect(() => {
     errors.length > 0 && errors.map((error) => toast.error(error))
   }, [errors])
 
-  const handleChange = (index, id, value) => {
-    let newValues = [...specialtys]
-    newValues[index][id] = value
-    setSpecialtys(newValues)
-  }
+  const handleChange = useCallback(
+    (index, name, value) => {
+      let newValues = [...specialtys]
+      newValues[index][name] = value
+      setSpecialtys(newValues)
+    },
+    [specialtys],
+  )
 
-  const addInputFields = () => {
-    setSpecialtys([...specialtys, []])
-  }
+  const addInputFields = useCallback(() => {
+    setSpecialtys([...specialtys, [] as never])
+  }, [specialtys])
 
-  const removeInputFields = (i) => {
-    let newInputValues = [...specialtys]
-    newInputValues.splice(i, 1)
-    setSpecialtys(newInputValues)
-  }
+  const removeInputFields = useCallback(
+    (i) => {
+      let newInputValues = [...specialtys]
+      newInputValues.splice(i, 1)
+      setSpecialtys(newInputValues)
+    },
+    [specialtys],
+  )
 
   const submitForm = useCallback(
     async (event: any) => {
@@ -126,7 +135,6 @@ export default function Leave() {
         specialtys,
         setErrors,
         setStatus,
-
       })
     },
     [
@@ -188,8 +196,8 @@ export default function Leave() {
               <Label>Nome:</Label>
               <Input
                 type="text"
-                name="name"
-                id="name"
+                name="name-student"
+                id="name-student"
                 value={name ?? ''}
                 handleOnChange={(value) => setName(value)}
                 placeholder=""
@@ -367,8 +375,8 @@ export default function Leave() {
                         <td className="whitespace-nowrap border-r px-4 py-2 font-medium dark:border-neutral-500">
                           <Input
                             type="text"
-                            name="nameSpecialtys"
-                            id="nameSpecialtys"
+                            name="name"
+                            id="name"
                             value={item.name || ''}
                             handleOnChange={(value) =>
                               handleChange(index, 'name', value)
