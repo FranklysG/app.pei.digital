@@ -104,6 +104,7 @@ export default function Leave() {
           father,
           mother,
           description,
+          specialtys,
           setErrors,
           setStatus,
         })
@@ -122,8 +123,10 @@ export default function Leave() {
         father,
         mother,
         description,
+        specialtys,
         setErrors,
         setStatus,
+
       })
     },
     [
@@ -139,6 +142,7 @@ export default function Leave() {
       father,
       mother,
       description,
+      specialtys,
       setStatus,
       setErrors,
     ],
@@ -199,7 +203,7 @@ export default function Leave() {
                 name="DateOfBirth"
                 value={birthdate ?? ''}
                 handleOnChange={(value) => setBirthdate(value)}
-                className="block w-32 rounded-md shadow-sm sm:max-w-xs"
+                className="block w-36 rounded-md shadow-sm sm:max-w-xs"
               />
             </div>
 

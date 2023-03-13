@@ -18,14 +18,14 @@ import { useAuth } from '../../hooks/useAuth'
 const navigation = [{ name: 'Dashboard', href: '/dashboard', icon: HomeIcon }]
 const secondaryNavigation = [
   {
-    name: 'Formularios',
+    name: 'Formulários',
     href: '/form',
     icon: SquaresPlusIcon,
   },
-  { name: 'Users', href: '/users', icon: UsersIcon },
-  { name: 'Settings', href: '/setting', icon: CogIcon },
-  { name: 'Help', href: '#', icon: QuestionMarkCircleIcon },
-  { name: 'Privacy', href: '#', icon: ShieldCheckIcon },
+  { name: 'Usuários', href: '/users', icon: UsersIcon },
+  { name: 'Configurações', href: '/setting', icon: CogIcon },
+  { name: 'Ajuda', href: '#', icon: QuestionMarkCircleIcon },
+  { name: 'Privacidade', href: '#', icon: ShieldCheckIcon },
 ]
 
 interface SidebarProps {}
@@ -81,7 +81,7 @@ export default function Sidebar({}: SidebarProps) {
                       className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                       onClick={() => setOpenSidebar(!openSidebar)}
                     >
-                      <span className="sr-only">Close sidebar</span>
+                      <span className="sr-only">Fechar barra lateral</span>
                       <XMarkIcon
                         className="h-6 w-6 text-white"
                         aria-hidden="true"

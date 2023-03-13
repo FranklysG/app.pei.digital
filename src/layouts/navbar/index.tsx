@@ -24,7 +24,7 @@ export default function Navbar() {
         className="border-r border-gray-200 px-4 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden"
         onClick={() => setOpenSidebar(!openSidebar)}
       >
-        <span className="sr-only">Open sidebar</span>
+        <span className="sr-only">Abrir barra lateral</span>
         <Bars3CenterLeftIcon className="h-6 w-6" aria-hidden="true" />
       </button>
       <div className="flex flex-1 justify-between px-4 sm:px-6 lg:px-8">
@@ -44,7 +44,7 @@ export default function Navbar() {
                 id="search-field"
                 name="search-field"
                 className="block h-full w-full border-transparent py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
-                placeholder="Buscar formularios"
+                placeholder="Buscar formulários"
                 type="search"
               />
             </div>
@@ -55,7 +55,7 @@ export default function Navbar() {
             type="button"
             className="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
           >
-            <span className="sr-only">View notifications</span>
+            <span className="sr-only">Ver notificações</span>
             <BellIcon className="h-6 w-6" aria-hidden="true" />
           </button>
 
@@ -74,7 +74,7 @@ export default function Navbar() {
                   />
                 </picture>
                 <span className="ml-3 hidden text-sm font-medium text-gray-700 lg:block">
-                  <span className="sr-only">Open user menu for </span>Emilia
+                  <span className="sr-only">Abrir menu de usuário para </span>Emilia
                   Birch
                 </span>
                 <ChevronDownIcon
