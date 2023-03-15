@@ -82,8 +82,8 @@ export default function Leave() {
   )
 
   const addInputFields = useCallback(() => {
-    setSpecialtys([...specialtys, [] as never])
-  }, [specialtys])
+    setSpecialtys((prevState) => [...prevState, [] as never])
+  }, [])
 
   const removeInputFields = useCallback(
     (i) => {

@@ -52,14 +52,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         }),
   )
 
-  const csrf = useCallback(
-    async () => await axios.get('/sanctum/csrf-cookie'),
-    [],
-  )
-
   const register = useCallback(async ({ setErrors, ...props }: any) => {
-    await csrf()
-
     setErrors([])
     await axios
       .post('/register', props)
@@ -75,14 +68,20 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, [])
 
   const login = useCallback(async ({ setErrors, setStatus, ...props }: any) => {
-    await csrf()
-
     setErrors([])
     setStatus(null)
 
     await axios
       .post('/login', props)
-      .then(() => mutate())
+      .then((response) => response.data)
+      .then((data) => {
+        axios.interceptors.request.use((config) => {
+          const token = data.token
+          config.headers.Authorization = `Bearer ${token}`
+          return config
+        })
+        return mutate()
+      })
       .catch((error) => {
         if (error.response.status !== 422) {
           console.log(error)
@@ -95,8 +94,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   const forgotPassword = useCallback(
     async ({ setErrors, setStatus, email }: any) => {
-      await csrf()
-
       setErrors([])
       setStatus(null)
 
@@ -117,8 +114,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   const resetPassword = useCallback(
     async ({ setErrors, setStatus, ...props }: any) => {
-      await csrf()
-
       setErrors([])
       setStatus(null)
 
