@@ -144,20 +144,16 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, [])
 
   const logout = useCallback(async () => {
-    if (!error) {
-      document.cookie =
-        'peidigital-session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
-      await axios
-        .post('/logout')
-        .then(() => {
-          router.push('/signin')
-          mutate()
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    }
-  }, [error])
+    await axios
+      .post('/logout')
+      .then(() => {
+        router.push('/signin')
+        mutate()
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
 
   useEffect(() => {
     if (middleware === 'guest' && redirectIfAuthenticated && user) {
