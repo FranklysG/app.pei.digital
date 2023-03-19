@@ -68,7 +68,7 @@ export default function Sidebar({}: SidebarProps) {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-cyan-700 pt-5 pb-4">
+              <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-pink-700 pt-5 pb-4">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-in-out duration-300"
@@ -110,8 +110,8 @@ export default function Sidebar({}: SidebarProps) {
                         <a
                           className={classNames(
                             current === item.href
-                              ? 'bg-cyan-800 text-white'
-                              : 'text-cyan-100 hover:text-white hover:bg-cyan-600',
+                              ? 'bg-pink-800 text-white'
+                              : 'text-cyan-100 hover:text-white hover:bg-pink-600',
                             'group flex items-center px-2 py-2 text-base font-medium rounded-md',
                           )}
                           aria-current={
@@ -137,8 +137,8 @@ export default function Sidebar({}: SidebarProps) {
                           <a
                             className={classNames(
                               current === item.href
-                                ? 'bg-cyan-800 text-white'
-                                : 'text-cyan-100 hover:text-white hover:bg-cyan-600',
+                                ? 'bg-pink-800 text-white'
+                                : 'text-cyan-100 hover:text-white hover:bg-pink-600',
                               'group flex items-center px-2 py-2 text-base font-medium rounded-md',
                             )}
                             aria-current={
@@ -171,7 +171,7 @@ export default function Sidebar({}: SidebarProps) {
       {/* Static sidebar for desktop */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col z-[1]">
         {/* Sidebar component, swap this element with another sidebar if you like */}
-        <div className="flex flex-grow flex-col overflow-y-auto bg-cyan-700 pt-5 pb-4">
+        <div className="flex flex-grow flex-col overflow-y-auto bg-pink-700 pt-5 pb-4">
           <div className="flex flex-shrink-0 items-center px-4">
             <Link href="/">
               <h1 className="text-2xl font-bold leading-7 text-white sm:truncate sm:leading-9">
@@ -190,8 +190,8 @@ export default function Sidebar({}: SidebarProps) {
                   <a
                     className={classNames(
                       current === item.href
-                        ? 'bg-cyan-800 text-white'
-                        : 'text-cyan-100 hover:text-white hover:bg-cyan-600',
+                        ? 'bg-pink-800 text-white'
+                        : 'text-cyan-100 hover:text-white hover:bg-pink-600',
                       'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md',
                     )}
                     aria-current={current === item.href ? 'page' : undefined}
@@ -212,8 +212,8 @@ export default function Sidebar({}: SidebarProps) {
                     <a
                       className={classNames(
                         current === item.href
-                          ? 'bg-cyan-800 text-white'
-                          : 'text-cyan-100 hover:text-white hover:bg-cyan-600',
+                          ? 'bg-pink-800 text-white'
+                          : 'text-cyan-100 hover:text-white hover:bg-pink-600',
                         'group flex items-center px-2 py-2 text-base font-medium rounded-md',
                       )}
                       aria-current={current === item.href ? 'page' : undefined}
