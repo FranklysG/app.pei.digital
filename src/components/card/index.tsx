@@ -31,7 +31,7 @@ export default function Card({ name, href, icon, amount }: cardProps) {
         <div className="text-sm">
           <a
             href={href}
-            className="font-medium text-cyan-700 hover:text-cyan-900"
+            className="font-medium text-pink-700 hover:text-pink-900"
           >
             View all
           </a>

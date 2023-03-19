@@ -95,7 +95,7 @@ export default function Setting() {
                             placeholder={'Adicione seu nome'}
                             handleOnChange={(value) => setFirstName(value)}
                             autoComplete="given-name"
-                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm"
+                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-pink-500 focus:outline-none focus:ring-pink-500 sm:text-sm"
                           />
                         </div>
 
@@ -114,7 +114,7 @@ export default function Setting() {
                             placeholder={'Adicione seu sobrenome'}
                             handleOnChange={(value) => setLastName(value)}
                             autoComplete="family-name"
-                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-cyan-500 focus:outline-none focus:ring-cyan-500 sm:text-sm"
+                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-pink-500 focus:outline-none focus:ring-pink-500 sm:text-sm"
                           />
                         </div>
                       </div>
@@ -139,7 +139,7 @@ export default function Setting() {
                               </picture>
                             </div>
                             <div className="ml-5 rounded-md shadow-sm">
-                              <div className="group relative flex items-center justify-center rounded-md border border-gray-300 py-2 px-3 focus-within:ring-2 focus-within:ring-cyan-500 focus-within:ring-offset-2 hover:bg-gray-50">
+                              <div className="group relative flex items-center justify-center rounded-md border border-gray-300 py-2 px-3 focus-within:ring-2 focus-within:ring-pink-500 focus-within:ring-offset-2 hover:bg-gray-50">
                                 <label
                                   htmlFor="mobile-user-photo"
                                   className="pointer-events-none relative text-sm font-medium leading-4 text-gray-700"
@@ -223,7 +223,7 @@ export default function Setting() {
                             onChange={setAvailableToHire}
                             className={classNames(
                               availableToHire ? 'bg-teal-500' : 'bg-gray-200',
-                              'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2',
+                              'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2',
                             )}
                           >
                             <span
@@ -242,13 +242,13 @@ export default function Setting() {
                     <div className="mt-4 flex justify-end py-4 px-4 sm:px-6">
                       <button
                         type="button"
-                        className="inline-flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
+                        className="inline-flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
                       >
                         Cancelar
                       </button>
                       <button
                         type="submit"
-                        className="ml-5 inline-flex justify-center rounded-md border border-transparent bg-pink-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-sky-800 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
+                        className="ml-5 inline-flex justify-center rounded-md border border-transparent bg-pink-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-sky-800 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
                       >
                         Salvar
                       </button>

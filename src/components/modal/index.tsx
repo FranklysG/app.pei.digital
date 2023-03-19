@@ -54,7 +54,7 @@ export default function Modal() {
                   <div className="sm:flex sm:items-start">
                     <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-pink-100 sm:mx-0 sm:h-10 sm:w-10">
                       <InformationCircleIcon
-                        className="h-6 w-6 text-cyan-600"
+                        className="h-6 w-6 text-pink-600"
                         aria-hidden="true"
                       />
                     </div>

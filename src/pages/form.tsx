@@ -128,7 +128,7 @@ export default function Form() {
                                 </td>
                                 <td className="whitespace-nowrap text-center px-12 py-4 text-sm text-gray-500">
                                   <ArrowDownOnSquareIcon
-                                    className="flex w-5 h-5 cursor-pointer"
+                                    className="flex w-5 h-5 cursor-pointer text-pink-600 hover:text-pink-900"
                                     onClick={() =>
                                       handleUserGenerate(item.uuid)
                                     }
@@ -140,7 +140,7 @@ export default function Form() {
                                       setCurrentUuid(item.uuid)
                                       setOpenPanel(!openPanel)
                                     }}
-                                    className="text-cyan-600 hover:text-cyan-900"
+                                    className="text-pink-600 hover:text-pink-900"
                                   >
                                     Editar
                                   </button>
@@ -149,7 +149,7 @@ export default function Form() {
                                     onClick={() => {
                                       handleUserDelete(item.uuid)
                                     }}
-                                    className="text-cyan-600 hover:text-cyan-900"
+                                    className="text-pink-600 hover:text-pink-900"
                                   >
                                     Deletar
                                   </button>

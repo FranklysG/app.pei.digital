@@ -96,12 +96,12 @@ export default function Sidebar({}: SidebarProps) {
                   <Link href="/">
                     <h1 className="text-2xl font-bold leading-7 text-white sm:truncate sm:leading-9">
                       PEI DIGITAL
-                      {/* <Logo className="w-20 h-20 fill-current text-cyan-500" /> */}
+                      {/* <Logo className="w-20 h-20 fill-current text-pink-500" /> */}
                     </h1>
                   </Link>
                 </div>
                 <nav
-                  className="mt-5 h-full flex-shrink-0 divide-y divide-cyan-800 overflow-y-auto"
+                  className="mt-5 h-full flex-shrink-0 divide-y divide-pink-800 overflow-y-auto"
                   aria-label="Sidebar"
                 >
                   <div className="space-y-1 px-2">
@@ -111,7 +111,7 @@ export default function Sidebar({}: SidebarProps) {
                           className={classNames(
                             current === item.href
                               ? 'bg-pink-800 text-white'
-                              : 'text-cyan-100 hover:text-white hover:bg-pink-600',
+                              : 'text-pink-100 hover:text-white hover:bg-pink-600',
                             'group flex items-center px-2 py-2 text-base font-medium rounded-md',
                           )}
                           aria-current={
@@ -122,7 +122,7 @@ export default function Sidebar({}: SidebarProps) {
                           }}
                         >
                           <item.icon
-                            className="mr-4 h-6 w-6 flex-shrink-0 text-cyan-200"
+                            className="mr-4 h-6 w-6 flex-shrink-0 text-pink-200"
                             aria-hidden="true"
                           />
                           {item.name}
@@ -138,7 +138,7 @@ export default function Sidebar({}: SidebarProps) {
                             className={classNames(
                               current === item.href
                                 ? 'bg-pink-800 text-white'
-                                : 'text-cyan-100 hover:text-white hover:bg-pink-600',
+                                : 'text-pink-100 hover:text-white hover:bg-pink-600',
                               'group flex items-center px-2 py-2 text-base font-medium rounded-md',
                             )}
                             aria-current={
@@ -149,7 +149,7 @@ export default function Sidebar({}: SidebarProps) {
                             }}
                           >
                             <item.icon
-                              className="mr-4 h-6 w-6 flex-shrink-0 text-cyan-200"
+                              className="mr-4 h-6 w-6 flex-shrink-0 text-pink-200"
                               aria-hidden="true"
                             />
                             {item.name}
@@ -176,12 +176,12 @@ export default function Sidebar({}: SidebarProps) {
             <Link href="/">
               <h1 className="text-2xl font-bold leading-7 text-white sm:truncate sm:leading-9">
                 PEI DIGITAL
-                {/* <Logo className="w-20 h-20 fill-current text-cyan-500" /> */}
+                {/* <Logo className="w-20 h-20 fill-current text-pink-500" /> */}
               </h1>
             </Link>
           </div>
           <nav
-            className="mt-5 flex flex-1 flex-col divide-y divide-cyan-800 overflow-y-auto"
+            className="mt-5 flex flex-1 flex-col divide-y divide-pink-800 overflow-y-auto"
             aria-label="Sidebar"
           >
             <div className="space-y-1 px-2">
@@ -191,13 +191,13 @@ export default function Sidebar({}: SidebarProps) {
                     className={classNames(
                       current === item.href
                         ? 'bg-pink-800 text-white'
-                        : 'text-cyan-100 hover:text-white hover:bg-pink-600',
+                        : 'text-pink-100 hover:text-white hover:bg-pink-600',
                       'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md',
                     )}
                     aria-current={current === item.href ? 'page' : undefined}
                   >
                     <item.icon
-                      className="mr-4 h-6 w-6 flex-shrink-0 text-cyan-200"
+                      className="mr-4 h-6 w-6 flex-shrink-0 text-pink-200"
                       aria-hidden="true"
                     />
                     {item.name}
@@ -213,7 +213,7 @@ export default function Sidebar({}: SidebarProps) {
                       className={classNames(
                         current === item.href
                           ? 'bg-pink-800 text-white'
-                          : 'text-cyan-100 hover:text-white hover:bg-pink-600',
+                          : 'text-pink-100 hover:text-white hover:bg-pink-600',
                         'group flex items-center px-2 py-2 text-base font-medium rounded-md',
                       )}
                       aria-current={current === item.href ? 'page' : undefined}
@@ -222,7 +222,7 @@ export default function Sidebar({}: SidebarProps) {
                       }}
                     >
                       <item.icon
-                        className="mr-4 h-6 w-6 flex-shrink-0 text-cyan-200"
+                        className="mr-4 h-6 w-6 flex-shrink-0 text-pink-200"
                         aria-hidden="true"
                       />
                       {item.name}

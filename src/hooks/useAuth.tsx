@@ -46,7 +46,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         .get('/api/user')
         .then((res) => res.data)
         .catch((error) => {
-          if (error.response.status !== 409) throw error
+          if (error.response?.status !== 409) throw error
 
           router.push('/verify-email')
         }),
@@ -58,7 +58,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       .post('/register', props)
       .then(() => mutate())
       .catch((error) => {
-        if (error.response.status !== 422) {
+        if (error.response?.status !== 422) {
           console.log(error)
           return
         }
@@ -73,17 +73,14 @@ function AuthProvider({ children }: AuthProviderProps) {
 
     await axios
       .post('/login', props)
-      .then((response) => response.data)
+      .then((response) => response.data.data)
       .then((data) => {
-        axios.interceptors.request.use((config) => {
-          const token = data.token
-          config.headers.Authorization = `Bearer ${token}`
-          return config
-        })
+        const token = data.token
+        localStorage.setItem('@peidigital:token', token)
         return mutate()
       })
       .catch((error) => {
-        if (error.response.status !== 422) {
+        if (error.response?.status !== 422) {
           console.log(error)
           return
         }
@@ -101,7 +98,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         .post('/forgot-password', { email })
         .then((response) => setStatus(response.data.status))
         .catch((error) => {
-          if (error.response.status !== 422) {
+          if (error.response?.status !== 422) {
             console.log(error)
             return
           }
@@ -123,7 +120,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           router.push('/login?reset=' + btoa(response.data.status)),
         )
         .catch((error) => {
-          if (error.response.status !== 422) {
+          if (error.response?.status !== 422) {
             console.log(error)
             return
           }
