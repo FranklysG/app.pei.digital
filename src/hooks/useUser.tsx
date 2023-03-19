@@ -109,9 +109,9 @@ function UserProvider({ children }: UserProviderProps) {
     [],
   )
 
-  useMount(() => {
+  useEffect(() => {
     show()
-  })
+  }, [])
 
   const values = {
     users,

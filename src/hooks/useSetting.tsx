@@ -36,10 +36,6 @@ function SettingProvider({ children }: SettingProviderProps) {
       .catch((error) => {})
   }, [])
 
-  useMount(() => {
-    show()
-  })
-
   const create = useCallback(
     async ({ setErrors, setStatus, ...props }: any) => {
       setErrors([])
@@ -92,6 +88,10 @@ function SettingProvider({ children }: SettingProviderProps) {
     },
     [],
   )
+
+  useEffect(() => {
+    show()
+  }, [])
 
   const values = {
     setting,

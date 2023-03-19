@@ -14,8 +14,8 @@ export default function SignIn() {
 
   const { login, setMiddleware, setRedirectIfAuthenticated } = useAuth()
 
-  const [email, setEmail] = useState('admin@pei.com')
-  const [password, setPassword] = useState('password')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [checkbox, setCheckbox] = useState(false)
   const [errors, setErrors] = useState([])
   const [status, setStatus] = useState<string | string[]>('')

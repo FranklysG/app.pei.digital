@@ -8,7 +8,6 @@ import App from '../layouts/app'
 import Leave from './leave'
 
 import { useForm } from '../hooks/useForm'
-import { useWorkspace } from '../hooks/useWorkspace'
 
 import Toggle from '../components/toggle'
 import { useGlobal } from '../hooks/useGlobal'

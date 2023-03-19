@@ -133,9 +133,9 @@ function FormProvider({ children }: FormProviderProps) {
       .catch((error) => {})
   }, [])
 
-  useMount(() => {
+  useEffect(() => {
     show()
-  })
+  }, [])
 
   const values = {
     forms,

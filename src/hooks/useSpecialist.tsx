@@ -31,9 +31,9 @@ function SpecialistProvider({ children }: SpecialistProviderProps) {
       .catch((error: any) => {})
   }, [])
 
-  useMount(() => {
+  useEffect(() => {
     show()
-  })
+  }, [])
 
   const values = {
     specialists,
