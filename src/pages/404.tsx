@@ -16,7 +16,7 @@ export default function NotFoudPage() {
             </Link>
           </div>
           <div className="flex-shrink-0 my-auto py-16 sm:py-32">
-            <p className="text-sm font-semibold text-cyan-600 uppercase tracking-wide">
+            <p className="text-sm font-semibold text-pink-600 uppercase tracking-wide">
               404 error
             </p>
             <h1 className="mt-2 text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
@@ -27,7 +27,7 @@ export default function NotFoudPage() {
             </p>
             <div className="mt-6">
               <Link href="/">
-                <a className="text-base font-medium text-cyan-600 hover:text-cyan-500">
+                <a className="text-base font-medium text-pink-600 hover:text-pink-500">
                   Go back home<span aria-hidden="true"> &rarr;</span>
                 </a>
               </Link>

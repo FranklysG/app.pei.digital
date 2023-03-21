@@ -46,26 +46,19 @@ function AuthProvider({ children }: AuthProviderProps) {
         .get('/api/user')
         .then((res) => res.data)
         .catch((error) => {
-          if (error.response.status !== 409) throw error
+          if (error.response?.status !== 409) throw error
 
           router.push('/verify-email')
         }),
   )
 
-  const csrf = useCallback(
-    async () => await axios.get('/sanctum/csrf-cookie'),
-    [],
-  )
-
   const register = useCallback(async ({ setErrors, ...props }: any) => {
-    await csrf()
-
     setErrors([])
     await axios
       .post('/register', props)
       .then(() => mutate())
       .catch((error) => {
-        if (error.response.status !== 422) {
+        if (error.response?.status !== 422) {
           console.log(error)
           return
         }
@@ -75,16 +68,19 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, [])
 
   const login = useCallback(async ({ setErrors, setStatus, ...props }: any) => {
-    await csrf()
-
     setErrors([])
     setStatus(null)
 
     await axios
       .post('/login', props)
-      .then(() => mutate())
+      .then((response) => response.data.data)
+      .then((data) => {
+        const token = data.token
+        localStorage.setItem('@peidigital:token', token)
+        return mutate()
+      })
       .catch((error) => {
-        if (error.response.status !== 422) {
+        if (error.response?.status !== 422) {
           console.log(error)
           return
         }
@@ -95,8 +91,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   const forgotPassword = useCallback(
     async ({ setErrors, setStatus, email }: any) => {
-      await csrf()
-
       setErrors([])
       setStatus(null)
 
@@ -104,7 +98,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         .post('/forgot-password', { email })
         .then((response) => setStatus(response.data.status))
         .catch((error) => {
-          if (error.response.status !== 422) {
+          if (error.response?.status !== 422) {
             console.log(error)
             return
           }
@@ -117,8 +111,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   const resetPassword = useCallback(
     async ({ setErrors, setStatus, ...props }: any) => {
-      await csrf()
-
       setErrors([])
       setStatus(null)
 
@@ -128,7 +120,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           router.push('/login?reset=' + btoa(response.data.status)),
         )
         .catch((error) => {
-          if (error.response.status !== 422) {
+          if (error.response?.status !== 422) {
             console.log(error)
             return
           }
@@ -149,20 +141,16 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, [])
 
   const logout = useCallback(async () => {
-    if (!error) {
-      document.cookie =
-        'peidigital-session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
-      await axios
-        .post('/logout')
-        .then(() => {
-          router.push('/signin')
-          mutate()
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    }
-  }, [error])
+    await axios
+      .post('/logout')
+      .then(() => {
+        router.push('/signin')
+        mutate()
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
 
   useEffect(() => {
     if (middleware === 'guest' && redirectIfAuthenticated && user) {

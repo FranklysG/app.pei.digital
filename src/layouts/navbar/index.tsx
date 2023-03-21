@@ -21,7 +21,7 @@ export default function Navbar() {
     <div className="flex h-16 flex-shrink-0 border-b border-gray-200 bg-white lg:border-none">
       <button
         type="button"
-        className="border-r border-gray-200 px-4 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden"
+        className="border-r border-gray-200 px-4 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-pink-500 lg:hidden"
         onClick={() => setOpenSidebar(!openSidebar)}
       >
         <span className="sr-only">Abrir barra lateral</span>
@@ -53,7 +53,7 @@ export default function Navbar() {
         <div className="ml-4 flex items-center md:ml-6">
           <button
             type="button"
-            className="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
+            className="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
           >
             <span className="sr-only">Ver notificações</span>
             <BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -62,7 +62,7 @@ export default function Navbar() {
           {/* Profile dropdown */}
           <Menu as="div" className="relative ml-3">
             <div>
-              <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 lg:rounded-md lg:p-2 lg:hover:bg-gray-50">
+              <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 lg:rounded-md lg:p-2 lg:hover:bg-gray-50">
                 <picture>
                   <source src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
                   <img

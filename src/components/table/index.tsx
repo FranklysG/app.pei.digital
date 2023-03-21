@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react'
 
 interface TableProps {
   children?: ReactNode
@@ -6,7 +6,5 @@ interface TableProps {
 }
 
 export default function Table({ children, className }: TableProps) {
-  return (
-    console.log('a')
-  )
+  return console.log('a')
 }

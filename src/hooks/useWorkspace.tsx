@@ -34,9 +34,9 @@ function WorkspaceProvider({ children }: WorkspaceProviderProps) {
       .catch((error) => {})
   }, [])
 
-  useMount(() => {
+  useEffect(() => {
     show()
-  })
+  }, [])
 
   const values = {
     workspace,

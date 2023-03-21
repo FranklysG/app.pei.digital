@@ -52,7 +52,7 @@ export default function SignUp() {
           <p className="mt-2 text-sm text-gray-600">
             Or{' '}
             <Link href="signin">
-              <a className="font-medium text-cyan-600 hover:text-cyan-500">
+              <a className="font-medium text-pink-600 hover:text-pink-500">
                 Sign in
               </a>
             </Link>

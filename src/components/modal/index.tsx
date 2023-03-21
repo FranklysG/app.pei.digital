@@ -1,11 +1,9 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
-import { useIntegration } from '../../hooks/useIntegration'
 import { toast } from 'react-toastify'
 
 export default function Modal() {
-  const { create } = useIntegration()
   const [open, setOpen] = useState(true)
   const [errors, setErrors] = useState([])
   const [status, setStatus] = useState<string | string[]>('')
@@ -17,7 +15,6 @@ export default function Modal() {
   }, [errors])
 
   const handleUsercreate = useCallback(async () => {
-    create({ name: name, setErrors, setStatus })
     setOpen(false)
   }, [name])
 
@@ -55,9 +52,9 @@ export default function Modal() {
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
-                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-cyan-100 sm:mx-0 sm:h-10 sm:w-10">
+                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-pink-100 sm:mx-0 sm:h-10 sm:w-10">
                       <InformationCircleIcon
-                        className="h-6 w-6 text-cyan-600"
+                        className="h-6 w-6 text-pink-600"
                         aria-hidden="true"
                       />
                     </div>
@@ -90,7 +87,7 @@ export default function Modal() {
                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-cyan-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
+                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-pink-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
                     onClick={() => handleUsercreate()}
                   >
                     Create integration

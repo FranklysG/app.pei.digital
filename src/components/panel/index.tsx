@@ -61,7 +61,7 @@ export default function Panel({ children }: PanelProps) {
                   </div>
                 </Transition.Child>
                 <div
-                  className="px-10 mt-5 h-full flex-shrink-0 divide-y divide-cyan-800 overflow-y-auto"
+                  className="px-10 mt-5 h-full flex-shrink-0 divide-y divide-pink-800 overflow-y-auto"
                   aria-label="Panel"
                 >
                   {children}

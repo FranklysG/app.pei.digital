@@ -13,7 +13,7 @@ const Toggle = ({}: ToggleProps) => {
         checked={enable}
         onChange={setEnable}
         className={classNames(
-          enable ? 'bg-cyan-700' : 'bg-gray-200',
+          enable ? 'bg-pink-700' : 'bg-gray-200',
           'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2',
         )}
       >
