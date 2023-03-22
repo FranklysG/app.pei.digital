@@ -47,13 +47,13 @@ export default function SignUp() {
             </a>
           </Link>
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-            Register to your account
+            Registre-se com sua conta
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Or{' '}
+            Ou{' '}
             <Link href="signin">
               <a className="font-medium text-pink-600 hover:text-pink-500">
-                Sign in
+                Entrar
               </a>
             </Link>
           </p>
@@ -70,7 +70,7 @@ export default function SignUp() {
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="px-2 bg-white text-gray-500">
-                  Or continue with
+                  Ou continue com
                 </span>
               </div>
             </div>
@@ -80,7 +80,7 @@ export default function SignUp() {
             <form onSubmit={submitForm} className="space-y-6">
               {/* Name */}
               <div>
-                <Label>Name</Label>
+                <Label>Nome</Label>
 
                 <Input
                   id="name"
@@ -106,7 +106,7 @@ export default function SignUp() {
 
               {/* Password */}
               <div className="mt-4">
-                <Label>Password</Label>
+                <Label>Senha</Label>
 
                 <Input
                   id="password"
@@ -120,7 +120,7 @@ export default function SignUp() {
 
               {/* Confirm Password */}
               <div className="mt-4">
-                <Label>Confirm Password</Label>
+                <Label>Confirmar senha</Label>
 
                 <Input
                   id="passwordConfirmation"
@@ -132,7 +132,7 @@ export default function SignUp() {
               </div>
 
               <div className="flex items-center justify-end mt-4">
-                <Button>Register</Button>
+                <Button>Registrar</Button>
               </div>
             </form>
           </div>

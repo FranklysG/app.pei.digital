@@ -31,7 +31,7 @@ export default function Input({
         value={value}
         type={type}
         required={required}
-        className={`${className} text-sm border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500`}
+        className={`${className} text-sm border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 checked:bg-pink-500 checked:hover:bg-pink-500 checked:focus:bg-pink-500`}
         placeholder={placeholder || 'Digite aqui...'}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           handleOnChange(e.target.value)

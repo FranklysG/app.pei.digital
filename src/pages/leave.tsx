@@ -516,7 +516,7 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-cyan-600 text-white" colSpan={3}>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
                       Aspectos cognitivos
                     </th>
                   </tr>
@@ -599,7 +599,7 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-cyan-600 text-white" colSpan={3}>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
                       Aspectos sociais e psicoafetivos
                     </th>
                   </tr>
@@ -682,7 +682,7 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-cyan-600 text-white" colSpan={3}>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
                       Aspectos comunicacionais
                     </th>
                   </tr>
@@ -765,7 +765,7 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-cyan-600 text-white" colSpan={3}>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
                       Aspectos motoras/psicomotoras
                     </th>
                   </tr>
@@ -848,7 +848,7 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-cyan-600 text-white" colSpan={3}>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
                       Aspectos do Cotidiano
                     </th>
                   </tr>
@@ -957,7 +957,7 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-cyan-600 text-white" colSpan={6}>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
                       Matemática
                     </th>
                   </tr>
@@ -1085,7 +1085,7 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-cyan-600 text-white" colSpan={6}>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
                       Linguagens (Língua Portuguesa, Lingua Inglesa, Arte, Educação Física)
                     </th>
                   </tr>
@@ -1213,7 +1213,7 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-cyan-600 text-white" colSpan={6}>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
                       Ciências da Natureza
                     </th>
                   </tr>
@@ -1341,7 +1341,7 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-cyan-600 text-white" colSpan={6}>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
                       Ciências Humanas (Humanas e Geografia)
                     </th>
                   </tr>
@@ -1469,7 +1469,7 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-cyan-600 text-white" colSpan={6}>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
                       Ensino Religioso
                     </th>
                   </tr>
@@ -1597,7 +1597,7 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-cyan-600 text-white" colSpan={6}>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
                       Atividades vida diária
                     </th>
                   </tr>
