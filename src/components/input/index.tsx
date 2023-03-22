@@ -26,18 +26,18 @@ export default function Input({
   label
 }: InputProps) {
   return (
-    <label className="flex items-center font-medium text-sm text-gray-700`}">
+    <div>
       <input
         value={value}
         type={type}
         required={required}
-        className={`${className} text-sm border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 checked:bg-pink-500 checked:hover:bg-pink-500 checked:focus:bg-pink-500`}
+        className={`${className} mr-2 text-sm border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 checked:bg-pink-500 checked:hover:bg-pink-500 checked:focus:bg-pink-500`}
         placeholder={placeholder || 'Digite aqui...'}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           handleOnChange(e.target.value)
         }
       />
-      {label && <span className="ml-2">{label}</span>}
-    </label>
+      <label className="font-medium text-sm text-gray-700">{label}</label>
+    </div>
   )
 }
