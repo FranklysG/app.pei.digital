@@ -7,7 +7,7 @@ export default function Loading({}: LoadingProps) {
       <section className="">
         <div className="w-full h-screen relative flex flex-1 justify-center items-center p-0 overflow-hidden bg-center bg-cover min-h-85-screen">
           <div className="z-10">
-            <div className="flex flex-wrap w-60 mt-0 -mx-3">
+            <div className="flex flex-wrap w-96 mt-0 -mx-3">
               <div className="flex flex-col w-full max-w-full px-3 mx-auto md:flex-0 shrink-0 md:w-6/12 lg:w-5/12 xl:w-4/12">
                 <div className=" h-full grid items-center justify-center">
                   <TailSpin color="#be185d" height={50} width={50} />
