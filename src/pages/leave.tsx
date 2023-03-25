@@ -464,17 +464,17 @@ export default function Leave() {
             </div>
             <Label className="text-base sm:mt-px sm:pt-2 my-3">
               {' '}
-              A Escola poderá fazer contato com os profissionais que atendem o aluno,
-              para o desenvolvimento do trabalho pedagógico?
+              A Escola poderá fazer contato com os profissionais que atendem o
+              aluno, para o desenvolvimento do trabalho pedagógico?
             </Label>
-            <div className='sm:flex sm:gap-4 '>
+            <div className="sm:flex sm:gap-4 ">
               <Input
                 type="checkbox"
                 name="checkbox"
                 id="checkbox"
                 value="sim"
                 label="Sim"
-                handleOnChange={(value) => (value)}
+                handleOnChange={(value) => value}
               />
 
               <Input
@@ -483,7 +483,7 @@ export default function Leave() {
                 id="checkbox"
                 value="nao"
                 label="Não"
-                handleOnChange={(value) => (value)}
+                handleOnChange={(value) => value}
               />
             </div>
           </div>
@@ -498,7 +498,7 @@ export default function Leave() {
               <Textarea
                 name=""
                 value={''}
-                handleOnChange={(event) => (event.target.value)}
+                handleOnChange={(event) => event.target.value}
                 className="h-52"
               />
             </div>
@@ -516,7 +516,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={3}
+                    >
                       Aspectos cognitivos
                     </th>
                   </tr>
@@ -528,10 +531,7 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => addInputFields()}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -559,7 +559,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -571,7 +572,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -599,7 +601,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={3}
+                    >
                       Aspectos sociais e psicoafetivos
                     </th>
                   </tr>
@@ -611,10 +616,7 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => addInputFields()}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -642,7 +644,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -654,7 +657,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -682,7 +686,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={3}
+                    >
                       Aspectos comunicacionais
                     </th>
                   </tr>
@@ -694,10 +701,7 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => addInputFields()}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -725,7 +729,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -737,7 +742,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -765,7 +771,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={3}
+                    >
                       Aspectos motoras/psicomotoras
                     </th>
                   </tr>
@@ -777,10 +786,7 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => addInputFields()}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -808,7 +814,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -820,7 +827,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -848,7 +856,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={3}
+                    >
                       Aspectos do Cotidiano
                     </th>
                   </tr>
@@ -860,10 +871,7 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => addInputFields()}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -891,7 +899,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -903,7 +912,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -926,7 +936,6 @@ export default function Leave() {
                   )}
                 </tbody>
               </table>
-
             </div>
           </div>
 
@@ -940,24 +949,24 @@ export default function Leave() {
               <Textarea
                 name="diagnostic"
                 value={''}
-                handleOnChange={(event) => (event.target.value)}
+                handleOnChange={(event) => event.target.value}
               />
             </div>
           </div>
 
           {/* 9. Metas*/}
           <div className="sm:items-start sm:gap-4 sm:pt-5">
-            <Label className="text-base sm:mt-px sm:pt-2 my-3">
-              {' '}
-              9. Metas
-            </Label>
+            <Label className="text-base sm:mt-px sm:pt-2 my-3"> 9. Metas</Label>
 
             <div className="sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               {/* MATEMÁTICA */}
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={6}
+                    >
                       Matemática
                     </th>
                   </tr>
@@ -978,10 +987,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => addInputFields()}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1009,7 +1015,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -1021,7 +1028,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1033,7 +1041,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1045,7 +1054,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1057,7 +1067,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1085,8 +1096,12 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
-                      Linguagens (Língua Portuguesa, Lingua Inglesa, Arte, Educação Física)
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={6}
+                    >
+                      Linguagens (Língua Portuguesa, Lingua Inglesa, Arte,
+                      Educação Física)
                     </th>
                   </tr>
                   <tr>
@@ -1106,10 +1121,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => addInputFields()}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1137,7 +1149,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -1149,7 +1162,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1161,7 +1175,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1173,7 +1188,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1185,7 +1201,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1213,7 +1230,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={6}
+                    >
                       Ciências da Natureza
                     </th>
                   </tr>
@@ -1234,10 +1254,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => addInputFields()}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1265,7 +1282,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -1277,7 +1295,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1289,7 +1308,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1301,7 +1321,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1313,7 +1334,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1341,7 +1363,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={6}
+                    >
                       Ciências Humanas (Humanas e Geografia)
                     </th>
                   </tr>
@@ -1362,10 +1387,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => addInputFields()}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1393,7 +1415,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -1405,7 +1428,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1417,7 +1441,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1429,7 +1454,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1441,7 +1467,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1469,7 +1496,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={6}
+                    >
                       Ensino Religioso
                     </th>
                   </tr>
@@ -1490,10 +1520,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => addInputFields()}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1521,7 +1548,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -1533,7 +1561,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1545,7 +1574,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1557,7 +1587,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1569,7 +1600,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1597,7 +1629,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={6}
+                    >
                       Atividades vida diária
                     </th>
                   </tr>
@@ -1618,10 +1653,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => addInputFields()}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1649,7 +1681,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -1661,7 +1694,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1673,7 +1707,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1685,7 +1720,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1697,7 +1733,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1730,14 +1767,14 @@ export default function Leave() {
               10. Proposta de Intervenção:
             </Label>
             <div className="sm:items-center sm:gap-4 sm:border-t sm:pt-5">
-              <div className='sm:mb-4'>
+              <div className="sm:mb-4">
                 <Input
                   type="checkbox"
                   name="checkbox"
                   id="checkbox"
                   value=""
                   label="Mediação individual nas atividades e avaliações."
-                  handleOnChange={(value) => (value)}
+                  handleOnChange={(value) => value}
                 />
 
                 <Input
@@ -1746,7 +1783,7 @@ export default function Leave() {
                   id="checkbox"
                   value=""
                   label="Trabalhar os conceitos/conteúdos no concreto."
-                  handleOnChange={(value) => (value)}
+                  handleOnChange={(value) => value}
                 />
 
                 <Input
@@ -1755,7 +1792,7 @@ export default function Leave() {
                   id="checkbox"
                   value=""
                   label="Proporcionar tempo estendido para realização de atividades e avaliações"
-                  handleOnChange={(value) => (value)}
+                  handleOnChange={(value) => value}
                 />
 
                 <Input
@@ -1764,7 +1801,7 @@ export default function Leave() {
                   id="checkbox"
                   value=""
                   label="Reduzir textos e enunciados para melhor compreensão."
-                  handleOnChange={(value) => (value)}
+                  handleOnChange={(value) => value}
                 />
 
                 <Input
@@ -1773,7 +1810,7 @@ export default function Leave() {
                   id="checkbox"
                   value=""
                   label="Questões objetivas."
-                  handleOnChange={(value) => (value)}
+                  handleOnChange={(value) => value}
                 />
 
                 <Input
@@ -1782,7 +1819,7 @@ export default function Leave() {
                   id="checkbox"
                   value=""
                   label="Correção diferenciada nas avaliações."
-                  handleOnChange={(value) => (value)}
+                  handleOnChange={(value) => value}
                 />
 
                 <Input
@@ -1791,7 +1828,7 @@ export default function Leave() {
                   id="checkbox"
                   value=""
                   label="Adaptação Curricular"
-                  handleOnChange={(value) => (value)}
+                  handleOnChange={(value) => value}
                 />
 
                 <Input
@@ -1800,7 +1837,7 @@ export default function Leave() {
                   id="checkbox"
                   value=""
                   label="Outro"
-                  handleOnChange={(value) => (value)}
+                  handleOnChange={(value) => value}
                 />
               </div>
             </div>
@@ -1816,7 +1853,7 @@ export default function Leave() {
               <Textarea
                 name=""
                 value={''}
-                handleOnChange={(event) => (event.target.value)}
+                handleOnChange={(event) => event.target.value}
               />
             </div>
           </div>
@@ -1831,7 +1868,7 @@ export default function Leave() {
               <Textarea
                 name=""
                 value={''}
-                handleOnChange={(event) => (event.target.value)}
+                handleOnChange={(event) => event.target.value}
               />
             </div>
           </div>
@@ -1846,7 +1883,7 @@ export default function Leave() {
               <Textarea
                 name=""
                 value={''}
-                handleOnChange={(event) => (event.target.value)}
+                handleOnChange={(event) => event.target.value}
               />
             </div>
           </div>
@@ -1861,7 +1898,7 @@ export default function Leave() {
               <Textarea
                 name=""
                 value={''}
-                handleOnChange={(event) => (event.target.value)}
+                handleOnChange={(event) => event.target.value}
               />
             </div>
           </div>
@@ -1876,7 +1913,7 @@ export default function Leave() {
               <Textarea
                 name=""
                 value={''}
-                handleOnChange={(event) => (event.target.value)}
+                handleOnChange={(event) => event.target.value}
               />
             </div>
           </div>
@@ -1891,7 +1928,7 @@ export default function Leave() {
               <Textarea
                 name=""
                 value={''}
-                handleOnChange={(event) => (event.target.value)}
+                handleOnChange={(event) => event.target.value}
               />
             </div>
           </div>
