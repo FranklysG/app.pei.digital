@@ -13,7 +13,7 @@ import {
 import Link from 'next/link'
 import { classNames } from '../../utils'
 import { useGlobal } from '../../hooks/useGlobal'
-import { useAuth } from '../../hooks/useAuth'
+import LogoPanel from '../../assets/svg/LogoPanel'
 
 const navigation = [{ name: 'Dashboard', href: '/dashboard', icon: HomeIcon }]
 const secondaryNavigation = [
@@ -91,10 +91,7 @@ export default function Sidebar({}: SidebarProps) {
                 </Transition.Child>
                 <div className="flex flex-shrink-0 items-center px-4">
                   <Link href="/">
-                    <h1 className="text-2xl font-bold leading-7 text-white sm:truncate sm:leading-9">
-                      PEI DIGITAL
-                      {/* <Logo className="w-20 h-20 fill-current text-pink-500" /> */}
-                    </h1>
+                    <LogoPanel className="w-20 h-20 fill-current text-pink-500" />
                   </Link>
                 </div>
                 <nav
@@ -171,10 +168,7 @@ export default function Sidebar({}: SidebarProps) {
         <div className="flex flex-grow flex-col overflow-y-auto bg-pink-700 pt-5 pb-4">
           <div className="flex flex-shrink-0 items-center px-4">
             <Link href="/">
-              <h1 className="text-2xl font-bold leading-7 text-white sm:truncate sm:leading-9">
-                PEI DIGITAL
-                {/* <Logo className="w-20 h-20 fill-current text-pink-500" /> */}
-              </h1>
+              <LogoPanel className="w-20 h-20 fill-current text-pink-500" />
             </Link>
           </div>
           <nav

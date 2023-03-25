@@ -37,7 +37,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter()
   const [middleware, setMiddleware] = useState('guest')
   const [redirectIfAuthenticated, setRedirectIfAuthenticated] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   const { data: user, error, mutate } = useSWR(
     '/api/user',
@@ -71,6 +71,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     setErrors([])
     setStatus(null)
 
+    setLoading(true)
     await axios
       .post('/login', props)
       .then((response) => response.data.data)
@@ -144,6 +145,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     await axios
       .post('/logout')
       .then(() => {
+        localStorage.clear()
         router.push('/signin')
         mutate()
       })
@@ -153,17 +155,17 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, [])
 
   useEffect(() => {
+    if (redirectIfAuthenticated === '') {
+      setRedirectIfAuthenticated(localStorage.getItem('@peidigital:route:auth'))
+    }
+
     if (middleware === 'guest' && redirectIfAuthenticated && user) {
       router.push(redirectIfAuthenticated)
     }
     if (middleware === 'auth' && error) {
       logout()
     }
-
-    if (user) {
-      setLoading(false)
-    }
-  }, [user, error])
+  }, [error])
 
   const values = {
     user,

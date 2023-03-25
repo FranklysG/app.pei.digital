@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { ReactNode } from 'react'
 import Image from 'next/image'
-import banner from '../../assets/img/banner.jpg'
+import banner from '../../assets/img/banner.webp'
 
 interface GuestProps {
   children: ReactNode
