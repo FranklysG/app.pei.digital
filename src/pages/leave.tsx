@@ -19,7 +19,6 @@ import Select from '../components/select'
 import { SpecialistType, SpecialtysType } from '../@types'
 
 export default function Leave() {
-  const { setMiddleware } = useAuth()
   const { workspace } = useWorkspace()
   const { openPanel, setOpenPanel } = useGlobal()
   const { currentUuid, forms, create, update } = useForm()
@@ -97,7 +96,6 @@ export default function Leave() {
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
-      setMiddleware('auth')
 
       if (currentUuid !== '') {
         update({

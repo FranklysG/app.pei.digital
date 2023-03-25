@@ -10,12 +10,7 @@ import GuestLayout from '../layouts/guest'
 import { TailSpin } from 'react-loader-spinner'
 
 export default function SignUp() {
-  const {
-    loading,
-    register,
-    setMiddleware,
-    setRedirectIfAuthenticated,
-  } = useAuth()
+  const { loading, register } = useAuth()
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -30,15 +25,13 @@ export default function SignUp() {
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
-      setMiddleware('guest'),
-        setRedirectIfAuthenticated('/dashboard'),
-        register({
-          name,
-          email,
-          password,
-          password_confirmation: passwordConfirmation,
-          setErrors,
-        })
+      register({
+        name,
+        email,
+        password,
+        password_confirmation: passwordConfirmation,
+        setErrors,
+      })
     },
     [name, email, password, passwordConfirmation, setErrors],
   )

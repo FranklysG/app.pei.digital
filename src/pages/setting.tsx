@@ -20,7 +20,6 @@ const user = {
 }
 
 export default function Setting() {
-  const { setMiddleware } = useAuth()
   const { setting, update, create } = useSetting()
   const [availableToHire, setAvailableToHire] = useState(true)
 
@@ -47,7 +46,6 @@ export default function Setting() {
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
-      setMiddleware('auth')
       if (uuid) {
         update({ uuid, firstName, lastName, setErrors, setStatus })
         return

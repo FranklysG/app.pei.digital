@@ -10,7 +10,7 @@ import Label from '../components/label'
 import Link from 'next/link'
 
 const ForgotPassword = () => {
-  const { forgotPassword, setMiddleware } = useAuth()
+  const { forgotPassword } = useAuth()
 
   const [email, setEmail] = useState('')
   const [errors, setErrors] = useState([])
@@ -26,7 +26,6 @@ const ForgotPassword = () => {
 
   const submitForm = useCallback((event: any) => {
     event.preventDefault()
-    setMiddleware('auth')
     forgotPassword({ email, setErrors, setStatus })
   }, [])
 

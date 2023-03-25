@@ -13,7 +13,6 @@ import Label from '../components/label'
 import { useUser } from '../hooks/useUser'
 
 export default function User() {
-  const { setMiddleware } = useAuth()
   const { workspace } = useWorkspace()
   const { openPanel, setOpenPanel } = useGlobal()
   const { users, update, create, currentUuid } = useUser()
@@ -41,7 +40,6 @@ export default function User() {
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
-      setMiddleware('auth')
 
       if (currentUuid !== '') {
         update({

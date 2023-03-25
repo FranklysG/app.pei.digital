@@ -6,7 +6,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useState } from 'react'
 
 const VerifyEmail = () => {
-  const { logout, resendEmailVerification, setMiddleware } = useAuth()
+  const { logout, resendEmailVerification } = useAuth()
 
   const [status, setStatus] = useState(null)
 
@@ -41,7 +41,6 @@ const VerifyEmail = () => {
             type="button"
             className="underline text-sm text-gray-600 hover:text-gray-900"
             onClick={() => {
-              setMiddleware('auth')
               logout()
             }}
           >

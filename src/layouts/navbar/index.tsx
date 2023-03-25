@@ -8,12 +8,10 @@ import { useAuth } from '../../hooks/useAuth'
 import { useGlobal } from '../../hooks/useGlobal'
 
 export default function Navbar() {
-  const { user, logout, setMiddleware, setRedirectIfAuthenticated } = useAuth()
+  const { user, logout } = useAuth()
   const { openSidebar, setOpenSidebar } = useGlobal()
 
   const handleUserLogout = useCallback(() => {
-    setMiddleware('guest')
-    setRedirectIfAuthenticated('/signin')
     logout()
   }, [])
 
