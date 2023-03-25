@@ -162,6 +162,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     if (middleware === 'guest' && redirectIfAuthenticated && user) {
       router.push(redirectIfAuthenticated)
     }
+
     if (middleware === 'auth' && error) {
       logout()
     }
