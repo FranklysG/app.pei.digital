@@ -462,6 +462,1438 @@ export default function Leave() {
                 </tbody>
               </table>
             </div>
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              A Escola poderá fazer contato com os profissionais que atendem o aluno,
+              para o desenvolvimento do trabalho pedagógico?
+            </Label>
+            <div className='sm:flex sm:gap-4 '>
+              <Input
+                type="checkbox"
+                name="checkbox"
+                id="checkbox"
+                value="sim"
+                label="Sim"
+                handleOnChange={(value) => (value)}
+              />
+
+              <Input
+                type="checkbox"
+                name="checkbox"
+                id="checkbox"
+                value="nao"
+                label="Não"
+                handleOnChange={(value) => (value)}
+              />
+            </div>
+          </div>
+
+          {/* 6. Expectativas/Contribuição da família...*/}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              6. Expectativas/Contribuição da família
+            </Label>
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              <Textarea
+                name=""
+                value={''}
+                handleOnChange={(event) => (event.target.value)}
+                className="h-52"
+              />
+            </div>
+          </div>
+
+          {/* 7. Diagnóstico Pedagógico*/}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              7. Diagnóstico Pedagógico
+            </Label>
+
+            <div className="sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              {/* ASPECTOS COGNITIVOS */}
+              <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
+                      Aspectos cognitivos
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
+                      Habilidades/Potencialidades
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Aspectos que precisam ser potencializados
+                    </th>
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        onClick={() => addInputFields()}
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {specialtys.length === 0 ? (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
+                    </tr>
+                  ) : (
+                    specialtys.map((item: SpecialtysType, index) => (
+                      <tr
+                        key={index}
+                        className="border-b dark:border-neutral-500"
+                      >
+                        <td className="whitespace-nowrap border-r px-10 py-2 font-medium dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.name || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'name', value) */
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-8 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                          <button
+                            type="button"
+                            className="remove"
+                            onClick={() => removeInputFields(index)}
+                          >
+                            <TrashIcon
+                              className="h-4 w-4 text-gray-ring-gray-600"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+
+              {/* ASPECTOS SOCIAIS */}
+              <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
+                      Aspectos sociais e psicoafetivos
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
+                      Habilidades/Potencialidades
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Aspectos que precisam ser potencializados
+                    </th>
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        onClick={() => addInputFields()}
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {specialtys.length === 0 ? (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
+                    </tr>
+                  ) : (
+                    specialtys.map((item: SpecialtysType, index) => (
+                      <tr
+                        key={index}
+                        className="border-b dark:border-neutral-500"
+                      >
+                        <td className="whitespace-nowrap border-r px-10 py-2 font-medium dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.name || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'name', value) */
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-8 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                          <button
+                            type="button"
+                            className="remove"
+                            onClick={() => removeInputFields(index)}
+                          >
+                            <TrashIcon
+                              className="h-4 w-4 text-gray-ring-gray-600"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+
+              {/* ASPECTOS COMUNICACIONAIS*/}
+              <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
+                      Aspectos comunicacionais
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
+                      Habilidades/Potencialidades
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Aspectos que precisam ser potencializados
+                    </th>
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        onClick={() => addInputFields()}
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {specialtys.length === 0 ? (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
+                    </tr>
+                  ) : (
+                    specialtys.map((item: SpecialtysType, index) => (
+                      <tr
+                        key={index}
+                        className="border-b dark:border-neutral-500"
+                      >
+                        <td className="whitespace-nowrap border-r px-10 py-2 font-medium dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.name || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'name', value) */
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-8 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                          <button
+                            type="button"
+                            className="remove"
+                            onClick={() => removeInputFields(index)}
+                          >
+                            <TrashIcon
+                              className="h-4 w-4 text-gray-ring-gray-600"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+
+              {/* ASPECTOS MOTORAS*/}
+              <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
+                      Aspectos motoras/psicomotoras
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
+                      Habilidades/Potencialidades
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Aspectos que precisam ser potencializados
+                    </th>
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        onClick={() => addInputFields()}
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {specialtys.length === 0 ? (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
+                    </tr>
+                  ) : (
+                    specialtys.map((item: SpecialtysType, index) => (
+                      <tr
+                        key={index}
+                        className="border-b dark:border-neutral-500"
+                      >
+                        <td className="whitespace-nowrap border-r px-10 py-2 font-medium dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.name || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'name', value) */
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-8 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                          <button
+                            type="button"
+                            className="remove"
+                            onClick={() => removeInputFields(index)}
+                          >
+                            <TrashIcon
+                              className="h-4 w-4 text-gray-ring-gray-600"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+
+              {/* ASPECTOS COTIDIANO*/}
+              <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
+                      Aspectos do Cotidiano
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
+                      Habilidades/Potencialidades
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Aspectos que precisam ser potencializados
+                    </th>
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        onClick={() => addInputFields()}
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {specialtys.length === 0 ? (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
+                    </tr>
+                  ) : (
+                    specialtys.map((item: SpecialtysType, index) => (
+                      <tr
+                        key={index}
+                        className="border-b dark:border-neutral-500"
+                      >
+                        <td className="whitespace-nowrap border-r px-10 py-2 font-medium dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.name || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'name', value) */
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-8 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                          <button
+                            type="button"
+                            className="remove"
+                            onClick={() => removeInputFields(index)}
+                          >
+                            <TrashIcon
+                              className="h-4 w-4 text-gray-ring-gray-600"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+
+          {/* 8. Objetivos do programa */}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              8. Objetivos do programa
+            </Label>
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              <Textarea
+                name="diagnostic"
+                value={''}
+                handleOnChange={(event) => (event.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* 9. Metas*/}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              9. Metas
+            </Label>
+
+            <div className="sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              {/* MATEMÁTICA */}
+              <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
+                      Matemática
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
+                      Metas
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Período
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Desempenho Atual
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Estratégia e Intervenções Pedagógicas
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Recursos
+                    </th>
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        onClick={() => addInputFields()}
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {specialtys.length === 0 ? (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
+                    </tr>
+                  ) : (
+                    specialtys.map((item: SpecialtysType, index) => (
+                      <tr
+                        key={index}
+                        className="border-b dark:border-neutral-500"
+                      >
+                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.name || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'name', value) */
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                          <button
+                            type="button"
+                            className="remove"
+                            onClick={() => removeInputFields(index)}
+                          >
+                            <TrashIcon
+                              className="h-4 w-4 text-gray-ring-gray-600"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+
+              {/*LINGUAGENS*/}
+              <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
+                      Linguagens (Língua Portuguesa, Lingua Inglesa, Arte, Educação Física)
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
+                      Metas
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Período
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Desempenho Atual
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Estratégia e Intervenções Pedagógicas
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Recursos
+                    </th>
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        onClick={() => addInputFields()}
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {specialtys.length === 0 ? (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
+                    </tr>
+                  ) : (
+                    specialtys.map((item: SpecialtysType, index) => (
+                      <tr
+                        key={index}
+                        className="border-b dark:border-neutral-500"
+                      >
+                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.name || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'name', value) */
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                          <button
+                            type="button"
+                            className="remove"
+                            onClick={() => removeInputFields(index)}
+                          >
+                            <TrashIcon
+                              className="h-4 w-4 text-gray-ring-gray-600"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+
+              {/*CIÊNCIAS DA NATUREZA*/}
+              <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
+                      Ciências da Natureza
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
+                      Metas
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Período
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Desempenho Atual
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Estratégia e Intervenções Pedagógicas
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Recursos
+                    </th>
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        onClick={() => addInputFields()}
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {specialtys.length === 0 ? (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
+                    </tr>
+                  ) : (
+                    specialtys.map((item: SpecialtysType, index) => (
+                      <tr
+                        key={index}
+                        className="border-b dark:border-neutral-500"
+                      >
+                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.name || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'name', value) */
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                          <button
+                            type="button"
+                            className="remove"
+                            onClick={() => removeInputFields(index)}
+                          >
+                            <TrashIcon
+                              className="h-4 w-4 text-gray-ring-gray-600"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+
+              {/*CIÊNCIAS HUMANAS*/}
+              <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
+                      Ciências Humanas (Humanas e Geografia)
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
+                      Metas
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Período
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Desempenho Atual
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Estratégia e Intervenções Pedagógicas
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Recursos
+                    </th>
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        onClick={() => addInputFields()}
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {specialtys.length === 0 ? (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
+                    </tr>
+                  ) : (
+                    specialtys.map((item: SpecialtysType, index) => (
+                      <tr
+                        key={index}
+                        className="border-b dark:border-neutral-500"
+                      >
+                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.name || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'name', value) */
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                          <button
+                            type="button"
+                            className="remove"
+                            onClick={() => removeInputFields(index)}
+                          >
+                            <TrashIcon
+                              className="h-4 w-4 text-gray-ring-gray-600"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+
+              {/*ENSINO RELIGIOSO*/}
+              <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
+                      Ensino Religioso
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
+                      Metas
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Período
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Desempenho Atual
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Estratégia e Intervenções Pedagógicas
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Recursos
+                    </th>
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        onClick={() => addInputFields()}
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {specialtys.length === 0 ? (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
+                    </tr>
+                  ) : (
+                    specialtys.map((item: SpecialtysType, index) => (
+                      <tr
+                        key={index}
+                        className="border-b dark:border-neutral-500"
+                      >
+                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.name || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'name', value) */
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                          <button
+                            type="button"
+                            className="remove"
+                            onClick={() => removeInputFields(index)}
+                          >
+                            <TrashIcon
+                              className="h-4 w-4 text-gray-ring-gray-600"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+
+              {/*ATIVIDADES DIÁRIAS*/}
+              <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
+                      Atividades vida diária
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
+                      Metas
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Período
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Desempenho Atual
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Estratégia e Intervenções Pedagógicas
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Recursos
+                    </th>
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        onClick={() => addInputFields()}
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {specialtys.length === 0 ? (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
+                    </tr>
+                  ) : (
+                    specialtys.map((item: SpecialtysType, index) => (
+                      <tr
+                        key={index}
+                        className="border-b dark:border-neutral-500"
+                      >
+                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.name || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'name', value) */
+                            }
+                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name=""
+                            id=""
+                            value={/* item.location || */ ''}
+                            handleOnChange={(value) => value
+                              /* handleChange(index, 'location', value) */
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                          <button
+                            type="button"
+                            className="remove"
+                            onClick={() => removeInputFields(index)}
+                          >
+                            <TrashIcon
+                              className="h-4 w-4 text-gray-ring-gray-600"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* 10. Proposta de Intervenção*/}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              10. Proposta de Intervenção:
+            </Label>
+            <div className="sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              <div className='sm:mb-4'>
+                <Input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox"
+                  value=""
+                  label="Mediação individual nas atividades e avaliações."
+                  handleOnChange={(value) => (value)}
+                />
+
+                <Input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox"
+                  value=""
+                  label="Trabalhar os conceitos/conteúdos no concreto."
+                  handleOnChange={(value) => (value)}
+                />
+
+                <Input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox"
+                  value=""
+                  label="Proporcionar tempo estendido para realização de atividades e avaliações"
+                  handleOnChange={(value) => (value)}
+                />
+
+                <Input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox"
+                  value=""
+                  label="Reduzir textos e enunciados para melhor compreensão."
+                  handleOnChange={(value) => (value)}
+                />
+
+                <Input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox"
+                  value=""
+                  label="Questões objetivas."
+                  handleOnChange={(value) => (value)}
+                />
+
+                <Input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox"
+                  value=""
+                  label="Correção diferenciada nas avaliações."
+                  handleOnChange={(value) => (value)}
+                />
+
+                <Input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox"
+                  value=""
+                  label="Adaptação Curricular"
+                  handleOnChange={(value) => (value)}
+                />
+
+                <Input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox"
+                  value=""
+                  label="Outro"
+                  handleOnChange={(value) => (value)}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 11. Objetivo das adaptações.. */}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              11. Objetivo das adaptações curriculares:
+            </Label>
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              <Textarea
+                name=""
+                value={''}
+                handleOnChange={(event) => (event.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* 12. Ações adaptativas.. */}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              12. Ações adaptativas por cada área de conhecimento:
+            </Label>
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              <Textarea
+                name=""
+                value={''}
+                handleOnChange={(event) => (event.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* 13. Recursos de tecnologia.. */}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              13. Recursos de tecnologia assistiva:
+            </Label>
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              <Textarea
+                name=""
+                value={''}
+                handleOnChange={(event) => (event.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* 14. Recursos avaliativos.. */}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              14. Recursos avaliativos:
+            </Label>
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              <Textarea
+                name=""
+                value={''}
+                handleOnChange={(event) => (event.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* 15. Observações.. */}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              15. Observações a considerar como necessárias:
+            </Label>
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              <Textarea
+                name=""
+                value={''}
+                handleOnChange={(event) => (event.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* 16. Parecer Semestral */}
+          <div className="sm:items-start sm:gap-4 sm:pt-5">
+            <Label className="text-base sm:mt-px sm:pt-2 my-3">
+              {' '}
+              16. Parecer Semestral:
+            </Label>
+            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              <Textarea
+                name=""
+                value={''}
+                handleOnChange={(event) => (event.target.value)}
+              />
+            </div>
           </div>
         </div>
         <Button
