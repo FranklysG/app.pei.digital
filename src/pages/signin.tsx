@@ -14,12 +14,7 @@ import Logo from '../assets/svg/Logo'
 export default function SignIn() {
   const router = useRouter()
 
-  const {
-    loading,
-    login,
-    setMiddleware,
-    setRedirectIfAuthenticated,
-  } = useAuth()
+  const { loading, login } = useAuth()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -46,8 +41,6 @@ export default function SignIn() {
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
-      setMiddleware('guest')
-      setRedirectIfAuthenticated('/dashboard')
       localStorage.setItem('@peidigital:route:auth', '/dashboard')
       login({ email, password, setErrors, setStatus })
     },

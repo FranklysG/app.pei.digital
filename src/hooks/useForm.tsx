@@ -134,7 +134,13 @@ function FormProvider({ children }: FormProviderProps) {
   }, [])
 
   useEffect(() => {
-    show()
+    ;(async () => {
+      await axios
+        .get('/api/form')
+        .then((response) => response.data.data)
+        .then((data: any) => setForms(data))
+        .catch((error) => {})
+    })()
   }, [])
 
   const values = {

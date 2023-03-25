@@ -90,7 +90,15 @@ function SettingProvider({ children }: SettingProviderProps) {
   )
 
   useEffect(() => {
-    show()
+    ;(async () => {
+      await axios
+        .get('/api/setting')
+        .then((res) => res.data.data)
+        .then((data) => {
+          setSetting(data)
+        })
+        .catch((error) => {})
+    })()
   }, [])
 
   const values = {

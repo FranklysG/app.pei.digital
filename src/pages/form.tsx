@@ -12,11 +12,14 @@ import { useForm } from '../hooks/useForm'
 import Toggle from '../components/toggle'
 import { useGlobal } from '../hooks/useGlobal'
 import Panel from '../components/panel'
+import Loading from '../components/loading'
+import { TailSpin } from 'react-loader-spinner'
 
 export default function Form() {
   const { openPanel, setOpenPanel } = useGlobal()
   const { forms, eliminate, generate, setCurrentUuid } = useForm()
 
+  const [load, setLoad] = useState<boolean>(false)
   const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
 
@@ -28,12 +31,15 @@ export default function Form() {
     status && toast.success(status)
   }, [status])
 
-  const handleUserDelete = useCallback((uuid: string) => {
-    eliminate({
+  const handleUserDelete = useCallback(async (uuid: string) => {
+    setLoad(true)
+    await eliminate({
       uuid,
       setErrors,
       setStatus,
     })
+
+    setLoad(false)
   }, [])
 
   const handleUserGenerate = useCallback((uuid: string) => {
@@ -133,7 +139,7 @@ export default function Form() {
                                     }
                                   />
                                 </td>
-                                <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
+                                <td className="flex gap-2 items-center whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                                   <button
                                     onClick={() => {
                                       setCurrentUuid(item.uuid)
@@ -144,14 +150,22 @@ export default function Form() {
                                     Editar
                                   </button>
                                   <span> / </span>
-                                  <button
-                                    onClick={() => {
-                                      handleUserDelete(item.uuid)
-                                    }}
-                                    className="text-pink-600 hover:text-pink-900"
-                                  >
-                                    Deletar
-                                  </button>
+                                  {load ? (
+                                    <TailSpin
+                                      color="#be185d"
+                                      height={25}
+                                      width={15}
+                                    />
+                                  ) : (
+                                    <button
+                                      onClick={() => {
+                                        handleUserDelete(item.uuid)
+                                      }}
+                                      className="text-pink-600 hover:text-pink-900"
+                                    >
+                                      Deletar
+                                    </button>
+                                  )}
                                 </td>
                               </tr>
                             ))}

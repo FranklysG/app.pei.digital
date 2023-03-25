@@ -35,7 +35,15 @@ function WorkspaceProvider({ children }: WorkspaceProviderProps) {
   }, [])
 
   useEffect(() => {
-    show()
+    ;(async () => {
+      await axios
+        .get('/api/workspace')
+        .then((res) => res.data.data)
+        .then((data) => {
+          setWorkspace(data)
+        })
+        .catch((error) => {})
+    })()
   }, [])
 
   const values = {

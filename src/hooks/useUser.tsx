@@ -110,7 +110,15 @@ function UserProvider({ children }: UserProviderProps) {
   )
 
   useEffect(() => {
-    show()
+    ;(async () => {
+      await axios
+        .get('/api/users')
+        .then((res) => res.data.data)
+        .then((data) => {
+          setUsers(data)
+        })
+        .catch((error) => {})
+    })()
   }, [])
 
   const values = {

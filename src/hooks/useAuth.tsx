@@ -12,19 +12,19 @@ import React, {
 import { useRouter } from 'next/router'
 
 import axios from '../lib/axios'
+import { UserType } from '../@types'
 
 type AuthProps = {
   user: any
   verified: boolean
   loading: boolean
+  setLoading: (data: boolean) => void
   register: ({ setErrors, ...props }: any) => void
   login: ({ setErrors, setStatus, ...props }: any) => void
   forgotPassword: ({ setErrors, setStatus, email }: any) => void
   resetPassword: ({ setErrors, setStatus, ...props }: any) => void
   resendEmailVerification: ({ setStatus }: any) => void
   logout: () => void
-  setMiddleware: Dispatch<SetStateAction<string>>
-  setRedirectIfAuthenticated: Dispatch<SetStateAction<string>>
 }
 
 type AuthProviderProps = {
@@ -35,36 +35,32 @@ export const Auth = createContext({} as AuthProps)
 
 function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter()
-  const [middleware, setMiddleware] = useState('guest')
-  const [redirectIfAuthenticated, setRedirectIfAuthenticated] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState<UserType>()
+  const [loading, setLoading] = useState<boolean>(false)
 
-  const { data: user, error, mutate } = useSWR(
-    '/api/user',
-    async () =>
-      await axios
-        .get('/api/user')
-        .then((res) => res.data)
-        .catch((error) => {
-          if (error.response?.status !== 409) throw error
+  // const { data: user, error, mutate } = useSWR(
+  //   '/api/user',
+  //   async () =>
+  //     await axios
+  //       .get('/api/user')
+  //       .then((res) => res.data)
+  //       .catch((error) => {
+  //         if (error.response?.status !== 409) throw error
 
-          router.push('/verify-email')
-        }),
-  )
+  //         router.push('/verify-email')
+  //       }),
+  // )
 
   const register = useCallback(async ({ setErrors, ...props }: any) => {
     setErrors([])
-    await axios
-      .post('/register', props)
-      .then(() => mutate())
-      .catch((error) => {
-        if (error.response?.status !== 422) {
-          console.log(error)
-          return
-        }
+    await axios.post('/register', props).catch((error) => {
+      if (error.response?.status !== 422) {
+        console.log(error)
+        return
+      }
 
-        setErrors(Object.values(error.response.data.errors).flat())
-      })
+      setErrors(Object.values(error.response.data.errors).flat())
+    })
   }, [])
 
   const login = useCallback(async ({ setErrors, setStatus, ...props }: any) => {
@@ -78,7 +74,8 @@ function AuthProvider({ children }: AuthProviderProps) {
       .then((data) => {
         const token = data.token
         localStorage.setItem('@peidigital:token', token)
-        return mutate()
+        setUser(data)
+        router.push('/dashboard')
       })
       .catch((error) => {
         if (error.response?.status !== 422) {
@@ -145,28 +142,14 @@ function AuthProvider({ children }: AuthProviderProps) {
     await axios
       .post('/logout')
       .then(() => {
+        setUser(null)
         localStorage.clear()
         router.push('/signin')
-        mutate()
       })
       .catch((error) => {
         console.log(error)
       })
   }, [])
-
-  useEffect(() => {
-    if (redirectIfAuthenticated === '') {
-      setRedirectIfAuthenticated(localStorage.getItem('@peidigital:route:auth'))
-    }
-
-    if (middleware === 'guest' && redirectIfAuthenticated && user) {
-      router.push(redirectIfAuthenticated)
-    }
-
-    if (middleware === 'auth' && error) {
-      logout()
-    }
-  }, [error])
 
   const values = {
     user,
@@ -178,8 +161,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     resetPassword,
     resendEmailVerification,
     logout,
-    setMiddleware,
-    setRedirectIfAuthenticated,
+    setLoading,
   }
   return <Auth.Provider value={values}>{children}</Auth.Provider>
 }

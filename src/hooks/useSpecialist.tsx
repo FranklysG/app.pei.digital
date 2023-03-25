@@ -32,7 +32,13 @@ function SpecialistProvider({ children }: SpecialistProviderProps) {
   }, [])
 
   useEffect(() => {
-    show()
+    ;(async () => {
+      await axios
+        .get('/api/specialist')
+        .then((response) => response.data.data)
+        .then((data: any) => setSpecialists(data))
+        .catch((error: any) => {})
+    })()
   }, [])
 
   const values = {
