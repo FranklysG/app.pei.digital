@@ -23,7 +23,7 @@ export default function Input({
   required,
   handleOnChange,
   value,
-  label
+  label,
 }: InputProps) {
   return (
     <div>
