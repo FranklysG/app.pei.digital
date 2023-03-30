@@ -38,19 +38,6 @@ function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<UserType>()
   const [loading, setLoading] = useState<boolean>(false)
 
-  // const { data: user, error, mutate } = useSWR(
-  //   '/api/user',
-  //   async () =>
-  //     await axios
-  //       .get('/api/user')
-  //       .then((res) => res.data)
-  //       .catch((error) => {
-  //         if (error.response?.status !== 409) throw error
-
-  //         router.push('/verify-email')
-  //       }),
-  // )
-
   const register = useCallback(async ({ setErrors, ...props }: any) => {
     setErrors([])
     await axios.post('/register', props).catch((error) => {

@@ -4,7 +4,7 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import { toast } from 'react-toastify'
 
 export default function Modal() {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const [errors, setErrors] = useState([])
   const [status, setStatus] = useState<string | string[]>('')
   const [name, setName] = useState('')
