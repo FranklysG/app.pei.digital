@@ -1,18 +1,11 @@
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
+import { Fragment, useCallback, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
-import { toast } from 'react-toastify'
 
 export default function Modal() {
   const [open, setOpen] = useState(false)
-  const [errors, setErrors] = useState([])
-  const [status, setStatus] = useState<string | string[]>('')
   const [name, setName] = useState('')
   const cancelButtonRef = useRef(null)
-
-  useEffect(() => {
-    errors.length > 0 && errors.map((error) => toast.error(error))
-  }, [errors])
 
   const handleUsercreate = useCallback(async () => {
     setOpen(false)

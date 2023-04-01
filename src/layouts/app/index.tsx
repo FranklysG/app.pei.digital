@@ -2,14 +2,6 @@ import { ReactNode, useEffect, useState } from 'react'
 import Head from 'next/head'
 import Loading from '../../components/loading'
 
-import { useAuth } from '../../hooks/useAuth'
-import { WorkspaceProvider } from '../../hooks/useWorkspace'
-import { GlobalProvider } from '../../hooks/useGlobal'
-import { FormProvider } from '../../hooks/useForm'
-import { SettingProvider } from '../../hooks/useSetting'
-import { UserProvider } from '../../hooks/useUser'
-import { SpecialistProvider } from '../../hooks/useSpecialist'
-
 import Sidebar from '../sidebar'
 import { useRouter } from 'next/router'
 

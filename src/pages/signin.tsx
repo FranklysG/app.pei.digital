@@ -18,7 +18,6 @@ export default function SignIn() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [checkbox, setCheckbox] = useState(false)
   const [errors, setErrors] = useState([])
   const [status, setStatus] = useState<string | string[]>('')
 

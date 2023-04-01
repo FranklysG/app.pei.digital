@@ -1,13 +1,10 @@
-import { classNames } from '../../utils'
-
 interface BadgeProps {
-  name: string
   type: string
   status: string
   className?: string
 }
 
-export default function Badge({ name, type, status, className }: BadgeProps) {
+export default function Badge({ type, status }: BadgeProps) {
   let color = ''
 
   switch (type) {

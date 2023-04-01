@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Switch } from '@headlessui/react'
 import { toast } from 'react-toastify'
 
-import { useAuth } from '../hooks/useAuth'
 import { useSetting } from '../hooks/useSetting'
 
 import App from '../layouts/app'

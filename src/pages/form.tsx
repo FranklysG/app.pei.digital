@@ -12,7 +12,6 @@ import { useForm } from '../hooks/useForm'
 import Toggle from '../components/toggle'
 import { useGlobal } from '../hooks/useGlobal'
 import Panel from '../components/panel'
-import Loading from '../components/loading'
 import { TailSpin } from 'react-loader-spinner'
 
 export default function Form() {

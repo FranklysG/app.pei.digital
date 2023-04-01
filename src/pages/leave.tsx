@@ -38,7 +38,7 @@ export default function Leave() {
 
   const [specialtys, setSpecialtys] = useState<SpecialtysType[]>([])
 
-  const [status, setStatus] = useState<string>('')
+  const [_, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
 
   const workspace_uuid = values(workspace).shift()?.uuid
@@ -71,7 +71,7 @@ export default function Leave() {
   }, [errors])
 
   const handleChange = useCallback(
-    (itemIndex, name, value, tableState, setTableState) => {
+    (itemIndex, name, value, _, setTableState) => {
       setTableState((prevState) => {
         const newState = [...prevState]
         newState[itemIndex] = { ...newState[itemIndex], [name]: value }
@@ -81,20 +81,17 @@ export default function Leave() {
     [],
   )
 
-  const addInputFields = useCallback((tableState, setTableState) => {
+  const addInputFields = useCallback((_, setTableState) => {
     setTableState((prevState) => [...prevState, [] as never])
   }, [])
 
-  const removeInputFields = useCallback(
-    (itemIndex, tableState, setTableState) => {
-      setTableState((prevState) => {
-        const newState = [...prevState]
-        newState.splice(itemIndex, 1)
-        return newState
-      })
-    },
-    [],
-  )
+  const removeInputFields = useCallback((itemIndex, _, setTableState) => {
+    setTableState((prevState) => {
+      const newState = [...prevState]
+      newState.splice(itemIndex, 1)
+      return newState
+    })
+  }, [])
 
   const submitForm = useCallback(
     async (event: any) => {
@@ -599,7 +596,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -684,7 +681,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -769,7 +766,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -854,7 +851,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -939,7 +936,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1055,7 +1052,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1189,7 +1186,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1322,7 +1319,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1455,7 +1452,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1588,7 +1585,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1721,7 +1718,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1986,7 +1983,7 @@ export default function Leave() {
         </div>
         <Button
           handleOnClick={() => {
-            // setOpenPanel(!openPanel)
+            setOpenPanel(!openPanel)
           }}
         >
           Enviar Formulário

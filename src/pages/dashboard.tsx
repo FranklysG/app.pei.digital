@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { CheckCircleIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import { ArrowTrendingUpIcon, PlusIcon } from '@heroicons/react/24/outline'
 
@@ -26,7 +26,7 @@ export default function Dashboard() {
   const { forms, setCurrentUuid } = useForm()
   const { user, verified } = useAuth()
   const { openPanel, setOpenPanel } = useGlobal()
-  const [hour, setHour] = useState(moment().format('HH'))
+  const [hour] = useState(moment().format('HH'))
 
   return (
     <App header={'Dashboard'}>
@@ -131,7 +131,6 @@ export default function Dashboard() {
                         <h4 className="text-gray-600">{item.title}</h4>
                         <Badge
                           className="text-2xl"
-                          name={item.status}
                           type={item.type}
                           status={item.status}
                         />
@@ -210,11 +209,7 @@ export default function Dashboard() {
                                 </p>
                               </td>
                               <td className="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
-                                <Badge
-                                  name={item.status}
-                                  type={item.type}
-                                  status={item.status}
-                                />
+                                <Badge type={item.type} status={item.status} />
                               </td>
                               <td className="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500">
                                 <time dateTime={item.created_at}>
@@ -223,7 +218,7 @@ export default function Dashboard() {
                               </td>
                             </tr>
                           ))
-                        : lines.map((line, index) => (
+                        : lines.map((_, index) => (
                             <tr key={index} className="bg-white">
                               <td className="w-full max-w-0 whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                                 <div className="flex">

@@ -116,7 +116,7 @@ function FormProvider({ children }: FormProviderProps) {
           document.body.appendChild(link)
           link.click()
         })
-        .catch((error) => {
+        .catch(() => {
           setErrors(['Oops.. Tente mais tarte :)'])
         })
     },
@@ -128,7 +128,7 @@ function FormProvider({ children }: FormProviderProps) {
       .get('/api/form')
       .then((response) => response.data.data)
       .then((data: any) => setForms(data))
-      .catch((error) => {})
+      .catch(() => {})
   }, [])
 
   useEffect(() => {
@@ -137,7 +137,7 @@ function FormProvider({ children }: FormProviderProps) {
         .get('/api/form')
         .then((response) => response.data.data)
         .then((data: any) => setForms(data))
-        .catch((error) => {})
+        .catch(() => {})
     })()
   }, [])
 

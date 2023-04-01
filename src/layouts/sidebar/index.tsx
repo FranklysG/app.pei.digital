@@ -91,7 +91,7 @@ export default function Sidebar({}: SidebarProps) {
                 </Transition.Child>
                 <div className="flex flex-shrink-0 items-center px-4">
                   <Link href="/">
-                    <LogoPanel className="w-20 h-20 fill-current text-pink-500" />
+                    <LogoPanel />
                   </Link>
                 </div>
                 <nav
@@ -168,7 +168,7 @@ export default function Sidebar({}: SidebarProps) {
         <div className="flex flex-grow flex-col overflow-y-auto bg-pink-700 pt-5 pb-4">
           <div className="flex flex-shrink-0 items-center px-4">
             <Link href="/">
-              <LogoPanel className="w-20 h-20 fill-current text-pink-500" />
+              <LogoPanel />
             </Link>
           </div>
           <nav

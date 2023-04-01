@@ -15,7 +15,7 @@ const VerifyEmail = () => {
       <div className="mx-auto w-full max-w-sm lg:w-96">
         <Link href="/">
           <a>
-            <Logo className="w-20 h-20 fill-current text-gray-500" />
+            <Logo />
           </a>
         </Link>
         <div className="mt-4 mb-4 text-sm text-gray-600">

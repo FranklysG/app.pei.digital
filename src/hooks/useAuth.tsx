@@ -1,12 +1,8 @@
-import useSWR from 'swr'
 import React, {
   createContext,
-  Dispatch,
   ReactNode,
-  SetStateAction,
   useCallback,
   useContext,
-  useEffect,
   useState,
 } from 'react'
 import { useRouter } from 'next/router'

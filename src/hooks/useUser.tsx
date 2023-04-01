@@ -36,7 +36,7 @@ function UserProvider({ children }: UserProviderProps) {
       .then((data) => {
         setUsers(data)
       })
-      .catch((error) => {})
+      .catch(() => {})
   }, [])
 
   const update = useCallback(
@@ -116,7 +116,7 @@ function UserProvider({ children }: UserProviderProps) {
         .then((data) => {
           setUsers(data)
         })
-        .catch((error) => {})
+        .catch(() => {})
     })()
   }, [])
 

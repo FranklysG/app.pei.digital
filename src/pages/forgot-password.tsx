@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { toast } from 'react-toastify'
 
-import Logo from '../assets/svg/Logo'
 import Button from '../components/button'
 import GuestLayout from '../layouts/guest'
 import Input from '../components/input'

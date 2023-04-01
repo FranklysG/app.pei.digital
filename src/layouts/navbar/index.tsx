@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useState } from 'react'
+import { Fragment, useCallback } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import Link from 'next/link'
 import { Bars3CenterLeftIcon, BellIcon } from '@heroicons/react/24/outline'

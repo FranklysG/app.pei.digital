@@ -14,8 +14,8 @@ const PasswordReset = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
-  const [errors, setErrors] = useState([])
-  const [status, setStatus] = useState(null)
+  const [, setErrors] = useState([])
+  const [, setStatus] = useState(null)
 
   const submitForm = useCallback(
     async (event: any) => {
