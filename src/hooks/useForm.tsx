@@ -33,7 +33,6 @@ function FormProvider({ children }: FormProviderProps) {
     async ({ setErrors, setStatus, ...props }: any) => {
       setErrors([])
       setStatus(null)
-      console.log(props)
       await axios
         .post('/api/form', props)
         .then((response) => {

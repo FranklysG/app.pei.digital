@@ -8,7 +8,6 @@ import { useSpecialist } from '../hooks/useSpecialist'
 import { useWorkspace } from '../hooks/useWorkspace'
 import { useGlobal } from '../hooks/useGlobal'
 import { useForm } from '../hooks/useForm'
-import { useAuth } from '../hooks/useAuth'
 
 import Button from '../components/button'
 import Input from '../components/input'
@@ -62,7 +61,7 @@ export default function Leave() {
           setDiagnostic(item.diagnostic)
           setDescription(item.description)
           setMedicalUuid(item.medical_uuid)
-          setSpecialtys(item.specialtys)
+          setSpecialtys(item.specialtys as never)
         })
     }
   }, [currentUuid])
@@ -72,25 +71,29 @@ export default function Leave() {
   }, [errors])
 
   const handleChange = useCallback(
-    (index, name, value) => {
-      let newValues = [...specialtys]
-      newValues[index][name] = value
-      setSpecialtys(newValues)
+    (itemIndex, name, value, tableState, setTableState) => {
+      setTableState((prevState) => {
+        const newState = [...prevState]
+        newState[itemIndex] = { ...newState[itemIndex], [name]: value }
+        return newState
+      })
     },
-    [specialtys],
+    [],
   )
 
-  const addInputFields = useCallback(() => {
-    setSpecialtys((prevState) => [...prevState, [] as never])
+  const addInputFields = useCallback((tableState, setTableState) => {
+    setTableState((prevState) => [...prevState, [] as never])
   }, [])
 
   const removeInputFields = useCallback(
-    (i) => {
-      let newInputValues = [...specialtys]
-      newInputValues.splice(i, 1)
-      setSpecialtys(newInputValues)
+    (itemIndex, tableState, setTableState) => {
+      setTableState((prevState) => {
+        const newState = [...prevState]
+        newState.splice(itemIndex, 1)
+        return newState
+      })
     },
-    [specialtys],
+    [],
   )
 
   const submitForm = useCallback(
@@ -115,7 +118,6 @@ export default function Leave() {
           setErrors,
           setStatus,
         })
-        return
       }
       create({
         workspace_uuid,
@@ -325,6 +327,14 @@ export default function Leave() {
               <table className="text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={7}
+                    >
+                      Especialidades
+                    </th>
+                  </tr>
+                  <tr>
                     <th className="border-r px-2 py-2 dark:border-neutral-500">
                       Especialidade
                     </th>
@@ -343,11 +353,12 @@ export default function Leave() {
                     <th className="border-r px-5 py-2 dark:border-neutral-500">
                       Contato
                     </th>
-                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
                       <button
                         type="button"
-                        className="flex justify-evenly items-center"
-                        onClick={() => addInputFields()}
+                        onClick={() =>
+                          addInputFields(specialtys, setSpecialtys)
+                        }
                       >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
@@ -358,7 +369,7 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
@@ -377,7 +388,13 @@ export default function Leave() {
                             id="name"
                             value={item.name || ''}
                             handleOnChange={(value) =>
-                              handleChange(index, 'name', value)
+                              handleChange(
+                                index,
+                                'name',
+                                value,
+                                specialtys,
+                                setSpecialtys,
+                              )
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -389,7 +406,13 @@ export default function Leave() {
                             id="location"
                             value={item.location || ''}
                             handleOnChange={(value) =>
-                              handleChange(index, 'location', value)
+                              handleChange(
+                                index,
+                                'location',
+                                value,
+                                specialtys,
+                                setSpecialtys,
+                              )
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -401,7 +424,13 @@ export default function Leave() {
                             id="professional"
                             value={item.professional || ''}
                             handleOnChange={(value) =>
-                              handleChange(index, 'professional', value)
+                              handleChange(
+                                index,
+                                'professional',
+                                value,
+                                specialtys,
+                                setSpecialtys,
+                              )
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -413,7 +442,13 @@ export default function Leave() {
                             id="day"
                             value={item.day || ''}
                             handleOnChange={(value) =>
-                              handleChange(index, 'day', value)
+                              handleChange(
+                                index,
+                                'day',
+                                value,
+                                specialtys,
+                                setSpecialtys,
+                              )
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -425,7 +460,13 @@ export default function Leave() {
                             id="hour"
                             value={item.hour || ''}
                             handleOnChange={(value) =>
-                              handleChange(index, 'hour', value)
+                              handleChange(
+                                index,
+                                'hour',
+                                value,
+                                specialtys,
+                                setSpecialtys,
+                              )
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -437,7 +478,13 @@ export default function Leave() {
                             id="contact"
                             value={item.contact || ''}
                             handleOnChange={(value) =>
-                              handleChange(index, 'contact', value)
+                              handleChange(
+                                index,
+                                'contact',
+                                value,
+                                specialtys,
+                                setSpecialtys,
+                              )
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -446,7 +493,13 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() =>
+                              removeInputFields(
+                                index,
+                                specialtys,
+                                setSpecialtys,
+                              )
+                            }
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -529,7 +582,7 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => addInputFields()}>
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -539,14 +592,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((item: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -581,7 +634,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -614,7 +667,7 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => addInputFields()}>
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -624,14 +677,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((item: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -666,7 +719,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -699,7 +752,7 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => addInputFields()}>
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -709,14 +762,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((item: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -751,7 +804,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -784,7 +837,7 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => addInputFields()}>
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -794,14 +847,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((item: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -836,7 +889,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -869,7 +922,7 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => addInputFields()}>
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -879,14 +932,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((item: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -921,7 +974,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -985,7 +1038,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => addInputFields()}>
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -995,14 +1048,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((item: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1076,7 +1129,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -1119,7 +1172,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => addInputFields()}>
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1129,14 +1182,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((item: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1210,7 +1263,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -1252,7 +1305,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => addInputFields()}>
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1262,14 +1315,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((item: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1343,7 +1396,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -1362,7 +1415,7 @@ export default function Leave() {
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
                     <th
-                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      className="border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
                       colSpan={6}
                     >
                       Ciências Humanas (Humanas e Geografia)
@@ -1385,7 +1438,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => addInputFields()}>
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1395,14 +1448,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((item: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1476,7 +1529,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -1518,7 +1571,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => addInputFields()}>
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1528,14 +1581,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((item: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1609,7 +1662,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -1651,7 +1704,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => addInputFields()}>
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1661,14 +1714,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((item: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1742,7 +1795,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -1933,7 +1986,7 @@ export default function Leave() {
         </div>
         <Button
           handleOnClick={() => {
-            setOpenPanel(!openPanel)
+            // setOpenPanel(!openPanel)
           }}
         >
           Enviar Formulário

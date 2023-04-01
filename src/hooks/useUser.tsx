@@ -8,7 +8,6 @@ import React, {
 } from 'react'
 
 import axios from '../lib/axios'
-import useMount from '../utils/useMount'
 import { UserType } from '../@types'
 
 type UserProps = {

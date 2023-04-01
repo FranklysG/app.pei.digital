@@ -57,7 +57,7 @@ export interface FormType {
   author: string
   medical_uuid: string
 
-  specialtys: SpecialtysType[]
+  specialtys: SpecialtysType
 }
 
 export interface SpecialtysType {
