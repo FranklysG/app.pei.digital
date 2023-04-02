@@ -101,8 +101,7 @@ function FormProvider({ children }: FormProviderProps) {
   const generate = useCallback(
     async ({ setErrors, setStatus, ...props }: any) => {
       await axios
-        .get('/api/form/generate', {
-          params: props,
+        .post('/api/form/generate', props, {
           responseType: 'blob',
         })
         .then((response) => {

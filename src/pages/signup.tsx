@@ -118,10 +118,7 @@ export default function SignUp() {
               </div>
 
               <div className="grid gap-2">
-                <Button
-                  type="submit"
-                  className="w-full flex gap-4 justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-                >
+                <Button type="submit">
                   Registrar
                   {loading && (
                     <TailSpin color="#ffffff" height={20} width={20} />
@@ -129,9 +126,7 @@ export default function SignUp() {
                 </Button>
                 <Link href="signin">
                   <a className="font-medium text-pink-600 hover:text-pink-500">
-                    <Button className="w-full flex gap-4 justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
-                      Entrar
-                    </Button>
+                    <Button outline={false}>Entrar</Button>
                   </a>
                 </Link>
               </div>
