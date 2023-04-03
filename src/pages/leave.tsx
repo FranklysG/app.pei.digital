@@ -196,88 +196,114 @@ export default function Leave() {
             </div>
           </div>
 
-          {/* 1. Identificação do Aluno */}
+          {/* 1. Identificação do Aluno*/}
           <div className="sm:items-start sm:gap-4 sm:pt-5">
-            <Label className="text-base sm:mt-px sm:pt-2 my-3">
-              {' '}
-              1. Identificação do aluno{' '}
-            </Label>
-            <div className="grid place-content-center grid-cols-4 justify-between items-center gap-4 pt-5 sm:border-t">
-              <div className="col-span-2 flex items-center">
-                <Label className="mr-4">Nome:</Label>
-                <Input
-                  type="text"
-                  name="name-student"
-                  id="name-student"
-                  value={name ?? ''}
-                  handleOnChange={(value) => setName(value)}
-                  placeholder=""
-                  autoComplete="given-name"
-                  className="w-full rounded-md shadow-sm sm:max-w-xs"
-                />
-              </div>
-              <div className="col-span-2 flex items-center">
-                <Label className="mr-4">Data de Nascimento:</Label>
-                <Input
-                  type="text"
-                  name="DateOfBirth"
-                  value={birthdate ?? ''}
-                  handleOnChange={(value) => setBirthdate(value)}
-                  className="block w-full rounded-md shadow-sm sm:max-w-xs"
-                />
+            <div className="">
+              <Label className="text-base sm:mt-px sm:pt-2 my-3">
+                {' '}
+                1. Identificação do aluno{' '}
+              </Label>
+            </div>
+            <div className="sm:border-t">
+              <div className="sm:flex place-content-center grid-cols-4 justify-between items-center gap-4 pt-5">
+                <div className="col-span-2 flex items-center">
+                  <Label className="mr-4">Nome:</Label>
+                  <Input
+                    type="text"
+                    name="name-student"
+                    id="name-student"
+                    value={name ?? ''}
+                    handleOnChange={(value) => setName(value)}
+                    placeholder=""
+                    autoComplete="given-name"
+                    className="w-72 flex-1 rounded-md shadow-sm"
+                  />
+                </div>
+                <div className="col-span-2 flex items-center">
+                  <Label className="mr-4">
+                    Data de Nascimento:
+                  </Label>
+                  <Input
+                    type="text"
+                    name="DateOfBirth"
+                    value={birthdate ?? ''}
+                    handleOnChange={(value) => setBirthdate(value)}
+                    className="w-72 flex-1 rounded-md shadow-sm"
+                  />
+                </div>
               </div>
             </div>
+            <div className="">
+              <div className="sm:flex sm:items-center sm:gap-4 sm:pt-5 grid-cols-4  place-content-center justify-between items-center gap-4 pt-5">
+                <div className="  col-span-3 flex items-center">
+                  <Label className="mr-4">
+                    Ano:
+                  </Label>
+                  <Input
+                    type="text"
+                    name="year"
+                    value={year ?? ''}
+                    handleOnChange={(value) => setYear(value)}
+                    className="w-48 rounded-md shadow-sm sm:max-w-xs"
+                  />
+                </div>
 
-            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:pt-5">
-              <Label>Ano:</Label>
-              <Input
-                type="text"
-                name="year"
-                value={year ?? ''}
-                handleOnChange={(value) => setYear(value)}
-                className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-              />
-              <Label> Turma:</Label>
-              <Input
-                type="text"
-                name="class"
-                value={classRoom ?? ''}
-                handleOnChange={(value) => setClassRoom(value)}
-                className="w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-              />
-              <Label> Turno:</Label>
-              <Input
-                type="text"
-                name="Shift"
-                value={bout ?? ''}
-                handleOnChange={(value) => setBout(value)}
-                className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-              />
-            </div>
+                <div className=" col-span-2 flex items-center">
+                  <Label className="mr-4">
+                    Turma:
+                  </Label>
+                  <Input
+                    type="text"
+                    name="class"
+                    value={classRoom ?? ''}
+                    handleOnChange={(value) => setClassRoom(value)}
+                    className="w-48 flex-1 rounded-md shadow-sm"
+                  />
+                </div>
 
-            <div className="grid place-content-center grid-cols-4 justify-between items-center gap-4 pt-5">
-              <div className="col-span-2 flex items-center">
-                <Label className="mr-4">Pai:</Label>
-                <Input
-                  type="text"
-                  name="Fathers-name"
-                  value={father ?? ''}
-                  handleOnChange={(value) => setFather(value)}
-                  className="w-full flex-1 rounded-md shadow-sm"
-                />
-              </div>
-              <div className="col-span-2 flex items-center">
-                <Label className="mr-4">Mãe:</Label>
-                <Input
-                  type="text"
-                  name="Mothers-name"
-                  value={mother ?? ''}
-                  handleOnChange={(value) => setMother(value)}
-                  className="w-full flex-1 rounded-md shadow-sm"
-                />
+                <div className="col-span-3 flex items-center">
+                  <Label className="mr-4">
+                    Turno:
+                  </Label>
+                  <Input
+                    type="text"
+                    name="Shift"
+                    value={bout ?? ''}
+                    handleOnChange={(value) => setBout(value)}
+                    className="w-48 flex-1 rounded-md shadow-sm"
+                  />
+                </div>
               </div>
             </div>
+            <div className="">
+              <div className="sm:flex place-content-center grid-cols-4 justify-between items-center gap-4 pt-5">
+                <div className="col-span-2 flex items-center">
+                  <Label className="mr-4">
+                    Pai:
+                  </Label>
+                  <Input
+                    type="text"
+                    name="Fathers-name"
+                    value={father ?? ''}
+                    handleOnChange={(value) => setFather(value)}
+                    className="w-80 flex-1 rounded-md shadow-sm"
+                  />
+                </div>
 
+                <div className="col-span-2 flex items-center">
+                  <Label className="mr-4">
+                    Mãe:
+                  </Label>
+                  <Input
+                    type="text"
+                    name="Mothers-name"
+                    value={mother ?? ''}
+                    handleOnChange={(value) => setMother(value)}
+                    className="w-80 flex-1 rounded-md shadow-sm"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* 2. Diagnostico e a data do ultimo laudo */}
