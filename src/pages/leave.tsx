@@ -161,26 +161,37 @@ export default function Leave() {
       <form onSubmit={submitForm} className="space-y-6">
         <div className="text-center">
           <h3 className="text-lg font-medium leading-6 text-gray-900">
-            PROGRAMA EDUCACIONAL PERSONALIZADO
+            PLANO EDUCACIONAL INDIVIDUALIZADO
           </h3>
-          <p className="mt-1 text-sm text-gray-500">
-            ESCOLA MUNICIPAL ELIAS ALFREDO CURY
-          </p>
         </div>
         <div className="space-y-6 sm:space-y-5">
-          <div className="sm:grid sm:place-content-center sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-            <Label htmlFor="first-name" className="text-base sm:mt-px sm:pt-2">
-              Título
+          <div className="flex justify-between items-center sm:border-t sm:border-gray-200 sm:pt-5">
+            <Label className="mr-6">
+              Nome da escola:
             </Label>
-            <div className="mt-1 sm:col-span-2 sm:mt-0">
+            <div className="mt-1 flex-1">
               <Input
                 type="text"
-                name="first-name"
-                id="first-name"
+                name="school-name"
+                id="school-name"
+                autoComplete="school-name"
+                className="w-full"
+              />
+            </div>
+          </div>
+          <div className="flex justify-between items-center">
+            <Label className="mr-6" >
+              Título:
+            </Label>
+            <div className="mt-1 flex-1">
+              <Input
+                type="text"
+                name="title"
+                id="title"
                 value={title ?? ''}
                 handleOnChange={(value) => setTitle(value)}
-                autoComplete="given-name"
-                className="block w-full rounded-md shadow-sm"
+                autoComplete="title"
+                className="w-full"
               />
             </div>
           </div>
@@ -191,28 +202,30 @@ export default function Leave() {
               {' '}
               1. Identificação do aluno{' '}
             </Label>
-
-            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
-              <Label>Nome:</Label>
-              <Input
-                type="text"
-                name="name-student"
-                id="name-student"
-                value={name ?? ''}
-                handleOnChange={(value) => setName(value)}
-                placeholder=""
-                autoComplete="given-name"
-                className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-              />
-
-              <Label>Data de Nascimento:</Label>
-              <Input
-                type="text"
-                name="DateOfBirth"
-                value={birthdate ?? ''}
-                handleOnChange={(value) => setBirthdate(value)}
-                className="block w-36 rounded-md shadow-sm sm:max-w-xs"
-              />
+            <div className="grid place-content-center grid-cols-4 justify-between items-center gap-4 pt-5 sm:border-t">
+              <div className="col-span-2 flex items-center">
+                <Label className="mr-4">Nome:</Label>
+                <Input
+                  type="text"
+                  name="name-student"
+                  id="name-student"
+                  value={name ?? ''}
+                  handleOnChange={(value) => setName(value)}
+                  placeholder=""
+                  autoComplete="given-name"
+                  className="w-full rounded-md shadow-sm sm:max-w-xs"
+                />
+              </div>
+              <div className="col-span-2 flex items-center">
+                <Label className="mr-4">Data de Nascimento:</Label>
+                <Input
+                  type="text"
+                  name="DateOfBirth"
+                  value={birthdate ?? ''}
+                  handleOnChange={(value) => setBirthdate(value)}
+                  className="block w-full rounded-md shadow-sm sm:max-w-xs"
+                />
+              </div>
             </div>
 
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:pt-5">
@@ -230,7 +243,7 @@ export default function Leave() {
                 name="class"
                 value={classRoom ?? ''}
                 handleOnChange={(value) => setClassRoom(value)}
-                className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
+                className="w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
               />
               <Label> Turno:</Label>
               <Input
@@ -242,24 +255,29 @@ export default function Leave() {
               />
             </div>
 
-            <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:pt-5">
-              <Label>Pai:</Label>
-              <Input
-                type="text"
-                name="Fathers-name"
-                value={father ?? ''}
-                handleOnChange={(value) => setFather(value)}
-                className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-              />
-              <Label>Mãe:</Label>
-              <Input
-                type="text"
-                name="Mothers-name"
-                value={mother ?? ''}
-                handleOnChange={(value) => setMother(value)}
-                className="block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs "
-              />
+            <div className="grid place-content-center grid-cols-4 justify-between items-center gap-4 pt-5">
+              <div className="col-span-2 flex items-center">
+                <Label className="mr-4">Pai:</Label>
+                <Input
+                  type="text"
+                  name="Fathers-name"
+                  value={father ?? ''}
+                  handleOnChange={(value) => setFather(value)}
+                  className="w-full flex-1 rounded-md shadow-sm"
+                />
+              </div>
+              <div className="col-span-2 flex items-center">
+                <Label className="mr-4">Mãe:</Label>
+                <Input
+                  type="text"
+                  name="Mothers-name"
+                  value={mother ?? ''}
+                  handleOnChange={(value) => setMother(value)}
+                  className="w-full flex-1 rounded-md shadow-sm"
+                />
+              </div>
             </div>
+
           </div>
 
           {/* 2. Diagnostico e a data do ultimo laudo */}
@@ -972,7 +990,7 @@ export default function Leave() {
                       Desempenho Atual
                     </th>
                     <th className="border-r px-5 py-2 dark:border-neutral-500">
-                      Estratégia e Intervenções Pedagógicas
+                      Estratégias e Intervenções Pedagógicas
                     </th>
                     <th className="border-r px-5 py-2 dark:border-neutral-500">
                       Recursos
@@ -1100,7 +1118,7 @@ export default function Leave() {
                       Desempenho Atual
                     </th>
                     <th className="border-r px-5 py-2 dark:border-neutral-500">
-                      Estratégia e Intervenções Pedagógicas
+                      Estratégias e Intervenções Pedagógicas
                     </th>
                     <th className="border-r px-5 py-2 dark:border-neutral-500">
                       Recursos
@@ -1228,7 +1246,7 @@ export default function Leave() {
                       Desempenho Atual
                     </th>
                     <th className="border-r px-5 py-2 dark:border-neutral-500">
-                      Estratégia e Intervenções Pedagógicas
+                      Estratégias e Intervenções Pedagógicas
                     </th>
                     <th className="border-r px-5 py-2 dark:border-neutral-500">
                       Recursos
@@ -1342,7 +1360,7 @@ export default function Leave() {
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
                     <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
-                      Ciências Humanas (Humanas e Geografia)
+                      Ciências Humanas (Geografia e História)
                     </th>
                   </tr>
                   <tr>
@@ -1356,7 +1374,7 @@ export default function Leave() {
                       Desempenho Atual
                     </th>
                     <th className="border-r px-5 py-2 dark:border-neutral-500">
-                      Estratégia e Intervenções Pedagógicas
+                      Estratégias e Intervenções Pedagógicas
                     </th>
                     <th className="border-r px-5 py-2 dark:border-neutral-500">
                       Recursos
@@ -1484,7 +1502,7 @@ export default function Leave() {
                       Desempenho Atual
                     </th>
                     <th className="border-r px-5 py-2 dark:border-neutral-500">
-                      Estratégia e Intervenções Pedagógicas
+                      Estratégias e Intervenções Pedagógicas
                     </th>
                     <th className="border-r px-5 py-2 dark:border-neutral-500">
                       Recursos
@@ -1612,7 +1630,7 @@ export default function Leave() {
                       Desempenho Atual
                     </th>
                     <th className="border-r px-5 py-2 dark:border-neutral-500">
-                      Estratégia e Intervenções Pedagógicas
+                      Estratégias e Intervenções Pedagógicas
                     </th>
                     <th className="border-r px-5 py-2 dark:border-neutral-500">
                       Recursos
@@ -1821,11 +1839,11 @@ export default function Leave() {
             </div>
           </div>
 
-          {/* 12. Ações adaptativas.. */}
+          {/* Ações adaptativas.. */}
           <div className="sm:items-start sm:gap-4 sm:pt-5">
             <Label className="text-base sm:mt-px sm:pt-2 my-3">
               {' '}
-              12. Ações adaptativas por cada área de conhecimento:
+              Ações adaptativas por cada área de conhecimento:
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
@@ -1836,11 +1854,11 @@ export default function Leave() {
             </div>
           </div>
 
-          {/* 13. Recursos de tecnologia.. */}
+          {/* 12. Recursos de tecnologia.. */}
           <div className="sm:items-start sm:gap-4 sm:pt-5">
             <Label className="text-base sm:mt-px sm:pt-2 my-3">
               {' '}
-              13. Recursos de tecnologia assistiva:
+              12. Recursos de tecnologia assistiva:
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
@@ -1851,11 +1869,11 @@ export default function Leave() {
             </div>
           </div>
 
-          {/* 14. Recursos avaliativos.. */}
+          {/* 13. Recursos avaliativos.. */}
           <div className="sm:items-start sm:gap-4 sm:pt-5">
             <Label className="text-base sm:mt-px sm:pt-2 my-3">
               {' '}
-              14. Recursos avaliativos:
+              13. Recursos avaliativos:
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
@@ -1866,11 +1884,11 @@ export default function Leave() {
             </div>
           </div>
 
-          {/* 15. Observações.. */}
+          {/* 14. Observações.. */}
           <div className="sm:items-start sm:gap-4 sm:pt-5">
             <Label className="text-base sm:mt-px sm:pt-2 my-3">
               {' '}
-              15. Observações a considerar como necessárias:
+              14. Observações:
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
@@ -1881,11 +1899,11 @@ export default function Leave() {
             </div>
           </div>
 
-          {/* 16. Parecer Semestral */}
+          {/* 15. Parecer Semestral */}
           <div className="sm:items-start sm:gap-4 sm:pt-5">
             <Label className="text-base sm:mt-px sm:pt-2 my-3">
               {' '}
-              16. Parecer Semestral:
+              15. Parecer Semestral:
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
