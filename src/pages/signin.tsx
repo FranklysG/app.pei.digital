@@ -8,15 +8,16 @@ import Button from '../components/button'
 import Input from '../components/input'
 import Label from '../components/label'
 import Guest from '../layouts/guest'
+import { TailSpin } from 'react-loader-spinner'
+import Logo from '../assets/svg/Logo'
 
 export default function SignIn() {
   const router = useRouter()
 
-  const { login, setMiddleware, setRedirectIfAuthenticated } = useAuth()
+  const { loading, login } = useAuth()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [checkbox, setCheckbox] = useState(false)
   const [errors, setErrors] = useState([])
   const [status, setStatus] = useState<string | string[]>('')
 
@@ -39,8 +40,7 @@ export default function SignIn() {
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
-      setMiddleware('guest')
-      setRedirectIfAuthenticated('/dashboard')
+      localStorage.setItem('@peidigital:route:auth', '/dashboard')
       login({ email, password, setErrors, setStatus })
     },
     [email, password, setErrors, setStatus],
@@ -51,21 +51,10 @@ export default function SignIn() {
       <div className="mx-auto w-full max-w-sm lg:w-96">
         <div>
           <Link href="/">
-            <a>
-              {/* <Logo className="w-20 h-20 fill-current text-pink-500" /> */}
+            <a className="flex justify-center">
+              <Logo />
             </a>
           </Link>
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-            Acesso ao Pei digital
-          </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Ou{' '}
-            <Link href="signup">
-              <a className="font-medium text-pink-600 hover:text-pink-500">
-                Registre-se
-              </a>
-            </Link>
-          </p>
         </div>
         <div className="mt-8">
           <div>
@@ -156,13 +145,18 @@ export default function SignIn() {
                 </div>
               </div>
 
-              <div>
-                <Button
-                  type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-                >
+              <div className="grid gap-2">
+                <Button type="submit">
                   Entrar
+                  {loading && (
+                    <TailSpin color="#ffffff" height={20} width={20} />
+                  )}
                 </Button>
+                <Link href="signup">
+                  <a className="font-medium text-pink-600 hover:text-pink-500">
+                    <Button outline={false}>Registre-se</Button>
+                  </a>
+                </Link>
               </div>
             </form>
           </div>

@@ -1,5 +1,3 @@
-import internal from 'stream'
-
 export interface Requests {
   id: string
   name: string
@@ -57,7 +55,7 @@ export interface FormType {
   author: string
   medical_uuid: string
 
-  specialtys: SpecialtysType[]
+  specialtys: SpecialtysType
 }
 
 export interface SpecialtysType {

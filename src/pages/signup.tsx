@@ -7,9 +7,10 @@ import Button from '../components/button'
 import Input from '../components/input'
 import Label from '../components/label'
 import GuestLayout from '../layouts/guest'
+import { TailSpin } from 'react-loader-spinner'
 
 export default function SignUp() {
-  const { register, setMiddleware, setRedirectIfAuthenticated } = useAuth()
+  const { loading, register } = useAuth()
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -24,15 +25,13 @@ export default function SignUp() {
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
-      setMiddleware('guest'),
-        setRedirectIfAuthenticated('/dashboard'),
-        register({
-          name,
-          email,
-          password,
-          password_confirmation: passwordConfirmation,
-          setErrors,
-        })
+      register({
+        name,
+        email,
+        password,
+        password_confirmation: passwordConfirmation,
+        setErrors,
+      })
     },
     [name, email, password, passwordConfirmation, setErrors],
   )
@@ -42,21 +41,10 @@ export default function SignUp() {
       <div className="mx-auto w-full max-w-sm lg:w-96">
         <div>
           <Link href="/">
-            <a>
-              <Logo className="w-20 h-20 fill-current text-gray-500" />
+            <a className="flex justify-center">
+              <Logo />
             </a>
           </Link>
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-            Registre-se com sua conta
-          </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Ou{' '}
-            <Link href="signin">
-              <a className="font-medium text-pink-600 hover:text-pink-500">
-                Entrar
-              </a>
-            </Link>
-          </p>
         </div>
 
         <div className="mt-8">
@@ -69,9 +57,7 @@ export default function SignUp() {
                 <div className="w-full border-t border-gray-300" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">
-                  Ou continue com
-                </span>
+                <span className="px-2 bg-white text-gray-500"></span>
               </div>
             </div>
           </div>
@@ -131,8 +117,18 @@ export default function SignUp() {
                 />
               </div>
 
-              <div className="flex items-center justify-end mt-4">
-                <Button>Registrar</Button>
+              <div className="grid gap-2">
+                <Button type="submit">
+                  Registrar
+                  {loading && (
+                    <TailSpin color="#ffffff" height={20} width={20} />
+                  )}
+                </Button>
+                <Link href="signin">
+                  <a className="font-medium text-pink-600 hover:text-pink-500">
+                    <Button outline={false}>Entrar</Button>
+                  </a>
+                </Link>
               </div>
             </form>
           </div>

@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { toast } from 'react-toastify'
 
-import Logo from '../assets/svg/Logo'
 import Button from '../components/button'
 import GuestLayout from '../layouts/guest'
 import Input from '../components/input'
@@ -10,7 +9,7 @@ import Label from '../components/label'
 import Link from 'next/link'
 
 const ForgotPassword = () => {
-  const { forgotPassword, setMiddleware } = useAuth()
+  const { forgotPassword } = useAuth()
 
   const [email, setEmail] = useState('')
   const [errors, setErrors] = useState([])
@@ -26,7 +25,6 @@ const ForgotPassword = () => {
 
   const submitForm = useCallback((event: any) => {
     event.preventDefault()
-    setMiddleware('auth')
     forgotPassword({ email, setErrors, setStatus })
   }, [])
 

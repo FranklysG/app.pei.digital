@@ -1,5 +1,3 @@
-import { ReactNode } from 'react'
-
 interface cardProps {
   name: string
   href: string

@@ -9,25 +9,24 @@ import Label from '../../components/label'
 
 const PasswordReset = () => {
   const router = useRouter()
-  const { resetPassword, setMiddleware } = useAuth()
+  const { resetPassword } = useAuth()
 
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
-  const [errors, setErrors] = useState([])
-  const [status, setStatus] = useState(null)
+  const [, setErrors] = useState([])
+  const [, setStatus] = useState(null)
 
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
-      setMiddleware('guest'),
-        resetPassword({
-          email,
-          password,
-          password_confirmation: passwordConfirmation,
-          setErrors,
-          setStatus,
-        })
+      resetPassword({
+        email,
+        password,
+        password_confirmation: passwordConfirmation,
+        setErrors,
+        setStatus,
+      })
     },
     [email, password, passwordConfirmation, setStatus, setErrors],
   )

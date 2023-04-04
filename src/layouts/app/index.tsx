@@ -1,12 +1,9 @@
-import Head from 'next/head'
 import { ReactNode, useEffect, useState } from 'react'
+import Head from 'next/head'
 import Loading from '../../components/loading'
-import Panel from '../../components/panel'
-import { useAuth } from '../../hooks/useAuth'
-import { useWorkspace } from '../../hooks/useWorkspace'
-import Leave from '../../pages/leave'
-import useMount from '../../utils/useMount'
+
 import Sidebar from '../sidebar'
+import { useRouter } from 'next/router'
 
 interface AppProps {
   header: string
@@ -14,18 +11,22 @@ interface AppProps {
 }
 
 export default function App({ header, children }: AppProps) {
-  const { loading, setMiddleware } = useAuth()
-  const [load, setLoad] = useState(true)
-
-  useMount(() => {
-    setTimeout(() => setLoad(false), 2000)
-  })
+  const router = useRouter()
+  const [token, setToken] = useState(0)
 
   useEffect(() => {
-    setMiddleware('auth')
+    ;(async () => {
+      const token = localStorage.getItem('@peidigital:token')?.length ?? 0
+      setToken(token)
+      if (token === 0) {
+        setTimeout(() => {
+          router.push('/signin')
+        }, 1000)
+      }
+    })()
   }, [])
 
-  if (loading) {
+  if (token === 0) {
     return <Loading />
   }
 

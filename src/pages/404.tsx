@@ -11,7 +11,7 @@ export default function NotFoudPage() {
           <div className="flex-shrink-0 pt-10 sm:pt-16">
             <Link href="/">
               <a>
-                <Logo className="w-20 h-20 fill-current text-gray-500" />
+                <Logo />
               </a>
             </Link>
           </div>

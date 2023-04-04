@@ -4,8 +4,6 @@ import { values } from 'lodash'
 
 import { useWorkspace } from '../hooks/useWorkspace'
 import { useGlobal } from '../hooks/useGlobal'
-import { useForm } from '../hooks/useForm'
-import { useAuth } from '../hooks/useAuth'
 
 import Button from '../components/button'
 import Input from '../components/input'
@@ -13,7 +11,6 @@ import Label from '../components/label'
 import { useUser } from '../hooks/useUser'
 
 export default function User() {
-  const { setMiddleware } = useAuth()
   const { workspace } = useWorkspace()
   const { openPanel, setOpenPanel } = useGlobal()
   const { users, update, create, currentUuid } = useUser()
@@ -22,7 +19,7 @@ export default function User() {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
-  const [status, setStatus] = useState<string>('')
+  const [_, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
 
   const workspace_uuid = values(workspace).shift()?.uuid
@@ -41,7 +38,6 @@ export default function User() {
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
-      setMiddleware('auth')
 
       if (currentUuid !== '') {
         update({

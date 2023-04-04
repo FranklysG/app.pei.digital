@@ -17,11 +17,16 @@ import { useGlobal } from '../hooks/useGlobal'
 import Leave from './leave'
 import { classNames, generateGreetings } from '../utils'
 
+const avatar =
+  'https://images.unsplash.com/photo-1636622433525-127afdf3662d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+
+const lines = ['', '', '', '', '', '']
+
 export default function Dashboard() {
   const { forms, setCurrentUuid } = useForm()
   const { user, verified } = useAuth()
   const { openPanel, setOpenPanel } = useGlobal()
-  const [hour, setHour] = useState(moment().format('HH'))
+  const [hour] = useState(moment().format('HH'))
 
   return (
     <App header={'Dashboard'}>
@@ -38,15 +43,12 @@ export default function Dashboard() {
                 {/* Profile */}
                 <div className="flex items-center">
                   <picture>
-                    <source
-                      srcSet="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
-                      type="image/webp"
-                    />
+                    <source srcSet={`${avatar}`} type="image/webp" />
                     <img
                       width="4rem"
                       height="4rem"
                       className="hidden h-16 w-16 rounded-full sm:block"
-                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
+                      src={`${avatar}`}
                       alt="avatar"
                     />
                   </picture>
@@ -54,15 +56,12 @@ export default function Dashboard() {
                   <div>
                     <div className="flex items-center">
                       <picture>
-                        <source
-                          srcSet="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
-                          type="image/webp"
-                        />
+                        <source srcSet={`${avatar}`} type="image/webp" />
                         <img
                           width="4rem"
                           height="4rem"
                           className="h-16 w-16 rounded-full sm:hidden"
-                          src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
+                          src={`${avatar}`}
                           alt="avatar"
                         />
                       </picture>
@@ -124,7 +123,7 @@ export default function Dashboard() {
               {forms?.map((item) => (
                 <li key={item.uuid}>
                   <a
-                    href={'api/generate'}
+                    href={`api/generate/${item.uuid}`}
                     className="block bg-white px-4 py-4 hover:bg-gray-50"
                   >
                     <div className="grid gap-2">
@@ -132,7 +131,6 @@ export default function Dashboard() {
                         <h4 className="text-gray-600">{item.title}</h4>
                         <Badge
                           className="text-2xl"
-                          name={item.status}
                           type={item.type}
                           status={item.status}
                         />
@@ -186,41 +184,73 @@ export default function Dashboard() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
-                      {forms?.map((item) => (
-                        <tr key={item.uuid} className="bg-white">
-                          <td className="w-full max-w-0 whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                            <div className="flex">
-                              <a
-                                href={'api/generate'}
-                                className="group inline-flex space-x-2 truncate text-sm"
-                              >
-                                <ArrowTrendingUpIcon
-                                  className="h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                                  aria-hidden="true"
-                                />
+                      {forms?.length
+                        ? forms?.map((item) => (
+                            <tr key={item.uuid} className="bg-white">
+                              <td className="w-full max-w-0 whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                <div className="flex">
+                                  <a
+                                    href={`api/generate/${item.uuid}`}
+                                    className="group inline-flex space-x-2 truncate text-sm"
+                                  >
+                                    <ArrowTrendingUpIcon
+                                      className="h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                                      aria-hidden="true"
+                                    />
+                                    <p className="truncate text-gray-500 group-hover:text-gray-900">
+                                      {item.title}
+                                    </p>
+                                  </a>
+                                </div>
+                              </td>
+                              <td className="w-full max-w-lg whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                                 <p className="truncate text-gray-500 group-hover:text-gray-900">
-                                  {item.title}
+                                  {item.author}
                                 </p>
-                              </a>
-                            </div>
-                          </td>
-                          <td className="w-full max-w-lg whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                            <p className="truncate text-gray-500 group-hover:text-gray-900">
-                              {item.author}
-                            </p>
-                          </td>
-                          <td className="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
-                            <Badge
-                              name={item.status}
-                              type={item.type}
-                              status={item.status}
-                            />
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500">
-                            <time dateTime={item.created_at}>{item.date}</time>
-                          </td>
-                        </tr>
-                      ))}
+                              </td>
+                              <td className="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
+                                <Badge type={item.type} status={item.status} />
+                              </td>
+                              <td className="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500">
+                                <time dateTime={item.created_at}>
+                                  {item.date}
+                                </time>
+                              </td>
+                            </tr>
+                          ))
+                        : lines.map((_, index) => (
+                            <tr key={index} className="bg-white">
+                              <td className="w-full max-w-0 whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                <div className="flex">
+                                  <a
+                                    href={`#`}
+                                    className="group inline-flex space-x-2 truncate text-sm"
+                                  >
+                                    <ArrowTrendingUpIcon
+                                      className="h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                                      aria-hidden="true"
+                                    />
+                                    <p className="animate-pulse truncate bg-gray-200 w-72 rounded-lg group-hover:text-gray-900"></p>
+                                  </a>
+                                </div>
+                              </td>
+                              <td className="w-full max-w-lg whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                <p className="animate-pulse truncate bg-gray-200 w-10 rounded-lg group-hover:text-gray-900">
+                                  ‎
+                                </p>
+                              </td>
+                              <td className="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
+                                <p className="animate-pulse truncate bg-gray-200 w-10 rounded-lg group-hover:text-gray-900">
+                                  ‎
+                                </p>
+                              </td>
+                              <td className="whitespace-nowrap px-6 py-4 text-right text-sm text-gray-500">
+                                <p className="animate-pulse truncate bg-gray-200 w-10 rounded-lg group-hover:text-gray-900">
+                                  ‎
+                                </p>
+                              </td>
+                            </tr>
+                          ))}
                     </tbody>
                   </table>
                   {/* Pagination */}

@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useState } from 'react'
+import { Fragment, useCallback } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import Link from 'next/link'
 import { Bars3CenterLeftIcon, BellIcon } from '@heroicons/react/24/outline'
@@ -8,12 +8,10 @@ import { useAuth } from '../../hooks/useAuth'
 import { useGlobal } from '../../hooks/useGlobal'
 
 export default function Navbar() {
-  const { logout, setMiddleware, setRedirectIfAuthenticated } = useAuth()
+  const { user, logout } = useAuth()
   const { openSidebar, setOpenSidebar } = useGlobal()
 
   const handleUserLogout = useCallback(() => {
-    setMiddleware('guest')
-    setRedirectIfAuthenticated('/signin')
     logout()
   }, [])
 
@@ -64,18 +62,18 @@ export default function Navbar() {
             <div>
               <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 lg:rounded-md lg:p-2 lg:hover:bg-gray-50">
                 <picture>
-                  <source src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
+                  <source src="https://images.unsplash.com/photo-1636622433525-127afdf3662d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" />
                   <img
                     width="2rem"
                     height="2rem"
                     className="h-8 w-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    src="https://images.unsplash.com/photo-1636622433525-127afdf3662d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                     alt="avatar"
                   />
                 </picture>
                 <span className="ml-3 hidden text-sm font-medium text-gray-700 lg:block">
-                  <span className="sr-only">Abrir menu de usuário para </span>Emilia
-                  Birch
+                  <span className="sr-only">Abrir menu de usuário para </span>
+                  {user?.name}
                 </span>
                 <ChevronDownIcon
                   className="ml-1 hidden h-5 w-5 flex-shrink-0 text-gray-400 lg:block"

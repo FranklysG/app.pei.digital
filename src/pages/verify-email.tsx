@@ -6,7 +6,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useState } from 'react'
 
 const VerifyEmail = () => {
-  const { logout, resendEmailVerification, setMiddleware } = useAuth()
+  const { logout, resendEmailVerification } = useAuth()
 
   const [status, setStatus] = useState(null)
 
@@ -15,7 +15,7 @@ const VerifyEmail = () => {
       <div className="mx-auto w-full max-w-sm lg:w-96">
         <Link href="/">
           <a>
-            <Logo className="w-20 h-20 fill-current text-gray-500" />
+            <Logo />
           </a>
         </Link>
         <div className="mt-4 mb-4 text-sm text-gray-600">
@@ -41,7 +41,6 @@ const VerifyEmail = () => {
             type="button"
             className="underline text-sm text-gray-600 hover:text-gray-900"
             onClick={() => {
-              setMiddleware('auth')
               logout()
             }}
           >

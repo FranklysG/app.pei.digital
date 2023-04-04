@@ -8,7 +8,6 @@ import { useSpecialist } from '../hooks/useSpecialist'
 import { useWorkspace } from '../hooks/useWorkspace'
 import { useGlobal } from '../hooks/useGlobal'
 import { useForm } from '../hooks/useForm'
-import { useAuth } from '../hooks/useAuth'
 
 import Button from '../components/button'
 import Input from '../components/input'
@@ -19,7 +18,6 @@ import Select from '../components/select'
 import { SpecialistType, SpecialtysType } from '../@types'
 
 export default function Leave() {
-  const { setMiddleware } = useAuth()
   const { workspace } = useWorkspace()
   const { openPanel, setOpenPanel } = useGlobal()
   const { currentUuid, forms, create, update } = useForm()
@@ -40,7 +38,7 @@ export default function Leave() {
 
   const [specialtys, setSpecialtys] = useState<SpecialtysType[]>([])
 
-  const [status, setStatus] = useState<string>('')
+  const [_, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
 
   const workspace_uuid = values(workspace).shift()?.uuid
@@ -63,7 +61,7 @@ export default function Leave() {
           setDiagnostic(item.diagnostic)
           setDescription(item.description)
           setMedicalUuid(item.medical_uuid)
-          setSpecialtys(item.specialtys)
+          setSpecialtys(item.specialtys as never)
         })
     }
   }, [currentUuid])
@@ -73,31 +71,31 @@ export default function Leave() {
   }, [errors])
 
   const handleChange = useCallback(
-    (index, name, value) => {
-      let newValues = [...specialtys]
-      newValues[index][name] = value
-      setSpecialtys(newValues)
+    (itemIndex, name, value, _, setTableState) => {
+      setTableState((prevState) => {
+        const newState = [...prevState]
+        newState[itemIndex] = { ...newState[itemIndex], [name]: value }
+        return newState
+      })
     },
-    [specialtys],
+    [],
   )
 
-  const addInputFields = useCallback(() => {
-    setSpecialtys((prevState) => [...prevState, [] as never])
+  const addInputFields = useCallback((_, setTableState) => {
+    setTableState((prevState) => [...prevState, [] as never])
   }, [])
 
-  const removeInputFields = useCallback(
-    (i) => {
-      let newInputValues = [...specialtys]
-      newInputValues.splice(i, 1)
-      setSpecialtys(newInputValues)
-    },
-    [specialtys],
-  )
+  const removeInputFields = useCallback((itemIndex, _, setTableState) => {
+    setTableState((prevState) => {
+      const newState = [...prevState]
+      newState.splice(itemIndex, 1)
+      return newState
+    })
+  }, [])
 
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
-      setMiddleware('auth')
 
       if (currentUuid !== '') {
         update({
@@ -117,7 +115,6 @@ export default function Leave() {
           setErrors,
           setStatus,
         })
-        return
       }
       create({
         workspace_uuid,
@@ -166,9 +163,7 @@ export default function Leave() {
         </div>
         <div className="space-y-6 sm:space-y-5">
           <div className="flex justify-between items-center sm:border-t sm:border-gray-200 sm:pt-5">
-            <Label className="mr-6">
-              Nome da escola:
-            </Label>
+            <Label className="mr-6">Nome da escola:</Label>
             <div className="mt-1 flex-1">
               <Input
                 type="text"
@@ -180,9 +175,7 @@ export default function Leave() {
             </div>
           </div>
           <div className="flex justify-between items-center">
-            <Label className="mr-6" >
-              Título:
-            </Label>
+            <Label className="mr-6">Título:</Label>
             <div className="mt-1 flex-1">
               <Input
                 type="text"
@@ -220,9 +213,7 @@ export default function Leave() {
                   />
                 </div>
                 <div className="col-span-2 flex items-center">
-                  <Label className="mr-4">
-                    Data de Nascimento:
-                  </Label>
+                  <Label className="mr-4">Data de Nascimento:</Label>
                   <Input
                     type="text"
                     name="DateOfBirth"
@@ -236,9 +227,7 @@ export default function Leave() {
             <div className="">
               <div className="sm:flex sm:items-center sm:gap-4 sm:pt-5 grid-cols-4  place-content-center justify-between items-center gap-4 pt-5">
                 <div className="  col-span-3 flex items-center">
-                  <Label className="mr-4">
-                    Ano:
-                  </Label>
+                  <Label className="mr-4">Ano:</Label>
                   <Input
                     type="text"
                     name="year"
@@ -249,9 +238,7 @@ export default function Leave() {
                 </div>
 
                 <div className=" col-span-2 flex items-center">
-                  <Label className="mr-4">
-                    Turma:
-                  </Label>
+                  <Label className="mr-4">Turma:</Label>
                   <Input
                     type="text"
                     name="class"
@@ -262,9 +249,7 @@ export default function Leave() {
                 </div>
 
                 <div className="col-span-3 flex items-center">
-                  <Label className="mr-4">
-                    Turno:
-                  </Label>
+                  <Label className="mr-4">Turno:</Label>
                   <Input
                     type="text"
                     name="Shift"
@@ -278,9 +263,7 @@ export default function Leave() {
             <div className="">
               <div className="sm:flex place-content-center grid-cols-4 justify-between items-center gap-4 pt-5">
                 <div className="col-span-2 flex items-center">
-                  <Label className="mr-4">
-                    Pai:
-                  </Label>
+                  <Label className="mr-4">Pai:</Label>
                   <Input
                     type="text"
                     name="Fathers-name"
@@ -291,9 +274,7 @@ export default function Leave() {
                 </div>
 
                 <div className="col-span-2 flex items-center">
-                  <Label className="mr-4">
-                    Mãe:
-                  </Label>
+                  <Label className="mr-4">Mãe:</Label>
                   <Input
                     type="text"
                     name="Mothers-name"
@@ -371,6 +352,14 @@ export default function Leave() {
               <table className="text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={7}
+                    >
+                      Especialidades
+                    </th>
+                  </tr>
+                  <tr>
                     <th className="border-r px-2 py-2 dark:border-neutral-500">
                       Especialidade
                     </th>
@@ -389,11 +378,12 @@ export default function Leave() {
                     <th className="border-r px-5 py-2 dark:border-neutral-500">
                       Contato
                     </th>
-                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
                       <button
                         type="button"
-                        className="flex justify-evenly items-center"
-                        onClick={() => addInputFields()}
+                        onClick={() =>
+                          addInputFields(specialtys, setSpecialtys)
+                        }
                       >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
@@ -404,7 +394,7 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
@@ -423,7 +413,13 @@ export default function Leave() {
                             id="name"
                             value={item.name || ''}
                             handleOnChange={(value) =>
-                              handleChange(index, 'name', value)
+                              handleChange(
+                                index,
+                                'name',
+                                value,
+                                specialtys,
+                                setSpecialtys,
+                              )
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -435,7 +431,13 @@ export default function Leave() {
                             id="location"
                             value={item.location || ''}
                             handleOnChange={(value) =>
-                              handleChange(index, 'location', value)
+                              handleChange(
+                                index,
+                                'location',
+                                value,
+                                specialtys,
+                                setSpecialtys,
+                              )
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -447,7 +449,13 @@ export default function Leave() {
                             id="professional"
                             value={item.professional || ''}
                             handleOnChange={(value) =>
-                              handleChange(index, 'professional', value)
+                              handleChange(
+                                index,
+                                'professional',
+                                value,
+                                specialtys,
+                                setSpecialtys,
+                              )
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -459,7 +467,13 @@ export default function Leave() {
                             id="day"
                             value={item.day || ''}
                             handleOnChange={(value) =>
-                              handleChange(index, 'day', value)
+                              handleChange(
+                                index,
+                                'day',
+                                value,
+                                specialtys,
+                                setSpecialtys,
+                              )
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -471,7 +485,13 @@ export default function Leave() {
                             id="hour"
                             value={item.hour || ''}
                             handleOnChange={(value) =>
-                              handleChange(index, 'hour', value)
+                              handleChange(
+                                index,
+                                'hour',
+                                value,
+                                specialtys,
+                                setSpecialtys,
+                              )
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -483,7 +503,13 @@ export default function Leave() {
                             id="contact"
                             value={item.contact || ''}
                             handleOnChange={(value) =>
-                              handleChange(index, 'contact', value)
+                              handleChange(
+                                index,
+                                'contact',
+                                value,
+                                specialtys,
+                                setSpecialtys,
+                              )
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -492,7 +518,13 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() =>
+                              removeInputFields(
+                                index,
+                                specialtys,
+                                setSpecialtys,
+                              )
+                            }
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -508,17 +540,17 @@ export default function Leave() {
             </div>
             <Label className="text-base sm:mt-px sm:pt-2 my-3">
               {' '}
-              A Escola poderá fazer contato com os profissionais que atendem o aluno,
-              para o desenvolvimento do trabalho pedagógico?
+              A Escola poderá fazer contato com os profissionais que atendem o
+              aluno, para o desenvolvimento do trabalho pedagógico?
             </Label>
-            <div className='sm:flex sm:gap-4 '>
+            <div className="sm:flex sm:gap-4 ">
               <Input
                 type="checkbox"
                 name="checkbox"
                 id="checkbox"
                 value="sim"
                 label="Sim"
-                handleOnChange={(value) => (value)}
+                handleOnChange={(value) => value}
               />
 
               <Input
@@ -527,7 +559,7 @@ export default function Leave() {
                 id="checkbox"
                 value="nao"
                 label="Não"
-                handleOnChange={(value) => (value)}
+                handleOnChange={(value) => value}
               />
             </div>
           </div>
@@ -542,7 +574,7 @@ export default function Leave() {
               <Textarea
                 name=""
                 value={''}
-                handleOnChange={(event) => (event.target.value)}
+                handleOnChange={(event) => event.target.value}
                 className="h-52"
               />
             </div>
@@ -560,7 +592,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={3}
+                    >
                       Aspectos cognitivos
                     </th>
                   </tr>
@@ -572,10 +607,7 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -585,14 +617,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -603,7 +635,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -615,7 +648,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -625,7 +659,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -643,7 +677,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={3}
+                    >
                       Aspectos sociais e psicoafetivos
                     </th>
                   </tr>
@@ -655,10 +692,7 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -668,14 +702,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -686,7 +720,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -698,7 +733,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -708,7 +744,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -726,7 +762,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={3}
+                    >
                       Aspectos comunicacionais
                     </th>
                   </tr>
@@ -738,10 +777,7 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -751,14 +787,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -769,7 +805,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -781,7 +818,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -791,7 +829,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -809,7 +847,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={3}
+                    >
                       Aspectos motoras/psicomotoras
                     </th>
                   </tr>
@@ -821,10 +862,7 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -834,14 +872,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -852,7 +890,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -864,7 +903,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -874,7 +914,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -892,7 +932,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={3}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={3}
+                    >
                       Aspectos do Cotidiano
                     </th>
                   </tr>
@@ -904,10 +947,7 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -917,14 +957,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -935,7 +975,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -947,7 +988,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -957,7 +999,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -970,7 +1012,6 @@ export default function Leave() {
                   )}
                 </tbody>
               </table>
-
             </div>
           </div>
 
@@ -984,24 +1025,24 @@ export default function Leave() {
               <Textarea
                 name="diagnostic"
                 value={''}
-                handleOnChange={(event) => (event.target.value)}
+                handleOnChange={(event) => event.target.value}
               />
             </div>
           </div>
 
           {/* 9. Metas*/}
           <div className="sm:items-start sm:gap-4 sm:pt-5">
-            <Label className="text-base sm:mt-px sm:pt-2 my-3">
-              {' '}
-              9. Metas
-            </Label>
+            <Label className="text-base sm:mt-px sm:pt-2 my-3"> 9. Metas</Label>
 
             <div className="sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               {/* MATEMÁTICA */}
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={6}
+                    >
                       Matemática
                     </th>
                   </tr>
@@ -1022,10 +1063,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1035,14 +1073,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1053,7 +1091,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -1065,7 +1104,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1077,7 +1117,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1089,7 +1130,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1101,7 +1143,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1111,7 +1154,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -1129,8 +1172,12 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
-                      Linguagens (Língua Portuguesa, Lingua Inglesa, Arte, Educação Física)
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={6}
+                    >
+                      Linguagens (Língua Portuguesa, Lingua Inglesa, Arte,
+                      Educação Física)
                     </th>
                   </tr>
                   <tr>
@@ -1150,10 +1197,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1163,14 +1207,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1181,7 +1225,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -1193,7 +1238,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1205,7 +1251,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1217,7 +1264,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1229,7 +1277,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1239,7 +1288,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -1257,7 +1306,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={6}
+                    >
                       Ciências da Natureza
                     </th>
                   </tr>
@@ -1278,10 +1330,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1291,14 +1340,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1309,7 +1358,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -1321,7 +1371,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1333,7 +1384,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1345,7 +1397,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1357,7 +1410,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1367,7 +1421,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -1385,8 +1439,11 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
-                      Ciências Humanas (Geografia e História)
+                    <th
+                      className="border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={6}
+                    >
+                      Ciências Humanas (Humanas e Geografia)
                     </th>
                   </tr>
                   <tr>
@@ -1406,10 +1463,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1419,14 +1473,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1437,7 +1491,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -1449,7 +1504,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1461,7 +1517,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1473,7 +1530,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1485,7 +1543,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1495,7 +1554,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -1513,7 +1572,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={6}
+                    >
                       Ensino Religioso
                     </th>
                   </tr>
@@ -1534,10 +1596,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1547,14 +1606,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1565,7 +1624,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -1577,7 +1637,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1589,7 +1650,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1601,7 +1663,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1613,7 +1676,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1623,7 +1687,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -1641,7 +1705,10 @@ export default function Leave() {
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
-                    <th className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white" colSpan={6}>
+                    <th
+                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={6}
+                    >
                       Atividades vida diária
                     </th>
                   </tr>
@@ -1662,10 +1729,7 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button
-                        type="button"
-                        onClick={() => addInputFields()}
-                      >
+                      <button type="button" onClick={() => {}}>
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1675,14 +1739,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys.length === 0 ? (
+                  {specialtys?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys.map((item: SpecialtysType, index) => (
+                    specialtys?.map((_: SpecialtysType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
@@ -1693,7 +1757,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.name || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'name', value) */
                             }
                             className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
@@ -1705,7 +1770,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1717,7 +1783,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1729,7 +1796,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1741,7 +1809,8 @@ export default function Leave() {
                             name=""
                             id=""
                             value={/* item.location || */ ''}
-                            handleOnChange={(value) => value
+                            handleOnChange={
+                              (value) => value
                               /* handleChange(index, 'location', value) */
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
@@ -1751,7 +1820,7 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => removeInputFields(index)}
+                            onClick={() => {}}
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -1774,14 +1843,14 @@ export default function Leave() {
               10. Proposta de Intervenção:
             </Label>
             <div className="sm:items-center sm:gap-4 sm:border-t sm:pt-5">
-              <div className='sm:mb-4'>
+              <div className="sm:mb-4">
                 <Input
                   type="checkbox"
                   name="checkbox"
                   id="checkbox"
                   value=""
                   label="Mediação individual nas atividades e avaliações."
-                  handleOnChange={(value) => (value)}
+                  handleOnChange={(value) => value}
                 />
 
                 <Input
@@ -1790,7 +1859,7 @@ export default function Leave() {
                   id="checkbox"
                   value=""
                   label="Trabalhar os conceitos/conteúdos no concreto."
-                  handleOnChange={(value) => (value)}
+                  handleOnChange={(value) => value}
                 />
 
                 <Input
@@ -1799,7 +1868,7 @@ export default function Leave() {
                   id="checkbox"
                   value=""
                   label="Proporcionar tempo estendido para realização de atividades e avaliações"
-                  handleOnChange={(value) => (value)}
+                  handleOnChange={(value) => value}
                 />
 
                 <Input
@@ -1808,7 +1877,7 @@ export default function Leave() {
                   id="checkbox"
                   value=""
                   label="Reduzir textos e enunciados para melhor compreensão."
-                  handleOnChange={(value) => (value)}
+                  handleOnChange={(value) => value}
                 />
 
                 <Input
@@ -1817,7 +1886,7 @@ export default function Leave() {
                   id="checkbox"
                   value=""
                   label="Questões objetivas."
-                  handleOnChange={(value) => (value)}
+                  handleOnChange={(value) => value}
                 />
 
                 <Input
@@ -1826,7 +1895,7 @@ export default function Leave() {
                   id="checkbox"
                   value=""
                   label="Correção diferenciada nas avaliações."
-                  handleOnChange={(value) => (value)}
+                  handleOnChange={(value) => value}
                 />
 
                 <Input
@@ -1835,7 +1904,7 @@ export default function Leave() {
                   id="checkbox"
                   value=""
                   label="Adaptação Curricular"
-                  handleOnChange={(value) => (value)}
+                  handleOnChange={(value) => value}
                 />
 
                 <Input
@@ -1844,7 +1913,7 @@ export default function Leave() {
                   id="checkbox"
                   value=""
                   label="Outro"
-                  handleOnChange={(value) => (value)}
+                  handleOnChange={(value) => value}
                 />
               </div>
             </div>
@@ -1860,7 +1929,7 @@ export default function Leave() {
               <Textarea
                 name=""
                 value={''}
-                handleOnChange={(event) => (event.target.value)}
+                handleOnChange={(event) => event.target.value}
               />
             </div>
           </div>
@@ -1875,7 +1944,7 @@ export default function Leave() {
               <Textarea
                 name=""
                 value={''}
-                handleOnChange={(event) => (event.target.value)}
+                handleOnChange={(event) => event.target.value}
               />
             </div>
           </div>
@@ -1890,7 +1959,7 @@ export default function Leave() {
               <Textarea
                 name=""
                 value={''}
-                handleOnChange={(event) => (event.target.value)}
+                handleOnChange={(event) => event.target.value}
               />
             </div>
           </div>
@@ -1905,7 +1974,7 @@ export default function Leave() {
               <Textarea
                 name=""
                 value={''}
-                handleOnChange={(event) => (event.target.value)}
+                handleOnChange={(event) => event.target.value}
               />
             </div>
           </div>
@@ -1920,7 +1989,7 @@ export default function Leave() {
               <Textarea
                 name=""
                 value={''}
-                handleOnChange={(event) => (event.target.value)}
+                handleOnChange={(event) => event.target.value}
               />
             </div>
           </div>
@@ -1935,7 +2004,7 @@ export default function Leave() {
               <Textarea
                 name=""
                 value={''}
-                handleOnChange={(event) => (event.target.value)}
+                handleOnChange={(event) => event.target.value}
               />
             </div>
           </div>

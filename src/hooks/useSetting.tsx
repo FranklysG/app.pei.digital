@@ -8,7 +8,6 @@ import React, {
 } from 'react'
 
 import axios from '../lib/axios'
-import useMount from '../utils/useMount'
 import { SettingType } from '../@types'
 
 type SettingProps = {
@@ -33,7 +32,7 @@ function SettingProvider({ children }: SettingProviderProps) {
       .then((data) => {
         setSetting(data)
       })
-      .catch((error) => {})
+      .catch(() => {})
   }, [])
 
   const create = useCallback(
@@ -90,7 +89,15 @@ function SettingProvider({ children }: SettingProviderProps) {
   )
 
   useEffect(() => {
-    show()
+    ;(async () => {
+      await axios
+        .get('/api/setting')
+        .then((res) => res.data.data)
+        .then((data) => {
+          setSetting(data)
+        })
+        .catch(() => {})
+    })()
   }, [])
 
   const values = {

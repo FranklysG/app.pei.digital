@@ -8,7 +8,6 @@ import React, {
 } from 'react'
 
 import axios from '../lib/axios'
-import useMount from '../utils/useMount'
 import { UserType } from '../@types'
 
 type UserProps = {
@@ -37,7 +36,7 @@ function UserProvider({ children }: UserProviderProps) {
       .then((data) => {
         setUsers(data)
       })
-      .catch((error) => {})
+      .catch(() => {})
   }, [])
 
   const update = useCallback(
@@ -110,7 +109,15 @@ function UserProvider({ children }: UserProviderProps) {
   )
 
   useEffect(() => {
-    show()
+    ;(async () => {
+      await axios
+        .get('/api/users')
+        .then((res) => res.data.data)
+        .then((data) => {
+          setUsers(data)
+        })
+        .catch(() => {})
+    })()
   }, [])
 
   const values = {

@@ -1,5 +1,3 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react'
-
 interface TextareaProps {
   id?: string
   name?: string

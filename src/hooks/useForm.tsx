@@ -8,7 +8,6 @@ import React, {
 } from 'react'
 import { FormType } from '../@types'
 import axios from '../lib/axios'
-import useMount from '../utils/useMount'
 
 type FormProps = {
   forms: FormType[]
@@ -34,7 +33,6 @@ function FormProvider({ children }: FormProviderProps) {
     async ({ setErrors, setStatus, ...props }: any) => {
       setErrors([])
       setStatus(null)
-      console.log(props)
       await axios
         .post('/api/form', props)
         .then((response) => {
@@ -103,8 +101,7 @@ function FormProvider({ children }: FormProviderProps) {
   const generate = useCallback(
     async ({ setErrors, setStatus, ...props }: any) => {
       await axios
-        .get('/api/form/generate', {
-          params: props,
+        .post('/api/form/generate', props, {
           responseType: 'blob',
         })
         .then((response) => {
@@ -118,7 +115,7 @@ function FormProvider({ children }: FormProviderProps) {
           document.body.appendChild(link)
           link.click()
         })
-        .catch((error) => {
+        .catch(() => {
           setErrors(['Oops.. Tente mais tarte :)'])
         })
     },
@@ -130,11 +127,17 @@ function FormProvider({ children }: FormProviderProps) {
       .get('/api/form')
       .then((response) => response.data.data)
       .then((data: any) => setForms(data))
-      .catch((error) => {})
+      .catch(() => {})
   }, [])
 
   useEffect(() => {
-    show()
+    ;(async () => {
+      await axios
+        .get('/api/form')
+        .then((response) => response.data.data)
+        .then((data: any) => setForms(data))
+        .catch(() => {})
+    })()
   }, [])
 
   const values = {
