@@ -56,6 +56,7 @@ export interface FormType {
   medical_uuid: string
 
   specialtys: SpecialtysType
+  skills: SkillsType
 }
 
 export interface SpecialtysType {
@@ -75,4 +76,10 @@ export interface SpecialistType {
   residence: string
   created_at: string
   updated_at: string
+}
+
+export interface SkillsType {
+  uuid: string
+  title: string
+  helper: string
 }
