@@ -19,4 +19,5 @@ cp .env.example .env
 
 ```yml
 yarn && yarn dev
+
 ```
