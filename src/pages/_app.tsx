@@ -10,6 +10,7 @@ import { WorkspaceProvider } from '../hooks/useWorkspace'
 import { UserProvider } from '../hooks/useUser'
 import { SpecialistProvider } from '../hooks/useSpecialist'
 import { FormProvider } from '../hooks/useForm'
+import { SkillProvider } from '../hooks/useSkill'
 
 export default function App({ Component, pageProps }) {
   return (
@@ -57,7 +58,9 @@ export default function App({ Component, pageProps }) {
               <UserProvider>
                 <SpecialistProvider>
                   <FormProvider>
-                    <Component {...pageProps} />
+                    <SkillProvider>
+                      <Component {...pageProps} />
+                    </SkillProvider>
                   </FormProvider>
                 </SpecialistProvider>
               </UserProvider>

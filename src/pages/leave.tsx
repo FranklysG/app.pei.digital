@@ -8,6 +8,7 @@ import { useSpecialist } from '../hooks/useSpecialist'
 import { useWorkspace } from '../hooks/useWorkspace'
 import { useGlobal } from '../hooks/useGlobal'
 import { useForm } from '../hooks/useForm'
+import { useSkill } from '../hooks/useSkill'
 
 import Button from '../components/button'
 import Input from '../components/input'
@@ -21,6 +22,7 @@ export default function Leave() {
   const { workspace } = useWorkspace()
   const { openPanel, setOpenPanel } = useGlobal()
   const { currentUuid, forms, create, update } = useForm()
+  const { skill } = useSkill()
   const { specialists } = useSpecialist()
 
   const [title, setTitle] = useState<string>('')
@@ -83,8 +85,47 @@ export default function Leave() {
     [],
   )
 
+  const handleChangeComplex = useCallback(
+    (arrIndex, itemIndex, name, value, setTableState) => {
+      setTableState((prevState) => {
+        const newState = { ...prevState } // criar uma cópia do array original
+        const itemToUpdate = { ...newState[arrIndex][itemIndex] } // criar uma cópia do objeto que será atualizado
+        itemToUpdate[name] = value // atualizar o valor desejado
+        itemToUpdate['title'] = value // atualizar o valor desejado
+        newState[arrIndex][itemIndex] = itemToUpdate // substituir o objeto antigo pelo objeto atualizado
+        return newState // retornar a nova cópia do array com o estado atualizado
+      })
+    },
+    [],
+  )
+
   const addInputFields = useCallback((_, setTableState) => {
     setTableState((prevState) => [...prevState, [] as never])
+  }, [])
+
+  const addComplexInputField = useCallback((arr, setTableState) => {
+    setTableState((prevState) => {
+      const newState = { ...prevState } // criar uma cópia do objeto original
+
+      if (!newState[arr]) {
+        newState[arr] = [{}]
+      } else {
+        newState[arr] = [...prevState[arr], {}] // adicionar novo objeto vazio
+      }
+
+      return newState
+    })
+  }, [])
+
+  const removeComplexInputField = useCallback((arr, index, setTableState) => {
+    setTableState((prevState) => {
+      const newState = { ...prevState } // criar uma cópia do objeto original
+
+      newState[arr] = [...prevState[arr]] // criar uma cópia do array que queremos modificar
+      newState[arr].splice(index, 1) // remover o item desejado do array
+
+      return newState // retornar a nova cópia do objeto com o estado atualizado
+    })
   }, [])
 
   const removeInputFields = useCallback((itemIndex, _, setTableState) => {
@@ -98,6 +139,8 @@ export default function Leave() {
   const submitForm = useCallback(
     async (event: any) => {
       event.preventDefault()
+
+      const sendSkills = removeFirstKeyAndJoinValues(values(skills))
 
       if (currentUuid !== '') {
         update({
@@ -114,7 +157,7 @@ export default function Leave() {
           mother,
           description,
           specialtys,
-          skills,
+          skills: sendSkills,
           setErrors,
           setStatus,
         })
@@ -133,7 +176,7 @@ export default function Leave() {
         mother,
         description,
         specialtys,
-        skills,
+        skills: sendSkills,
         setErrors,
         setStatus,
       })
@@ -157,6 +200,24 @@ export default function Leave() {
       setErrors,
     ],
   )
+
+  const filterSkillByKey = useCallback((data, key) => {
+    const keys = Object.keys(data)
+    if (keys.includes(key)) {
+      return data[key]
+    }
+    return []
+  }, [])
+
+  const removeFirstKeyAndJoinValues = useCallback((array) => {
+    let result = []
+
+    for (let i = 0; i < array.length; i++) {
+      result.push(Object.values(array[i])[0])
+    }
+
+    return result
+  }, [])
 
   return (
     <div className="space-y-6 pt-8 sm:space-y-5 sm:pt-10 sm:pb-8">
@@ -321,7 +382,7 @@ export default function Leave() {
               handleOnChange={(e) => setMedicalUuid(e.target.value)}
             >
               {specialists?.map((item: SpecialistType) => (
-                <option key={item.uuid} value={item.uuid}>
+                <option className="truncate" key={item.uuid} value={item.uuid}>
                   {item.name}
                 </option>
               ))}
@@ -614,7 +675,12 @@ export default function Leave() {
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
                       <button
                         type="button"
-                        onClick={() => addInputFields(skills, setSkills)}
+                        onClick={() =>
+                          addComplexInputField(
+                            'habilidades-cognitivas',
+                            setSkills,
+                          )
+                        }
                       >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
@@ -632,17 +698,158 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    skills?.map((item: SkillsType, index) => (
+                    filterSkillByKey(skills, 'habilidades-cognitivas')?.map(
+                      (item: SkillsType, index) => (
+                        <tr
+                          key={index}
+                          className="border-b dark:border-neutral-500"
+                        >
+                          <td className="whitespace-nowrap w-80 border-r px-10 py-2 font-medium dark:border-neutral-500">
+                            <Select
+                              value={item?.uuid}
+                              handleOnChange={(e) =>
+                                handleChangeComplex(
+                                  'habilidades-cognitivas',
+                                  index,
+                                  'uuid',
+                                  e.target.value,
+                                  setSkills,
+                                )
+                              }
+                            >
+                              {filterSkillByKey(
+                                skill,
+                                'habilidades-cognitivas',
+                              )?.map((item: SkillsType) => (
+                                <option
+                                  className="truncate"
+                                  key={item.uuid}
+                                  value={item.uuid}
+                                >
+                                  {item.title}
+                                </option>
+                              ))}
+                            </Select>
+                          </td>
+                          <td className="whitespace-nowrap border-r px-8 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="helper"
+                              id="helper"
+                              value={item.helper || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'habilidades-cognitivas',
+                                  index,
+                                  'helper',
+                                  value,
+                                  setSkills,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                            <button
+                              type="button"
+                              className="remove"
+                              onClick={() =>
+                                removeComplexInputField(
+                                  'habilidades-cognitivas',
+                                  index,
+                                  setSkills,
+                                )
+                              }
+                            >
+                              <TrashIcon
+                                className="h-4 w-4 text-gray-ring-gray-600"
+                                aria-hidden="true"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      ),
+                    )
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              {/* ASPECTOS SOCIAIS E PSICOAFETIVOS */}
+              <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th
+                      className="border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={3}
+                    >
+                      Aspectos sociais e psicoafetivos
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
+                      Habilidades/Potencialidades
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Aspectos que precisam ser potencializados
+                    </th>
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField(
+                            'habilidades-socioemocionais',
+                            setSkills,
+                          )
+                        }
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {skills?.length === 0 ? (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
+                    </tr>
+                  ) : (
+                    filterSkillByKey(
+                      skills,
+                      'habilidades-socioemocionais',
+                    )?.map((item: SkillsType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
                       >
-                        <td className="whitespace-nowrap border-r px-10 py-2 font-medium dark:border-neutral-500">
+                        <td className="whitespace-nowrap w-80 border-r px-10 py-2 font-medium dark:border-neutral-500">
                           <Select
-                            handleOnChange={(e) => setSkills(e.target.value)}
+                            value={item?.uuid}
+                            handleOnChange={(e) =>
+                              handleChangeComplex(
+                                'habilidades-socioemocionais',
+                                index,
+                                'uuid',
+                                e.target.value,
+                                setSkills,
+                              )
+                            }
                           >
-                            {skills?.map((item: SkillsType) => (
-                              <option key={item.uuid} value={item.uuid}>
+                            {filterSkillByKey(
+                              skill,
+                              'habilidades-socioemocionais',
+                            )?.map((item: SkillsType) => (
+                              <option
+                                className="truncate"
+                                key={item.uuid}
+                                value={item.uuid}
+                              >
                                 {item.title}
                               </option>
                             ))}
@@ -655,11 +862,11 @@ export default function Leave() {
                             id="helper"
                             value={item.helper || ''}
                             handleOnChange={(value) =>
-                              handleChange(
+                              handleChangeComplex(
+                                'habilidades-socioemocionais',
                                 index,
                                 'helper',
                                 value,
-                                skills,
                                 setSkills,
                               )
                             }
@@ -671,7 +878,11 @@ export default function Leave() {
                             type="button"
                             className="remove"
                             onClick={() =>
-                              removeInputFields(index, skills, setSkills)
+                              removeComplexInputField(
+                                'habilidades-socioemocionais',
+                                index,
+                                setSkills,
+                              )
                             }
                           >
                             <TrashIcon
@@ -682,6 +893,374 @@ export default function Leave() {
                         </td>
                       </tr>
                     ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              {/* ASPECTOS COMUNICACIONAIS */}
+              <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th
+                      className="border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={3}
+                    >
+                      Aspectos Comunicacionais
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
+                      Habilidades/Potencialidades
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Aspectos que precisam ser potencializados
+                    </th>
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField(
+                            'habilidades-comunicacionais',
+                            setSkills,
+                          )
+                        }
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {skills?.length === 0 ? (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
+                    </tr>
+                  ) : (
+                    filterSkillByKey(
+                      skills,
+                      'habilidades-comunicacionais',
+                    )?.map((item: SkillsType, index) => (
+                      <tr
+                        key={index}
+                        className="border-b dark:border-neutral-500"
+                      >
+                        <td className="whitespace-nowrap w-80 border-r px-10 py-2 font-medium dark:border-neutral-500">
+                          <Select
+                            value={item?.uuid}
+                            handleOnChange={(e) =>
+                              handleChangeComplex(
+                                'habilidades-comunicacionais',
+                                index,
+                                'uuid',
+                                e.target.value,
+                                setSkills,
+                              )
+                            }
+                          >
+                            {filterSkillByKey(
+                              skill,
+                              'habilidades-comunicacionais',
+                            )?.map((item: SkillsType) => (
+                              <option
+                                className="truncate"
+                                key={item.uuid}
+                                value={item.uuid}
+                              >
+                                {item.title}
+                              </option>
+                            ))}
+                          </Select>
+                        </td>
+                        <td className="whitespace-nowrap border-r px-8 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name="helper"
+                            id="helper"
+                            value={item.helper || ''}
+                            handleOnChange={(value) =>
+                              handleChangeComplex(
+                                'habilidades-comunicacionais',
+                                index,
+                                'helper',
+                                value,
+                                setSkills,
+                              )
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                          <button
+                            type="button"
+                            className="remove"
+                            onClick={() =>
+                              removeComplexInputField(
+                                'habilidades-comunicacionais',
+                                index,
+                                setSkills,
+                              )
+                            }
+                          >
+                            <TrashIcon
+                              className="h-4 w-4 text-gray-ring-gray-600"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              {/* ASPECTOS MOTORAS/PSICOMOTORES */}
+              <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th
+                      className="border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={3}
+                    >
+                      Aspectos motoras/psicomotores
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
+                      Habilidades/Potencialidades
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Aspectos que precisam ser potencializados
+                    </th>
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField(
+                            'habilidades-motoraspsicomotoras',
+                            setSkills,
+                          )
+                        }
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {skills?.length === 0 ? (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
+                    </tr>
+                  ) : (
+                    filterSkillByKey(
+                      skills,
+                      'habilidades-motoraspsicomotoras',
+                    )?.map((item: SkillsType, index) => (
+                      <tr
+                        key={index}
+                        className="border-b dark:border-neutral-500"
+                      >
+                        <td className="whitespace-nowrap w-80 border-r px-10 py-2 font-medium dark:border-neutral-500">
+                          <Select
+                            value={item?.uuid}
+                            handleOnChange={(e) =>
+                              handleChangeComplex(
+                                'habilidades-motoraspsicomotoras',
+                                index,
+                                'uuid',
+                                e.target.value,
+                                setSkills,
+                              )
+                            }
+                          >
+                            {filterSkillByKey(
+                              skill,
+                              'habilidades-motoraspsicomotoras',
+                            )?.map((item: SkillsType) => (
+                              <option
+                                className="truncate"
+                                key={item.uuid}
+                                value={item.uuid}
+                              >
+                                {item.title}
+                              </option>
+                            ))}
+                          </Select>
+                        </td>
+                        <td className="whitespace-nowrap border-r px-8 py-2 dark:border-neutral-500 ">
+                          <Input
+                            type="text"
+                            name="helper"
+                            id="helper"
+                            value={item.helper || ''}
+                            handleOnChange={(value) =>
+                              handleChangeComplex(
+                                'habilidades-motoraspsicomotoras',
+                                index,
+                                'helper',
+                                value,
+                                setSkills,
+                              )
+                            }
+                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                          <button
+                            type="button"
+                            className="remove"
+                            onClick={() =>
+                              removeComplexInputField(
+                                'habilidades-motoraspsicomotoras',
+                                index,
+                                setSkills,
+                              )
+                            }
+                          >
+                            <TrashIcon
+                              className="h-4 w-4 text-gray-ring-gray-600"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              {/* ASPECTOS DO COTIDIANO */}
+              <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th
+                      className="border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      colSpan={3}
+                    >
+                      Aspectos do Cotidiano
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="border-r px-2 py-2 dark:border-neutral-500">
+                      Habilidades/Potencialidades
+                    </th>
+                    <th className="border-r px-5 py-2 dark:border-neutral-500">
+                      Aspectos que precisam ser potencializados
+                    </th>
+                    <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField(
+                            'habilidades-do-cotidiano',
+                            setSkills,
+                          )
+                        }
+                      >
+                        <PlusIcon
+                          className="h-4 w-4 text-gray-ring-gray-600"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {skills?.length === 0 ? (
+                    <tr className="border-b dark:border-neutral-500">
+                      <td className="py-3 " colSpan={6}>
+                        Nenhum item encontrado.
+                      </td>
+                    </tr>
+                  ) : (
+                    filterSkillByKey(skills, 'habilidades-do-cotidiano')?.map(
+                      (item: SkillsType, index) => (
+                        <tr
+                          key={index}
+                          className="border-b dark:border-neutral-500"
+                        >
+                          <td className="whitespace-nowrap w-80 border-r px-10 py-2 font-medium dark:border-neutral-500">
+                            <Select
+                              value={item?.uuid}
+                              handleOnChange={(e) =>
+                                handleChangeComplex(
+                                  'habilidades-do-cotidiano',
+                                  index,
+                                  'uuid',
+                                  e.target.value,
+                                  setSkills,
+                                )
+                              }
+                            >
+                              {filterSkillByKey(
+                                skill,
+                                'habilidades-do-cotidiano',
+                              )?.map((item: SkillsType) => (
+                                <option
+                                  className="truncate"
+                                  key={item.uuid}
+                                  value={item.uuid}
+                                >
+                                  {item.title}
+                                </option>
+                              ))}
+                            </Select>
+                          </td>
+                          <td className="whitespace-nowrap border-r px-8 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="helper"
+                              id="helper"
+                              value={item.helper || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'habilidades-do-cotidiano',
+                                  index,
+                                  'helper',
+                                  value,
+                                  setSkills,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                            <button
+                              type="button"
+                              className="remove"
+                              onClick={() =>
+                                removeComplexInputField(
+                                  'habilidades-do-cotidiano',
+                                  index,
+                                  setSkills,
+                                )
+                              }
+                            >
+                              <TrashIcon
+                                className="h-4 w-4 text-gray-ring-gray-600"
+                                aria-hidden="true"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      ),
+                    )
                   )}
                 </tbody>
               </table>
