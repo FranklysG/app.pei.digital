@@ -26,6 +26,7 @@ export default function Leave() {
   const { specialists } = useSpecialist()
 
   const [title, setTitle] = useState<string>('')
+  const [school, setSchool] = useState<string>('')
   const [name, setName] = useState<string>('')
   const [year, setYear] = useState<string>('')
   const [classRoom, setClassRoom] = useState<string>('')
@@ -37,6 +38,17 @@ export default function Leave() {
 
   const [diagnostic, setDiagnostic] = useState<string>('')
   const [description, setDescription] = useState<string>('')
+
+  const [specialistBool, setSpecialistBool] = useState<boolean>(false)
+  const [familyDescription, setFamilyDescription] = useState<string>('')
+  const [objective, setObjective] = useState<string>('')
+  const [proposal, setProposal] = useState<string>('')
+  const [objectiveAdaptive, setObjectiveAdaptive] = useState<string>('')
+  const [actionAdaptive, setActionAdaptive] = useState<string>('')
+  const [resourcesTech, setResourcesTech] = useState<string>('')
+  const [resourcesAvaliation, setResourcesAvaliation] = useState<string>('')
+  const [object, setObject] = useState<string>('')
+  const [conclusion, setConclusion] = useState<string>('')
 
   const [specialtys, setSpecialtys] = useState<SpecialtysType[]>([])
   const [skills, setSkills] = useState<SkillsType[]>([])
@@ -52,6 +64,7 @@ export default function Leave() {
         .filter((item) => item.uuid === currentUuid)
         .map((item) => {
           setTitle(item.title)
+          setSchool(item.school)
 
           setName(item.name)
           setYear(item.year)
@@ -60,10 +73,22 @@ export default function Leave() {
           setBirthdate(item.birthdate)
           setFather(item.father)
           setMother(item.mother)
+          setMedicalUuid(item.medical_uuid)
 
           setDiagnostic(item.diagnostic)
           setDescription(item.description)
-          setMedicalUuid(item.medical_uuid)
+
+          setSpecialistBool(item.specialist_bool)
+          setFamilyDescription(item.family_description)
+          setObjective(item.objective)
+          setProposal(item.proposal)
+          setObjectiveAdaptive(item.objective_adaptive)
+          setActionAdaptive(item.action_adaptive)
+          setResourcesTech(item.resources_tech)
+          setResourcesAvaliation(item.resources_avaliation)
+          setObject(item.object)
+          setConclusion(item.conclusion)
+
           setSpecialtys(item.specialtys as never)
           setSkills(item.skills as never)
         })
@@ -147,6 +172,7 @@ export default function Leave() {
           uuid: currentUuid,
           specialist_uuid: medicalUuid,
           title,
+          school,
           name,
           year,
           diagnostic,
@@ -155,6 +181,16 @@ export default function Leave() {
           birthdate,
           father,
           mother,
+          specialistBool,
+          familyDescription,
+          objective,
+          proposal,
+          objectiveAdaptive,
+          actionAdaptive,
+          resourcesTech,
+          resourcesAvaliation,
+          object,
+          conclusion,
           description,
           specialtys,
           skills: sendSkills,
@@ -166,6 +202,7 @@ export default function Leave() {
         workspace_uuid,
         specialist_uuid: medicalUuid,
         title,
+        school,
         name,
         year,
         diagnostic,
@@ -174,6 +211,16 @@ export default function Leave() {
         birthdate,
         father,
         mother,
+        specialistBool,
+        familyDescription,
+        objective,
+        proposal,
+        objectiveAdaptive,
+        actionAdaptive,
+        resourcesTech,
+        resourcesAvaliation,
+        object,
+        conclusion,
         description,
         specialtys,
         skills: sendSkills,
@@ -185,6 +232,7 @@ export default function Leave() {
       workspace_uuid,
       medicalUuid,
       title,
+      school,
       name,
       year,
       diagnostic,
@@ -193,6 +241,16 @@ export default function Leave() {
       birthdate,
       father,
       mother,
+      specialistBool,
+      familyDescription,
+      objective,
+      proposal,
+      objectiveAdaptive,
+      actionAdaptive,
+      resourcesTech,
+      resourcesAvaliation,
+      object,
+      conclusion,
       description,
       specialtys,
       skills,
@@ -233,9 +291,11 @@ export default function Leave() {
             <div className="mt-1 flex-1">
               <Input
                 type="text"
-                name="school-name"
-                id="school-name"
-                autoComplete="school-name"
+                name="school"
+                id="school"
+                value={school ?? ''}
+                handleOnChange={(value) => setSchool(value)}
+                autoComplete="school"
                 className="w-full"
               />
             </div>
@@ -472,7 +532,7 @@ export default function Leave() {
                         key={index}
                         className="border-b dark:border-neutral-500"
                       >
-                        <td className="whitespace-nowrap border-r px-4 py-2 font-medium dark:border-neutral-500">
+                        <td className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
                           <Input
                             type="text"
                             name="name"
@@ -612,20 +672,20 @@ export default function Leave() {
             <div className="sm:flex sm:gap-4 ">
               <Input
                 type="checkbox"
-                name="checkbox"
-                id="checkbox"
+                name="specialist-check"
+                id="specialist-check"
                 value="sim"
                 label="Sim"
-                handleOnChange={(value) => value}
+                handleOnChange={() => setSpecialistBool(specialistBool)}
               />
 
               <Input
                 type="checkbox"
-                name="checkbox"
-                id="checkbox"
+                name="specialist-check"
+                id="specialist-check"
                 value="nao"
                 label="Não"
-                handleOnChange={(value) => value}
+                handleOnChange={() => setSpecialistBool(!specialistBool)}
               />
             </div>
           </div>
@@ -638,9 +698,12 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name=""
-                value={''}
-                handleOnChange={(event) => event.target.value}
+                name="family_description"
+                id="family_description"
+                value={familyDescription ?? ''}
+                handleOnChange={(event) =>
+                  setFamilyDescription(event.target.value)
+                }
                 className="h-52"
               />
             </div>
@@ -1275,9 +1338,10 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name="diagnostic"
-                value={''}
-                handleOnChange={(event) => event.target.value}
+                name="objective"
+                id="objective"
+                value={objective ?? ''}
+                handleOnChange={(event) => setObjective(event.target.value)}
               />
             </div>
           </div>
@@ -1337,7 +1401,7 @@ export default function Leave() {
                         key={index}
                         className="border-b dark:border-neutral-500"
                       >
-                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
                           <Input
                             type="text"
                             name=""
@@ -1471,7 +1535,7 @@ export default function Leave() {
                         key={index}
                         className="border-b dark:border-neutral-500"
                       >
-                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
                           <Input
                             type="text"
                             name=""
@@ -1604,7 +1668,7 @@ export default function Leave() {
                         key={index}
                         className="border-b dark:border-neutral-500"
                       >
-                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
                           <Input
                             type="text"
                             name=""
@@ -1737,7 +1801,7 @@ export default function Leave() {
                         key={index}
                         className="border-b dark:border-neutral-500"
                       >
-                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
                           <Input
                             type="text"
                             name=""
@@ -1870,7 +1934,7 @@ export default function Leave() {
                         key={index}
                         className="border-b dark:border-neutral-500"
                       >
-                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
                           <Input
                             type="text"
                             name=""
@@ -2003,7 +2067,7 @@ export default function Leave() {
                         key={index}
                         className="border-b dark:border-neutral-500"
                       >
-                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
                           <Input
                             type="text"
                             name=""
@@ -2098,74 +2162,74 @@ export default function Leave() {
               <div className="sm:mb-4">
                 <Input
                   type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  value=""
+                  name="proposal"
+                  id="proposal"
+                  value={proposal ?? ''}
+                  handleOnChange={(value) => setProposal(value)}
                   label="Mediação individual nas atividades e avaliações."
-                  handleOnChange={(value) => value}
                 />
 
                 <Input
                   type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  value=""
+                  name="proposal"
+                  id="proposal"
+                  value={proposal ?? ''}
+                  handleOnChange={(value) => setProposal(value)}
                   label="Trabalhar os conceitos/conteúdos no concreto."
-                  handleOnChange={(value) => value}
                 />
 
                 <Input
                   type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  value=""
+                  name="proposal"
+                  id="proposal"
+                  value={proposal ?? ''}
+                  handleOnChange={(value) => setProposal(value)}
                   label="Proporcionar tempo estendido para realização de atividades e avaliações"
-                  handleOnChange={(value) => value}
                 />
 
                 <Input
                   type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  value=""
+                  name="proposal"
+                  id="proposal"
+                  value={proposal ?? ''}
+                  handleOnChange={(value) => setProposal(value)}
                   label="Reduzir textos e enunciados para melhor compreensão."
-                  handleOnChange={(value) => value}
                 />
 
                 <Input
                   type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  value=""
+                  name="proposal"
+                  id="proposal"
+                  value={proposal ?? ''}
+                  handleOnChange={(value) => setProposal(value)}
                   label="Questões objetivas."
-                  handleOnChange={(value) => value}
                 />
 
                 <Input
                   type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  value=""
+                  name="proposal"
+                  id="proposal"
+                  value={proposal ?? ''}
+                  handleOnChange={(value) => setProposal(value)}
                   label="Correção diferenciada nas avaliações."
-                  handleOnChange={(value) => value}
                 />
 
                 <Input
                   type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  value=""
+                  name="proposal"
+                  id="proposal"
+                  value={proposal ?? ''}
+                  handleOnChange={(value) => setProposal(value)}
                   label="Adaptação Curricular"
-                  handleOnChange={(value) => value}
                 />
 
                 <Input
                   type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  value=""
+                  name="proposal"
+                  id="proposal"
+                  value={proposal ?? ''}
+                  handleOnChange={(value) => setProposal(value)}
                   label="Outro"
-                  handleOnChange={(value) => value}
                 />
               </div>
             </div>
@@ -2179,24 +2243,30 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name=""
-                value={''}
-                handleOnChange={(event) => event.target.value}
+                name="objective_adaptive"
+                id="objective_adaptive"
+                value={objectiveAdaptive ?? ''}
+                handleOnChange={(event) =>
+                  setObjectiveAdaptive(event.target.value)
+                }
               />
             </div>
           </div>
 
-          {/* Ações adaptativas.. */}
+          {/*a. Ações adaptativas.. */}
           <div className="sm:items-start sm:gap-4 sm:pt-5">
             <Label className="text-base sm:mt-px sm:pt-2 my-3">
               {' '}
-              Ações adaptativas por cada área de conhecimento:
+              a. Ações adaptativas por cada área de conhecimento:
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name=""
-                value={''}
-                handleOnChange={(event) => event.target.value}
+                name="action_adaptive"
+                id="action_adaptive"
+                value={actionAdaptive ?? ''}
+                handleOnChange={(event) =>
+                  setActionAdaptive(event.target.value)
+                }
               />
             </div>
           </div>
@@ -2209,9 +2279,10 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name=""
-                value={''}
-                handleOnChange={(event) => event.target.value}
+                name="resources_tech"
+                id="resources_tech"
+                value={resourcesTech ?? ''}
+                handleOnChange={(event) => setResourcesTech(event.target.value)}
               />
             </div>
           </div>
@@ -2224,9 +2295,12 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name=""
-                value={''}
-                handleOnChange={(event) => event.target.value}
+                name="resources_avaliation"
+                id="resources_avaliation"
+                value={resourcesAvaliation ?? ''}
+                handleOnChange={(event) =>
+                  setResourcesAvaliation(event.target.value)
+                }
               />
             </div>
           </div>
@@ -2239,9 +2313,10 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name=""
-                value={''}
-                handleOnChange={(event) => event.target.value}
+                name="object"
+                id="object"
+                value={object ?? ''}
+                handleOnChange={(event) => setObject(event.target.value)}
               />
             </div>
           </div>
@@ -2254,9 +2329,10 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name=""
-                value={''}
-                handleOnChange={(event) => event.target.value}
+                name="conclusion"
+                id="conclusion"
+                value={conclusion ?? ''}
+                handleOnChange={(event) => setConclusion(event.target.value)}
               />
             </div>
           </div>
