@@ -128,7 +128,6 @@ export default function Leave() {
         const newState = { ...prevState }
         const itemToUpdate = { ...newState[arrIndex][itemIndex] }
         itemToUpdate[name] = value
-        itemToUpdate['title'] = value
         newState[arrIndex][itemIndex] = itemToUpdate
         return newState
       })
@@ -207,6 +206,7 @@ export default function Leave() {
           description,
           specialtys,
           skills: sendSkills,
+          goals,
           setErrors,
           setStatus,
         })
@@ -240,6 +240,7 @@ export default function Leave() {
         description,
         specialtys,
         skills: sendSkills,
+        goals,
         setErrors,
         setStatus,
       })
@@ -270,12 +271,13 @@ export default function Leave() {
       description,
       specialtys,
       skills,
+      goals,
       setStatus,
       setErrors,
     ],
   )
 
-  const filterSkillByKey = useCallback((data, key) => {
+  const filterComplexByKey = useCallback((data, key) => {
     const keys = Object.keys(data)
     if (keys.includes(key)) {
       return data[key]
@@ -770,7 +772,7 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filterSkillByKey(skills, 'habilidades-cognitivas')
+                  {filterComplexByKey(skills, 'habilidades-cognitivas')
                     ?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
@@ -778,7 +780,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    filterSkillByKey(skills, 'habilidades-cognitivas')?.map(
+                    filterComplexByKey(skills, 'habilidades-cognitivas')?.map(
                       (item: SkillsType, index) => (
                         <tr
                           key={index}
@@ -797,7 +799,7 @@ export default function Leave() {
                                 )
                               }
                             >
-                              {filterSkillByKey(
+                              {filterComplexByKey(
                                 skill,
                                 'habilidades-cognitivas',
                               )?.map((item: SkillsType) => (
@@ -893,7 +895,7 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filterSkillByKey(skills, 'habilidades-socioemocionais')
+                  {filterComplexByKey(skills, 'habilidades-socioemocionais')
                     ?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
@@ -901,7 +903,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    filterSkillByKey(
+                    filterComplexByKey(
                       skills,
                       'habilidades-socioemocionais',
                     )?.map((item: SkillsType, index) => (
@@ -922,7 +924,7 @@ export default function Leave() {
                               )
                             }
                           >
-                            {filterSkillByKey(
+                            {filterComplexByKey(
                               skill,
                               'habilidades-socioemocionais',
                             )?.map((item: SkillsType) => (
@@ -1017,7 +1019,7 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filterSkillByKey(skills, 'habilidades-comunicacionais')
+                  {filterComplexByKey(skills, 'habilidades-comunicacionais')
                     ?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
@@ -1025,7 +1027,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    filterSkillByKey(
+                    filterComplexByKey(
                       skills,
                       'habilidades-comunicacionais',
                     )?.map((item: SkillsType, index) => (
@@ -1046,7 +1048,7 @@ export default function Leave() {
                               )
                             }
                           >
-                            {filterSkillByKey(
+                            {filterComplexByKey(
                               skill,
                               'habilidades-comunicacionais',
                             )?.map((item: SkillsType) => (
@@ -1141,7 +1143,7 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filterSkillByKey(skills, 'habilidades-motoraspsicomotoras')
+                  {filterComplexByKey(skills, 'habilidades-motoraspsicomotoras')
                     ?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
@@ -1149,7 +1151,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    filterSkillByKey(
+                    filterComplexByKey(
                       skills,
                       'habilidades-motoraspsicomotoras',
                     )?.map((item: SkillsType, index) => (
@@ -1170,7 +1172,7 @@ export default function Leave() {
                               )
                             }
                           >
-                            {filterSkillByKey(
+                            {filterComplexByKey(
                               skill,
                               'habilidades-motoraspsicomotoras',
                             )?.map((item: SkillsType) => (
@@ -1265,7 +1267,7 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filterSkillByKey(skills, 'habilidades-do-cotidiano')
+                  {filterComplexByKey(skills, 'habilidades-do-cotidiano')
                     ?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
@@ -1273,7 +1275,7 @@ export default function Leave() {
                       </td>
                     </tr>
                   ) : (
-                    filterSkillByKey(skills, 'habilidades-do-cotidiano')?.map(
+                    filterComplexByKey(skills, 'habilidades-do-cotidiano')?.map(
                       (item: SkillsType, index) => (
                         <tr
                           key={index}
@@ -1292,7 +1294,7 @@ export default function Leave() {
                                 )
                               }
                             >
-                              {filterSkillByKey(
+                              {filterComplexByKey(
                                 skill,
                                 'habilidades-do-cotidiano',
                               )?.map((item: SkillsType) => (
@@ -1400,7 +1402,12 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField('matematica', setGoals)
+                        }
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1410,14 +1417,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filterSkillByKey(goals, 'matematica').length === 0 ? (
+                  {filterComplexByKey(goals, 'matematica').length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    filterSkillByKey(goals, 'matematica')?.map(
+                    filterComplexByKey(goals, 'matematica')?.map(
                       (item: GoalsExtractType, index) => (
                         <tr
                           key={index}
@@ -1426,12 +1433,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="goal"
+                              id="goal"
                               value={item.goal || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'name', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'matematica',
+                                  index,
+                                  'goal',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1439,12 +1451,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="period"
+                              id="period"
                               value={item.period || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'matematica',
+                                  index,
+                                  'period',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1452,12 +1469,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="performance"
+                              id="performance"
                               value={item.perfomance || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'matematica',
+                                  index,
+                                  'perfomance',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1465,12 +1487,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="strategy"
+                              id="strategy"
                               value={item.strategy || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'matematica',
+                                  index,
+                                  'strategy',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1478,12 +1505,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="resource"
+                              id="resource"
                               value={item.resource || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'matematica',
+                                  index,
+                                  'resource',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1491,8 +1523,13 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
                             <button
                               type="button"
-                              className="remove"
-                              onClick={() => {}}
+                              onClick={() =>
+                                removeComplexInputField(
+                                  'matematica',
+                                  index,
+                                  setGoals,
+                                )
+                              }
                             >
                               <TrashIcon
                                 className="h-4 w-4 text-gray-ring-gray-600"
@@ -1536,7 +1573,12 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField('linguagens', setGoals)
+                        }
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1546,14 +1588,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filterSkillByKey(goals, 'linguagens').length === 0 ? (
+                  {filterComplexByKey(goals, 'linguagens').length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    filterSkillByKey(goals, 'linguagens')?.map(
+                    filterComplexByKey(goals, 'linguagens')?.map(
                       (item: GoalsExtractType, index) => (
                         <tr
                           key={index}
@@ -1562,12 +1604,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="goal"
+                              id="goal"
                               value={item.goal || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'name', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'linguagens',
+                                  index,
+                                  'goal',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1575,12 +1622,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="period"
+                              id="period"
                               value={item.period || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'linguagens',
+                                  index,
+                                  'period',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1588,12 +1640,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="performance"
+                              id="performance"
                               value={item.perfomance || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'linguagens',
+                                  index,
+                                  'perfomance',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1601,12 +1658,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="strategy"
+                              id="strategy"
                               value={item.strategy || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'linguagens',
+                                  index,
+                                  'strategy',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1614,12 +1676,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="resource"
+                              id="resource"
                               value={item.resource || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'linguagens',
+                                  index,
+                                  'resource',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1627,8 +1694,13 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
                             <button
                               type="button"
-                              className="remove"
-                              onClick={() => {}}
+                              onClick={() =>
+                                removeComplexInputField(
+                                  'linguagens',
+                                  index,
+                                  setGoals,
+                                )
+                              }
                             >
                               <TrashIcon
                                 className="h-4 w-4 text-gray-ring-gray-600"
@@ -1671,7 +1743,12 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField('natureza', setGoals)
+                        }
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1681,14 +1758,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filterSkillByKey(goals, 'natureza').length === 0 ? (
+                  {filterComplexByKey(goals, 'natureza').length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    filterSkillByKey(goals, 'natureza')?.map(
+                    filterComplexByKey(goals, 'natureza')?.map(
                       (item: GoalsExtractType, index) => (
                         <tr
                           key={index}
@@ -1697,12 +1774,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="goal"
+                              id="goal"
                               value={item.goal || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'name', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'natureza',
+                                  index,
+                                  'goal',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1710,12 +1792,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="period"
+                              id="period"
                               value={item.period || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'natureza',
+                                  index,
+                                  'period',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1723,12 +1810,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="performance"
+                              id="performance"
                               value={item.perfomance || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'natureza',
+                                  index,
+                                  'perfomance',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1736,12 +1828,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="strategy"
+                              id="strategy"
                               value={item.strategy || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'natureza',
+                                  index,
+                                  'strategy',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1749,12 +1846,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="resource"
+                              id="resource"
                               value={item.resource || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'natureza',
+                                  index,
+                                  'resource',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1762,8 +1864,13 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
                             <button
                               type="button"
-                              className="remove"
-                              onClick={() => {}}
+                              onClick={() =>
+                                removeComplexInputField(
+                                  'natureza',
+                                  index,
+                                  setGoals,
+                                )
+                              }
                             >
                               <TrashIcon
                                 className="h-4 w-4 text-gray-ring-gray-600"
@@ -1806,7 +1913,12 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField('humanas', setGoals)
+                        }
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1816,14 +1928,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filterSkillByKey(goals, 'humanas').length === 0 ? (
+                  {filterComplexByKey(goals, 'humanas').length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    filterSkillByKey(goals, 'humanas')?.map(
+                    filterComplexByKey(goals, 'humanas')?.map(
                       (item: GoalsExtractType, index) => (
                         <tr
                           key={index}
@@ -1832,12 +1944,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="goal"
+                              id="goal"
                               value={item.goal || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'name', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'humanas',
+                                  index,
+                                  'goal',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1845,12 +1962,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="period"
+                              id="period"
                               value={item.period || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'humanas',
+                                  index,
+                                  'period',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1858,12 +1980,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="performance"
+                              id="performance"
                               value={item.perfomance || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'humanas',
+                                  index,
+                                  'perfomance',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1871,12 +1998,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="strategy"
+                              id="strategy"
                               value={item.strategy || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'humanas',
+                                  index,
+                                  'strategy',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1884,12 +2016,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="resource"
+                              id="resource"
                               value={item.resource || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'humanas',
+                                  index,
+                                  'resource',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1897,8 +2034,13 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
                             <button
                               type="button"
-                              className="remove"
-                              onClick={() => {}}
+                              onClick={() =>
+                                removeComplexInputField(
+                                  'humanas',
+                                  index,
+                                  setGoals,
+                                )
+                              }
                             >
                               <TrashIcon
                                 className="h-4 w-4 text-gray-ring-gray-600"
@@ -1941,7 +2083,12 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField('religiao', setGoals)
+                        }
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1951,14 +2098,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filterSkillByKey(goals, 'religioso').length === 0 ? (
+                  {filterComplexByKey(goals, 'religiao').length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    filterSkillByKey(goals, 'religioso')?.map(
+                    filterComplexByKey(goals, 'religiao')?.map(
                       (item: GoalsExtractType, index) => (
                         <tr
                           key={index}
@@ -1967,12 +2114,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="goal"
+                              id="goal"
                               value={item.goal || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'name', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'religiao',
+                                  index,
+                                  'goal',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1980,12 +2132,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="period"
+                              id="period"
                               value={item.period || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'religiao',
+                                  index,
+                                  'period',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -1993,12 +2150,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="performance"
+                              id="performance"
                               value={item.perfomance || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'religiao',
+                                  index,
+                                  'perfomance',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -2006,12 +2168,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="strategy"
+                              id="strategy"
                               value={item.strategy || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'religiao',
+                                  index,
+                                  'strategy',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -2019,12 +2186,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="resource"
+                              id="resource"
                               value={item.resource || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'religiao',
+                                  index,
+                                  'resource',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -2032,8 +2204,13 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
                             <button
                               type="button"
-                              className="remove"
-                              onClick={() => {}}
+                              onClick={() =>
+                                removeComplexInputField(
+                                  'religiao',
+                                  index,
+                                  setGoals,
+                                )
+                              }
                             >
                               <TrashIcon
                                 className="h-4 w-4 text-gray-ring-gray-600"
@@ -2076,7 +2253,10 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() => addComplexInputField('diaria', setGoals)}
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -2086,14 +2266,14 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filterSkillByKey(goals, 'diaria').length === 0 ? (
+                  {filterComplexByKey(goals, 'diaria').length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    filterSkillByKey(goals, 'diaria')?.map(
+                    filterComplexByKey(goals, 'diaria')?.map(
                       (item: GoalsExtractType, index) => (
                         <tr
                           key={index}
@@ -2102,12 +2282,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="goal"
+                              id="goal"
                               value={item.goal || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'name', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'diaria',
+                                  index,
+                                  'goal',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -2115,12 +2300,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="period"
+                              id="period"
                               value={item.period || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'diaria',
+                                  index,
+                                  'period',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -2128,12 +2318,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="performance"
+                              id="performance"
                               value={item.perfomance || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'diaria',
+                                  index,
+                                  'perfomance',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -2141,12 +2336,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="strategy"
+                              id="strategy"
                               value={item.strategy || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'diaria',
+                                  index,
+                                  'strategy',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -2154,12 +2354,17 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
                             <Input
                               type="text"
-                              name=""
-                              id=""
+                              name="resource"
+                              id="resource"
                               value={item.resource || ''}
-                              handleOnChange={
-                                (value) => value
-                                /* handleChange(index, 'location', value) */
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'diaria',
+                                  index,
+                                  'resource',
+                                  value,
+                                  setGoals,
+                                )
                               }
                               className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
@@ -2167,8 +2372,13 @@ export default function Leave() {
                           <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
                             <button
                               type="button"
-                              className="remove"
-                              onClick={() => {}}
+                              onClick={() =>
+                                removeComplexInputField(
+                                  'diaria',
+                                  index,
+                                  setGoals,
+                                )
+                              }
                             >
                               <TrashIcon
                                 className="h-4 w-4 text-gray-ring-gray-600"
