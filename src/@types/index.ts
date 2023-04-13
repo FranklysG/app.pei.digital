@@ -70,6 +70,7 @@ export interface FormType {
 
   specialtys: SpecialtysType
   skills: SkillsType
+  goals: GoalsType
 }
 
 export interface SpecialtysType {
@@ -95,4 +96,23 @@ export interface SkillsType {
   uuid: string
   title: string
   helper: string
+}
+
+export interface GoalsType {
+  matematica: GoalsExtractType
+  linguagens: GoalsExtractType
+  natureza: GoalsExtractType
+  humanas: GoalsExtractType
+  religiao: GoalsExtractType
+  diaria: GoalsExtractType
+}
+
+export interface GoalsExtractType {
+  uuid: string
+  goal: string
+  period: string
+  perfomance: string
+  strategy: string
+  resource: string
+  slug: string
 }
