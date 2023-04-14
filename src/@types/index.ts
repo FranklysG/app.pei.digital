@@ -38,6 +38,7 @@ export interface FormType {
   workspace_id: number
   uuid: string
   title: string
+  school: string
   name: string
   year: string
   class: string
@@ -47,6 +48,18 @@ export interface FormType {
   mother: string
   diagnostic: string
   description: string
+
+  specialist_bool: boolean
+  family_description: string
+  objective: string
+  proposal: string
+  objective_adaptive: string
+  action_adaptive: string
+  resources_tech: string
+  resources_avaliation: string
+  object: string
+  conclusion: string
+
   type: string
   status: string
   date: string
