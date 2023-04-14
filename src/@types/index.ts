@@ -38,6 +38,7 @@ export interface FormType {
   workspace_id: number
   uuid: string
   title: string
+  school: string
   name: string
   year: string
   class: string
@@ -47,15 +48,35 @@ export interface FormType {
   mother: string
   diagnostic: string
   description: string
+  specialist_bool: boolean
+  family_description: string
+  objective: string
+  proposal_one: boolean
+  proposal_two: boolean
+  proposal_three: boolean
+  proposal_four: boolean
+  proposal_five: boolean
+  proposal_six: boolean
+  proposal_seven: boolean
+  proposal_eight: boolean
+  objective_adaptive: string
+  action_adaptive: string
+  resources_tech: string
+  resources_avaliation: string
+  object: string
+  conclusion: string
   type: string
   status: string
   date: string
   created_at: string
   updated_at: string
   author: string
+  medical: string
   medical_uuid: string
 
   specialtys: SpecialtysType
+  skills: SkillsType
+  goals: GoalsType
 }
 
 export interface SpecialtysType {
@@ -75,4 +96,29 @@ export interface SpecialistType {
   residence: string
   created_at: string
   updated_at: string
+}
+
+export interface SkillsType {
+  uuid: string
+  title: string
+  helper: string
+}
+
+export interface GoalsType {
+  matematica: GoalsExtractType
+  linguagens: GoalsExtractType
+  natureza: GoalsExtractType
+  humanas: GoalsExtractType
+  religiao: GoalsExtractType
+  diaria: GoalsExtractType
+}
+
+export interface GoalsExtractType {
+  uuid: string
+  goal: string
+  period: string
+  perfomance: string
+  strategy: string
+  resource: string
+  slug: string
 }

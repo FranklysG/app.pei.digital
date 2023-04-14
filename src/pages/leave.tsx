@@ -8,6 +8,7 @@ import { useSpecialist } from '../hooks/useSpecialist'
 import { useWorkspace } from '../hooks/useWorkspace'
 import { useGlobal } from '../hooks/useGlobal'
 import { useForm } from '../hooks/useForm'
+import { useSkill } from '../hooks/useSkill'
 
 import Button from '../components/button'
 import Input from '../components/input'
@@ -15,15 +16,23 @@ import Label from '../components/label'
 import Textarea from '../components/textarea'
 import Select from '../components/select'
 
-import { SpecialistType, SpecialtysType } from '../@types'
+import {
+  GoalsExtractType,
+  GoalsType,
+  SkillsType,
+  SpecialistType,
+  SpecialtysType,
+} from '../@types'
 
 export default function Leave() {
   const { workspace } = useWorkspace()
   const { openPanel, setOpenPanel } = useGlobal()
   const { currentUuid, forms, create, update } = useForm()
+  const { skill } = useSkill()
   const { specialists } = useSpecialist()
 
   const [title, setTitle] = useState<string>('')
+  const [school, setSchool] = useState<string>('')
   const [name, setName] = useState<string>('')
   const [year, setYear] = useState<string>('')
   const [classRoom, setClassRoom] = useState<string>('')
@@ -36,10 +45,38 @@ export default function Leave() {
   const [diagnostic, setDiagnostic] = useState<string>('')
   const [description, setDescription] = useState<string>('')
 
-  const [specialtys, setSpecialtys] = useState<SpecialtysType[]>([])
+  const [specialistBool, setSpecialistBool] = useState<boolean>(false)
+  const [proposalOne, setProposalOne] = useState<boolean>(false)
+  const [proposalTwo, setProposalTwo] = useState<boolean>(false)
+  const [proposalThree, setProposalThree] = useState<boolean>(false)
+  const [proposalFour, setProposalFour] = useState<boolean>(false)
+  const [proposalFive, setProposalFive] = useState<boolean>(false)
+  const [proposalSix, setProposalSix] = useState<boolean>(false)
+  const [proposalSeven, setProposalSeven] = useState<boolean>(false)
+  const [proposalEight, setProposalEight] = useState<boolean>(false)
+  const [familyDescription, setFamilyDescription] = useState<string>('')
+  const [objective, setObjective] = useState<string>('')
+  const [objectiveAdaptive, setObjectiveAdaptive] = useState<string>('')
+  const [actionAdaptive, setActionAdaptive] = useState<string>('')
+  const [resourcesTech, setResourcesTech] = useState<string>('')
+  const [resourcesAvaliation, setResourcesAvaliation] = useState<string>('')
+  const [object, setObject] = useState<string>('')
+  const [conclusion, setConclusion] = useState<string>('')
 
-  const [_, setStatus] = useState<string>('')
+  const [specialtys, setSpecialtys] = useState<SpecialtysType[]>([])
+  const [skills, setSkills] = useState<SkillsType[]>([])
+  const [goals, setGoals] = useState<GoalsType[]>([])
+
+  const [status, setStatus] = useState<string>('')
   const [errors, setErrors] = useState([])
+
+  useEffect(() => {
+    errors.length > 0 && errors.map((error) => toast.error(error))
+  }, [errors])
+
+  useEffect(() => {
+    status && toast.success(status)
+  }, [status])
 
   const workspace_uuid = values(workspace).shift()?.uuid
 
@@ -49,6 +86,7 @@ export default function Leave() {
         .filter((item) => item.uuid === currentUuid)
         .map((item) => {
           setTitle(item.title)
+          setSchool(item.school)
 
           setName(item.name)
           setYear(item.year)
@@ -57,18 +95,36 @@ export default function Leave() {
           setBirthdate(item.birthdate)
           setFather(item.father)
           setMother(item.mother)
+          setMedicalUuid(item.medical_uuid)
 
           setDiagnostic(item.diagnostic)
           setDescription(item.description)
-          setMedicalUuid(item.medical_uuid)
+
+          setSpecialistBool(item.specialist_bool)
+          setFamilyDescription(item.family_description)
+          setObjective(item.objective)
+          setProposalOne(item.proposal_one)
+          setProposalTwo(item.proposal_two)
+          setProposalThree(item.proposal_three)
+          setProposalFour(item.proposal_four)
+          setProposalFive(item.proposal_five)
+          setProposalSix(item.proposal_six)
+          setProposalSeven(item.proposal_seven)
+          setProposalEight(item.proposal_eight)
+
+          setObjectiveAdaptive(item.objective_adaptive)
+          setActionAdaptive(item.action_adaptive)
+          setResourcesTech(item.resources_tech)
+          setResourcesAvaliation(item.resources_avaliation)
+          setObject(item.object)
+          setConclusion(item.conclusion)
+
           setSpecialtys(item.specialtys as never)
+          setSkills(item.skills as never)
+          setGoals(item.goals as never)
         })
     }
   }, [currentUuid])
-
-  useEffect(() => {
-    errors.length > 0 && errors.map((error) => toast.error(error))
-  }, [errors])
 
   const handleChange = useCallback(
     (itemIndex, name, value, _, setTableState) => {
@@ -81,8 +137,46 @@ export default function Leave() {
     [],
   )
 
+  const handleChangeComplex = useCallback(
+    (arrIndex, itemIndex, name, value, setTableState) => {
+      setTableState((prevState) => {
+        const newState = { ...prevState }
+        const itemToUpdate = { ...newState[arrIndex][itemIndex] }
+        itemToUpdate[name] = value
+        newState[arrIndex][itemIndex] = itemToUpdate
+        return newState
+      })
+    },
+    [],
+  )
+
   const addInputFields = useCallback((_, setTableState) => {
     setTableState((prevState) => [...prevState, [] as never])
+  }, [])
+
+  const addComplexInputField = useCallback((arr, setTableState) => {
+    setTableState((prevState) => {
+      const newState = { ...prevState }
+
+      if (!newState[arr]) {
+        newState[arr] = [{}]
+      } else {
+        newState[arr] = [...prevState[arr], {}]
+      }
+
+      return newState
+    })
+  }, [])
+
+  const removeComplexInputField = useCallback((arr, index, setTableState) => {
+    setTableState((prevState) => {
+      const newState = { ...prevState }
+
+      newState[arr] = [...prevState[arr]]
+      newState[arr].splice(index, 1)
+
+      return newState
+    })
   }, [])
 
   const removeInputFields = useCallback((itemIndex, _, setTableState) => {
@@ -97,11 +191,15 @@ export default function Leave() {
     async (event: any) => {
       event.preventDefault()
 
+      const sendSkills = removeFirstKeyAndJoinValues(values(skills))
+
       if (currentUuid !== '') {
+        console.log('update')
         update({
           uuid: currentUuid,
           specialist_uuid: medicalUuid,
           title,
+          school,
           name,
           year,
           diagnostic,
@@ -110,16 +208,39 @@ export default function Leave() {
           birthdate,
           father,
           mother,
+          specialist_bool: specialistBool,
+          family_description: familyDescription,
+          objective,
+          proposal_one: proposalOne,
+          proposal_two: proposalTwo,
+          proposal_three: proposalThree,
+          proposal_four: proposalFour,
+          proposal_five: proposalFive,
+          proposal_six: proposalSix,
+          proposal_seven: proposalSeven,
+          proposal_eight: proposalEight,
+          object_adaptive: objectiveAdaptive,
+          action_adaptive: actionAdaptive,
+          resources_tech: resourcesTech,
+          resources_avaliation: resourcesAvaliation,
+          object,
+          conclusion,
           description,
           specialtys,
+          skills: sendSkills,
+          goals,
           setErrors,
           setStatus,
         })
+
+        return
       }
+
       create({
         workspace_uuid,
         specialist_uuid: medicalUuid,
         title,
+        school,
         name,
         year,
         diagnostic,
@@ -128,8 +249,27 @@ export default function Leave() {
         birthdate,
         father,
         mother,
+        specialist_bool: specialistBool,
+        family_description: familyDescription,
+        objective,
+        proposal_one: proposalOne,
+        proposal_two: proposalTwo,
+        proposal_three: proposalThree,
+        proposal_four: proposalFour,
+        proposal_five: proposalFive,
+        proposal_six: proposalSix,
+        proposal_seven: proposalSeven,
+        proposal_eight: proposalEight,
+        object_adaptive: objectiveAdaptive,
+        action_adaptive: actionAdaptive,
+        resources_tech: resourcesTech,
+        resources_avaliation: resourcesAvaliation,
+        object,
+        conclusion,
         description,
         specialtys,
+        skills: sendSkills,
+        goals,
         setErrors,
         setStatus,
       })
@@ -138,6 +278,7 @@ export default function Leave() {
       workspace_uuid,
       medicalUuid,
       title,
+      school,
       name,
       year,
       diagnostic,
@@ -146,12 +287,49 @@ export default function Leave() {
       birthdate,
       father,
       mother,
+      specialistBool,
+      familyDescription,
+      objective,
+      proposalOne,
+      proposalTwo,
+      proposalThree,
+      proposalFour,
+      proposalFive,
+      proposalSix,
+      proposalSeven,
+      proposalEight,
+      objectiveAdaptive,
+      actionAdaptive,
+      resourcesTech,
+      resourcesAvaliation,
+      object,
+      conclusion,
       description,
       specialtys,
+      skills,
+      goals,
       setStatus,
       setErrors,
     ],
   )
+
+  const filterComplexByKey = useCallback((data, key) => {
+    const keys = Object.keys(data)
+    if (keys.includes(key)) {
+      return data[key]
+    }
+    return []
+  }, [])
+
+  const removeFirstKeyAndJoinValues = useCallback((array) => {
+    let result = []
+
+    for (let i = 0; i < array.length; i++) {
+      result.push(Object.values(array[i])[0])
+    }
+
+    return result
+  }, [])
 
   return (
     <div className="space-y-6 pt-8 sm:space-y-5 sm:pt-10 sm:pb-8">
@@ -167,9 +345,11 @@ export default function Leave() {
             <div className="mt-1 flex-1">
               <Input
                 type="text"
-                name="school-name"
-                id="school-name"
-                autoComplete="school-name"
+                name="school"
+                id="school"
+                value={school ?? ''}
+                handleOnChange={(value) => setSchool(value)}
+                autoComplete="school"
                 className="w-full"
               />
             </div>
@@ -316,7 +496,7 @@ export default function Leave() {
               handleOnChange={(e) => setMedicalUuid(e.target.value)}
             >
               {specialists?.map((item: SpecialistType) => (
-                <option key={item.uuid} value={item.uuid}>
+                <option className="truncate" key={item.uuid} value={item.uuid}>
                   {item.name}
                 </option>
               ))}
@@ -406,7 +586,7 @@ export default function Leave() {
                         key={index}
                         className="border-b dark:border-neutral-500"
                       >
-                        <td className="whitespace-nowrap border-r px-4 py-2 font-medium dark:border-neutral-500">
+                        <td className="whitespace-nowrap border-r px-4 py-2 dark:border-neutral-500">
                           <Input
                             type="text"
                             name="name"
@@ -546,20 +726,20 @@ export default function Leave() {
             <div className="sm:flex sm:gap-4 ">
               <Input
                 type="checkbox"
-                name="checkbox"
-                id="checkbox"
+                name="specialist-check"
+                id="specialist-check"
                 value="sim"
                 label="Sim"
-                handleOnChange={(value) => value}
+                handleOnChange={() => setSpecialistBool(specialistBool)}
               />
 
               <Input
                 type="checkbox"
-                name="checkbox"
-                id="checkbox"
+                name="specialist-check"
+                id="specialist-check"
                 value="nao"
                 label="Não"
-                handleOnChange={(value) => value}
+                handleOnChange={() => setSpecialistBool(!specialistBool)}
               />
             </div>
           </div>
@@ -572,9 +752,12 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name=""
-                value={''}
-                handleOnChange={(event) => event.target.value}
+                name="family_description"
+                id="family_description"
+                value={familyDescription ?? ''}
+                handleOnChange={(event) =>
+                  setFamilyDescription(event.target.value)
+                }
                 className="h-52"
               />
             </div>
@@ -593,7 +776,7 @@ export default function Leave() {
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
                     <th
-                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      className="border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
                       colSpan={3}
                     >
                       Aspectos cognitivos
@@ -607,7 +790,15 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField(
+                            'habilidades-cognitivas',
+                            setSkills,
+                          )
+                        }
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -617,68 +808,98 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys?.length === 0 ? (
+                  {filterComplexByKey(skills, 'habilidades-cognitivas')
+                    ?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((_: SpecialtysType, index) => (
-                      <tr
-                        key={index}
-                        className="border-b dark:border-neutral-500"
-                      >
-                        <td className="whitespace-nowrap border-r px-10 py-2 font-medium dark:border-neutral-500">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.name || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'name', value) */
-                            }
-                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-8 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                          <button
-                            type="button"
-                            className="remove"
-                            onClick={() => {}}
-                          >
-                            <TrashIcon
-                              className="h-4 w-4 text-gray-ring-gray-600"
-                              aria-hidden="true"
+                    filterComplexByKey(skills, 'habilidades-cognitivas')?.map(
+                      (item: SkillsType, index) => (
+                        <tr
+                          key={index}
+                          className="border-b dark:border-neutral-500"
+                        >
+                          <td className="whitespace-nowrap w-80 border-r px-10 py-2 font-medium dark:border-neutral-500">
+                            <Select
+                              value={item?.uuid}
+                              handleOnChange={(e) =>
+                                handleChangeComplex(
+                                  'habilidades-cognitivas',
+                                  index,
+                                  'uuid',
+                                  e.target.value,
+                                  setSkills,
+                                )
+                              }
+                            >
+                              {filterComplexByKey(
+                                skill,
+                                'habilidades-cognitivas',
+                              )?.map((item: SkillsType) => (
+                                <option
+                                  className="truncate"
+                                  key={item.uuid}
+                                  value={item.uuid}
+                                >
+                                  {item.title}
+                                </option>
+                              ))}
+                            </Select>
+                          </td>
+                          <td className="whitespace-nowrap border-r px-8 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="helper"
+                              id="helper"
+                              value={item.helper || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'habilidades-cognitivas',
+                                  index,
+                                  'helper',
+                                  value,
+                                  setSkills,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
-                          </button>
-                        </td>
-                      </tr>
-                    ))
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                            <button
+                              type="button"
+                              className="remove"
+                              onClick={() =>
+                                removeComplexInputField(
+                                  'habilidades-cognitivas',
+                                  index,
+                                  setSkills,
+                                )
+                              }
+                            >
+                              <TrashIcon
+                                className="h-4 w-4 text-gray-ring-gray-600"
+                                aria-hidden="true"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      ),
+                    )
                   )}
                 </tbody>
               </table>
+            </div>
 
-              {/* ASPECTOS SOCIAIS */}
+            <div className="sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              {/* ASPECTOS SOCIAIS E PSICOAFETIVOS */}
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
                     <th
-                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      className="border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
                       colSpan={3}
                     >
                       Aspectos sociais e psicoafetivos
@@ -692,7 +913,15 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField(
+                            'habilidades-socioemocionais',
+                            setSkills,
+                          )
+                        }
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -702,40 +931,63 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys?.length === 0 ? (
+                  {filterComplexByKey(skills, 'habilidades-socioemocionais')
+                    ?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((_: SpecialtysType, index) => (
+                    filterComplexByKey(
+                      skills,
+                      'habilidades-socioemocionais',
+                    )?.map((item: SkillsType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
                       >
-                        <td className="whitespace-nowrap border-r px-10 py-2 font-medium dark:border-neutral-500">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.name || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'name', value) */
+                        <td className="whitespace-nowrap w-80 border-r px-10 py-2 font-medium dark:border-neutral-500">
+                          <Select
+                            value={item?.uuid}
+                            handleOnChange={(e) =>
+                              handleChangeComplex(
+                                'habilidades-socioemocionais',
+                                index,
+                                'uuid',
+                                e.target.value,
+                                setSkills,
+                              )
                             }
-                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-                          />
+                          >
+                            {filterComplexByKey(
+                              skill,
+                              'habilidades-socioemocionais',
+                            )?.map((item: SkillsType) => (
+                              <option
+                                className="truncate"
+                                key={item.uuid}
+                                value={item.uuid}
+                              >
+                                {item.title}
+                              </option>
+                            ))}
+                          </Select>
                         </td>
                         <td className="whitespace-nowrap border-r px-8 py-2 dark:border-neutral-500 ">
                           <Input
                             type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
+                            name="helper"
+                            id="helper"
+                            value={item.helper || ''}
+                            handleOnChange={(value) =>
+                              handleChangeComplex(
+                                'habilidades-socioemocionais',
+                                index,
+                                'helper',
+                                value,
+                                setSkills,
+                              )
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -744,7 +996,13 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => {}}
+                            onClick={() =>
+                              removeComplexInputField(
+                                'habilidades-socioemocionais',
+                                index,
+                                setSkills,
+                              )
+                            }
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -757,16 +1015,18 @@ export default function Leave() {
                   )}
                 </tbody>
               </table>
+            </div>
 
-              {/* ASPECTOS COMUNICACIONAIS*/}
+            <div className="sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              {/* ASPECTOS COMUNICACIONAIS */}
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
                     <th
-                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      className="border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
                       colSpan={3}
                     >
-                      Aspectos comunicacionais
+                      Aspectos Comunicacionais
                     </th>
                   </tr>
                   <tr>
@@ -777,7 +1037,15 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField(
+                            'habilidades-comunicacionais',
+                            setSkills,
+                          )
+                        }
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -787,40 +1055,63 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys?.length === 0 ? (
+                  {filterComplexByKey(skills, 'habilidades-comunicacionais')
+                    ?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((_: SpecialtysType, index) => (
+                    filterComplexByKey(
+                      skills,
+                      'habilidades-comunicacionais',
+                    )?.map((item: SkillsType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
                       >
-                        <td className="whitespace-nowrap border-r px-10 py-2 font-medium dark:border-neutral-500">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.name || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'name', value) */
+                        <td className="whitespace-nowrap w-80 border-r px-10 py-2 font-medium dark:border-neutral-500">
+                          <Select
+                            value={item?.uuid}
+                            handleOnChange={(e) =>
+                              handleChangeComplex(
+                                'habilidades-comunicacionais',
+                                index,
+                                'uuid',
+                                e.target.value,
+                                setSkills,
+                              )
                             }
-                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-                          />
+                          >
+                            {filterComplexByKey(
+                              skill,
+                              'habilidades-comunicacionais',
+                            )?.map((item: SkillsType) => (
+                              <option
+                                className="truncate"
+                                key={item.uuid}
+                                value={item.uuid}
+                              >
+                                {item.title}
+                              </option>
+                            ))}
+                          </Select>
                         </td>
                         <td className="whitespace-nowrap border-r px-8 py-2 dark:border-neutral-500 ">
                           <Input
                             type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
+                            name="helper"
+                            id="helper"
+                            value={item.helper || ''}
+                            handleOnChange={(value) =>
+                              handleChangeComplex(
+                                'habilidades-comunicacionais',
+                                index,
+                                'helper',
+                                value,
+                                setSkills,
+                              )
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -829,7 +1120,13 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => {}}
+                            onClick={() =>
+                              removeComplexInputField(
+                                'habilidades-comunicacionais',
+                                index,
+                                setSkills,
+                              )
+                            }
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -842,16 +1139,18 @@ export default function Leave() {
                   )}
                 </tbody>
               </table>
+            </div>
 
-              {/* ASPECTOS MOTORAS*/}
+            <div className="sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              {/* ASPECTOS MOTORAS/PSICOMOTORES */}
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
                     <th
-                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      className="border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
                       colSpan={3}
                     >
-                      Aspectos motoras/psicomotoras
+                      Aspectos motoras/psicomotores
                     </th>
                   </tr>
                   <tr>
@@ -862,7 +1161,15 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField(
+                            'habilidades-motoraspsicomotoras',
+                            setSkills,
+                          )
+                        }
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -872,40 +1179,63 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys?.length === 0 ? (
+                  {filterComplexByKey(skills, 'habilidades-motoraspsicomotoras')
+                    ?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((_: SpecialtysType, index) => (
+                    filterComplexByKey(
+                      skills,
+                      'habilidades-motoraspsicomotoras',
+                    )?.map((item: SkillsType, index) => (
                       <tr
                         key={index}
                         className="border-b dark:border-neutral-500"
                       >
-                        <td className="whitespace-nowrap border-r px-10 py-2 font-medium dark:border-neutral-500">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.name || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'name', value) */
+                        <td className="whitespace-nowrap w-80 border-r px-10 py-2 font-medium dark:border-neutral-500">
+                          <Select
+                            value={item?.uuid}
+                            handleOnChange={(e) =>
+                              handleChangeComplex(
+                                'habilidades-motoraspsicomotoras',
+                                index,
+                                'uuid',
+                                e.target.value,
+                                setSkills,
+                              )
                             }
-                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-                          />
+                          >
+                            {filterComplexByKey(
+                              skill,
+                              'habilidades-motoraspsicomotoras',
+                            )?.map((item: SkillsType) => (
+                              <option
+                                className="truncate"
+                                key={item.uuid}
+                                value={item.uuid}
+                              >
+                                {item.title}
+                              </option>
+                            ))}
+                          </Select>
                         </td>
                         <td className="whitespace-nowrap border-r px-8 py-2 dark:border-neutral-500 ">
                           <Input
                             type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
+                            name="helper"
+                            id="helper"
+                            value={item.helper || ''}
+                            handleOnChange={(value) =>
+                              handleChangeComplex(
+                                'habilidades-motoraspsicomotoras',
+                                index,
+                                'helper',
+                                value,
+                                setSkills,
+                              )
                             }
                             className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                           />
@@ -914,7 +1244,13 @@ export default function Leave() {
                           <button
                             type="button"
                             className="remove"
-                            onClick={() => {}}
+                            onClick={() =>
+                              removeComplexInputField(
+                                'habilidades-motoraspsicomotoras',
+                                index,
+                                setSkills,
+                              )
+                            }
                           >
                             <TrashIcon
                               className="h-4 w-4 text-gray-ring-gray-600"
@@ -927,13 +1263,15 @@ export default function Leave() {
                   )}
                 </tbody>
               </table>
+            </div>
 
-              {/* ASPECTOS COTIDIANO*/}
+            <div className="sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
+              {/* ASPECTOS DO COTIDIANO */}
               <table className="mb-6 text-xs min-w-full border text-center font-light dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
                     <th
-                      className=" border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
+                      className="border-b px-2 py-2 dark:border-neutral-500 bg-pink-600 text-white"
                       colSpan={3}
                     >
                       Aspectos do Cotidiano
@@ -947,7 +1285,15 @@ export default function Leave() {
                       Aspectos que precisam ser potencializados
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField(
+                            'habilidades-do-cotidiano',
+                            setSkills,
+                          )
+                        }
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -957,58 +1303,86 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys?.length === 0 ? (
+                  {filterComplexByKey(skills, 'habilidades-do-cotidiano')
+                    ?.length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((_: SpecialtysType, index) => (
-                      <tr
-                        key={index}
-                        className="border-b dark:border-neutral-500"
-                      >
-                        <td className="whitespace-nowrap border-r px-10 py-2 font-medium dark:border-neutral-500">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.name || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'name', value) */
-                            }
-                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-8 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                          <button
-                            type="button"
-                            className="remove"
-                            onClick={() => {}}
-                          >
-                            <TrashIcon
-                              className="h-4 w-4 text-gray-ring-gray-600"
-                              aria-hidden="true"
+                    filterComplexByKey(skills, 'habilidades-do-cotidiano')?.map(
+                      (item: SkillsType, index) => (
+                        <tr
+                          key={index}
+                          className="border-b dark:border-neutral-500"
+                        >
+                          <td className="whitespace-nowrap w-80 border-r px-10 py-2 font-medium dark:border-neutral-500">
+                            <Select
+                              value={item?.uuid}
+                              handleOnChange={(e) =>
+                                handleChangeComplex(
+                                  'habilidades-do-cotidiano',
+                                  index,
+                                  'uuid',
+                                  e.target.value,
+                                  setSkills,
+                                )
+                              }
+                            >
+                              {filterComplexByKey(
+                                skill,
+                                'habilidades-do-cotidiano',
+                              )?.map((item: SkillsType) => (
+                                <option
+                                  className="truncate"
+                                  key={item.uuid}
+                                  value={item.uuid}
+                                >
+                                  {item.title}
+                                </option>
+                              ))}
+                            </Select>
+                          </td>
+                          <td className="whitespace-nowrap border-r px-8 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="helper"
+                              id="helper"
+                              value={item.helper || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'habilidades-do-cotidiano',
+                                  index,
+                                  'helper',
+                                  value,
+                                  setSkills,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
                             />
-                          </button>
-                        </td>
-                      </tr>
-                    ))
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                            <button
+                              type="button"
+                              className="remove"
+                              onClick={() =>
+                                removeComplexInputField(
+                                  'habilidades-do-cotidiano',
+                                  index,
+                                  setSkills,
+                                )
+                              }
+                            >
+                              <TrashIcon
+                                className="h-4 w-4 text-gray-ring-gray-600"
+                                aria-hidden="true"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      ),
+                    )
                   )}
                 </tbody>
               </table>
@@ -1023,9 +1397,10 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name="diagnostic"
-                value={''}
-                handleOnChange={(event) => event.target.value}
+                name="objective"
+                id="objective"
+                value={objective ?? ''}
+                handleOnChange={(event) => setObjective(event.target.value)}
               />
             </div>
           </div>
@@ -1063,7 +1438,12 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField('matematica', setGoals)
+                        }
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1073,97 +1453,129 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys?.length === 0 ? (
+                  {filterComplexByKey(goals, 'matematica').length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((_: SpecialtysType, index) => (
-                      <tr
-                        key={index}
-                        className="border-b dark:border-neutral-500"
-                      >
-                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.name || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'name', value) */
-                            }
-                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                          <button
-                            type="button"
-                            className="remove"
-                            onClick={() => {}}
-                          >
-                            <TrashIcon
-                              className="h-4 w-4 text-gray-ring-gray-600"
-                              aria-hidden="true"
+                    filterComplexByKey(goals, 'matematica')?.map(
+                      (item: GoalsExtractType, index) => (
+                        <tr
+                          key={index}
+                          className="border-b dark:border-neutral-500"
+                        >
+                          <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                            <Input
+                              type="text"
+                              name="goal"
+                              id="goal"
+                              value={item.goal || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'matematica',
+                                  index,
+                                  'goal',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                             />
-                          </button>
-                        </td>
-                      </tr>
-                    ))
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="period"
+                              id="period"
+                              value={item.period || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'matematica',
+                                  index,
+                                  'period',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="performance"
+                              id="performance"
+                              value={item.perfomance || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'matematica',
+                                  index,
+                                  'perfomance',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="strategy"
+                              id="strategy"
+                              value={item.strategy || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'matematica',
+                                  index,
+                                  'strategy',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="resource"
+                              id="resource"
+                              value={item.resource || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'matematica',
+                                  index,
+                                  'resource',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                removeComplexInputField(
+                                  'matematica',
+                                  index,
+                                  setGoals,
+                                )
+                              }
+                            >
+                              <TrashIcon
+                                className="h-4 w-4 text-gray-ring-gray-600"
+                                aria-hidden="true"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      ),
+                    )
                   )}
                 </tbody>
               </table>
@@ -1197,7 +1609,12 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField('linguagens', setGoals)
+                        }
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1207,97 +1624,129 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys?.length === 0 ? (
+                  {filterComplexByKey(goals, 'linguagens').length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((_: SpecialtysType, index) => (
-                      <tr
-                        key={index}
-                        className="border-b dark:border-neutral-500"
-                      >
-                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.name || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'name', value) */
-                            }
-                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                          <button
-                            type="button"
-                            className="remove"
-                            onClick={() => {}}
-                          >
-                            <TrashIcon
-                              className="h-4 w-4 text-gray-ring-gray-600"
-                              aria-hidden="true"
+                    filterComplexByKey(goals, 'linguagens')?.map(
+                      (item: GoalsExtractType, index) => (
+                        <tr
+                          key={index}
+                          className="border-b dark:border-neutral-500"
+                        >
+                          <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                            <Input
+                              type="text"
+                              name="goal"
+                              id="goal"
+                              value={item.goal || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'linguagens',
+                                  index,
+                                  'goal',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                             />
-                          </button>
-                        </td>
-                      </tr>
-                    ))
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="period"
+                              id="period"
+                              value={item.period || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'linguagens',
+                                  index,
+                                  'period',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="performance"
+                              id="performance"
+                              value={item.perfomance || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'linguagens',
+                                  index,
+                                  'perfomance',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="strategy"
+                              id="strategy"
+                              value={item.strategy || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'linguagens',
+                                  index,
+                                  'strategy',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="resource"
+                              id="resource"
+                              value={item.resource || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'linguagens',
+                                  index,
+                                  'resource',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                removeComplexInputField(
+                                  'linguagens',
+                                  index,
+                                  setGoals,
+                                )
+                              }
+                            >
+                              <TrashIcon
+                                className="h-4 w-4 text-gray-ring-gray-600"
+                                aria-hidden="true"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      ),
+                    )
                   )}
                 </tbody>
               </table>
@@ -1330,7 +1779,12 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField('natureza', setGoals)
+                        }
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1340,97 +1794,129 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys?.length === 0 ? (
+                  {filterComplexByKey(goals, 'natureza').length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((_: SpecialtysType, index) => (
-                      <tr
-                        key={index}
-                        className="border-b dark:border-neutral-500"
-                      >
-                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.name || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'name', value) */
-                            }
-                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                          <button
-                            type="button"
-                            className="remove"
-                            onClick={() => {}}
-                          >
-                            <TrashIcon
-                              className="h-4 w-4 text-gray-ring-gray-600"
-                              aria-hidden="true"
+                    filterComplexByKey(goals, 'natureza')?.map(
+                      (item: GoalsExtractType, index) => (
+                        <tr
+                          key={index}
+                          className="border-b dark:border-neutral-500"
+                        >
+                          <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                            <Input
+                              type="text"
+                              name="goal"
+                              id="goal"
+                              value={item.goal || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'natureza',
+                                  index,
+                                  'goal',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                             />
-                          </button>
-                        </td>
-                      </tr>
-                    ))
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="period"
+                              id="period"
+                              value={item.period || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'natureza',
+                                  index,
+                                  'period',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="performance"
+                              id="performance"
+                              value={item.perfomance || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'natureza',
+                                  index,
+                                  'perfomance',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="strategy"
+                              id="strategy"
+                              value={item.strategy || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'natureza',
+                                  index,
+                                  'strategy',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="resource"
+                              id="resource"
+                              value={item.resource || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'natureza',
+                                  index,
+                                  'resource',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                removeComplexInputField(
+                                  'natureza',
+                                  index,
+                                  setGoals,
+                                )
+                              }
+                            >
+                              <TrashIcon
+                                className="h-4 w-4 text-gray-ring-gray-600"
+                                aria-hidden="true"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      ),
+                    )
                   )}
                 </tbody>
               </table>
@@ -1463,7 +1949,12 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField('humanas', setGoals)
+                        }
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1473,97 +1964,129 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys?.length === 0 ? (
+                  {filterComplexByKey(goals, 'humanas').length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((_: SpecialtysType, index) => (
-                      <tr
-                        key={index}
-                        className="border-b dark:border-neutral-500"
-                      >
-                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.name || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'name', value) */
-                            }
-                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                          <button
-                            type="button"
-                            className="remove"
-                            onClick={() => {}}
-                          >
-                            <TrashIcon
-                              className="h-4 w-4 text-gray-ring-gray-600"
-                              aria-hidden="true"
+                    filterComplexByKey(goals, 'humanas')?.map(
+                      (item: GoalsExtractType, index) => (
+                        <tr
+                          key={index}
+                          className="border-b dark:border-neutral-500"
+                        >
+                          <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                            <Input
+                              type="text"
+                              name="goal"
+                              id="goal"
+                              value={item.goal || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'humanas',
+                                  index,
+                                  'goal',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                             />
-                          </button>
-                        </td>
-                      </tr>
-                    ))
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="period"
+                              id="period"
+                              value={item.period || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'humanas',
+                                  index,
+                                  'period',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="performance"
+                              id="performance"
+                              value={item.perfomance || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'humanas',
+                                  index,
+                                  'perfomance',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="strategy"
+                              id="strategy"
+                              value={item.strategy || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'humanas',
+                                  index,
+                                  'strategy',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="resource"
+                              id="resource"
+                              value={item.resource || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'humanas',
+                                  index,
+                                  'resource',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                removeComplexInputField(
+                                  'humanas',
+                                  index,
+                                  setGoals,
+                                )
+                              }
+                            >
+                              <TrashIcon
+                                className="h-4 w-4 text-gray-ring-gray-600"
+                                aria-hidden="true"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      ),
+                    )
                   )}
                 </tbody>
               </table>
@@ -1596,7 +2119,12 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          addComplexInputField('religiao', setGoals)
+                        }
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1606,97 +2134,129 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys?.length === 0 ? (
+                  {filterComplexByKey(goals, 'religiao').length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((_: SpecialtysType, index) => (
-                      <tr
-                        key={index}
-                        className="border-b dark:border-neutral-500"
-                      >
-                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.name || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'name', value) */
-                            }
-                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                          <button
-                            type="button"
-                            className="remove"
-                            onClick={() => {}}
-                          >
-                            <TrashIcon
-                              className="h-4 w-4 text-gray-ring-gray-600"
-                              aria-hidden="true"
+                    filterComplexByKey(goals, 'religiao')?.map(
+                      (item: GoalsExtractType, index) => (
+                        <tr
+                          key={index}
+                          className="border-b dark:border-neutral-500"
+                        >
+                          <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                            <Input
+                              type="text"
+                              name="goal"
+                              id="goal"
+                              value={item.goal || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'religiao',
+                                  index,
+                                  'goal',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                             />
-                          </button>
-                        </td>
-                      </tr>
-                    ))
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="period"
+                              id="period"
+                              value={item.period || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'religiao',
+                                  index,
+                                  'period',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="performance"
+                              id="performance"
+                              value={item.perfomance || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'religiao',
+                                  index,
+                                  'perfomance',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="strategy"
+                              id="strategy"
+                              value={item.strategy || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'religiao',
+                                  index,
+                                  'strategy',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="resource"
+                              id="resource"
+                              value={item.resource || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'religiao',
+                                  index,
+                                  'resource',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                removeComplexInputField(
+                                  'religiao',
+                                  index,
+                                  setGoals,
+                                )
+                              }
+                            >
+                              <TrashIcon
+                                className="h-4 w-4 text-gray-ring-gray-600"
+                                aria-hidden="true"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      ),
+                    )
                   )}
                 </tbody>
               </table>
@@ -1729,7 +2289,10 @@ export default function Leave() {
                       Recursos
                     </th>
                     <th className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                      <button type="button" onClick={() => {}}>
+                      <button
+                        type="button"
+                        onClick={() => addComplexInputField('diaria', setGoals)}
+                      >
                         <PlusIcon
                           className="h-4 w-4 text-gray-ring-gray-600"
                           aria-hidden="true"
@@ -1739,97 +2302,129 @@ export default function Leave() {
                   </tr>
                 </thead>
                 <tbody>
-                  {specialtys?.length === 0 ? (
+                  {filterComplexByKey(goals, 'diaria').length === 0 ? (
                     <tr className="border-b dark:border-neutral-500">
                       <td className="py-3 " colSpan={6}>
                         Nenhum item encontrado.
                       </td>
                     </tr>
                   ) : (
-                    specialtys?.map((_: SpecialtysType, index) => (
-                      <tr
-                        key={index}
-                        className="border-b dark:border-neutral-500"
-                      >
-                        <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.name || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'name', value) */
-                            }
-                            className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
-                          <Input
-                            type="text"
-                            name=""
-                            id=""
-                            value={/* item.location || */ ''}
-                            handleOnChange={
-                              (value) => value
-                              /* handleChange(index, 'location', value) */
-                            }
-                            className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
-                          />
-                        </td>
-                        <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
-                          <button
-                            type="button"
-                            className="remove"
-                            onClick={() => {}}
-                          >
-                            <TrashIcon
-                              className="h-4 w-4 text-gray-ring-gray-600"
-                              aria-hidden="true"
+                    filterComplexByKey(goals, 'diaria')?.map(
+                      (item: GoalsExtractType, index) => (
+                        <tr
+                          key={index}
+                          className="border-b dark:border-neutral-500"
+                        >
+                          <td className="whitespace-nowrap border-r px-3 py-2 font-medium dark:border-neutral-500">
+                            <Input
+                              type="text"
+                              name="goal"
+                              id="goal"
+                              value={item.goal || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'diaria',
+                                  index,
+                                  'goal',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block w-full max-w-lg rounded-md shadow-sm sm:max-w-xs"
                             />
-                          </button>
-                        </td>
-                      </tr>
-                    ))
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="period"
+                              id="period"
+                              value={item.period || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'diaria',
+                                  index,
+                                  'period',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="performance"
+                              id="performance"
+                              value={item.perfomance || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'diaria',
+                                  index,
+                                  'perfomance',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="strategy"
+                              id="strategy"
+                              value={item.strategy || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'diaria',
+                                  index,
+                                  'strategy',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500 ">
+                            <Input
+                              type="text"
+                              name="resource"
+                              id="resource"
+                              value={item.resource || ''}
+                              handleOnChange={(value) =>
+                                handleChangeComplex(
+                                  'diaria',
+                                  index,
+                                  'resource',
+                                  value,
+                                  setGoals,
+                                )
+                              }
+                              className="text-xs block m-auto w-full rounded-md shadow-sm sm:max-w-xs"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap border-r px-3 py-2 dark:border-neutral-500">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                removeComplexInputField(
+                                  'diaria',
+                                  index,
+                                  setGoals,
+                                )
+                              }
+                            >
+                              <TrashIcon
+                                className="h-4 w-4 text-gray-ring-gray-600"
+                                aria-hidden="true"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      ),
+                    )
                   )}
                 </tbody>
               </table>
@@ -1846,74 +2441,74 @@ export default function Leave() {
               <div className="sm:mb-4">
                 <Input
                   type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  value=""
+                  name="proposal_one"
+                  id="proposal_one"
+                  isChecked={proposalOne}
+                  handleOnChange={() => setProposalOne(!proposalOne)}
                   label="Mediação individual nas atividades e avaliações."
-                  handleOnChange={(value) => value}
                 />
 
                 <Input
                   type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  value=""
+                  name="proposal_two"
+                  id="proposal_two"
+                  isChecked={proposalTwo}
+                  handleOnChange={() => setProposalTwo(!proposalTwo)}
                   label="Trabalhar os conceitos/conteúdos no concreto."
-                  handleOnChange={(value) => value}
                 />
 
                 <Input
                   type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  value=""
+                  name="proposal_three"
+                  id="proposal_three"
+                  isChecked={proposalThree}
+                  handleOnChange={() => setProposalThree(!proposalThree)}
                   label="Proporcionar tempo estendido para realização de atividades e avaliações"
-                  handleOnChange={(value) => value}
                 />
 
                 <Input
                   type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  value=""
+                  name="proposal_four"
+                  id="proposal_four"
+                  isChecked={proposalFour}
+                  handleOnChange={() => setProposalFour(!proposalFour)}
                   label="Reduzir textos e enunciados para melhor compreensão."
-                  handleOnChange={(value) => value}
                 />
 
                 <Input
                   type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  value=""
+                  name="proposal_five"
+                  id="proposal_five"
+                  isChecked={proposalFive}
+                  handleOnChange={() => setProposalFive(!proposalFive)}
                   label="Questões objetivas."
-                  handleOnChange={(value) => value}
                 />
 
                 <Input
                   type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  value=""
+                  name="proposal_six"
+                  id="proposal_six"
+                  isChecked={proposalSix}
+                  handleOnChange={() => setProposalSix(!proposalSix)}
                   label="Correção diferenciada nas avaliações."
-                  handleOnChange={(value) => value}
                 />
 
                 <Input
                   type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  value=""
+                  name="proposal_seven"
+                  id="proposal_seven"
+                  isChecked={proposalSeven}
+                  handleOnChange={() => setProposalSeven(!proposalSeven)}
                   label="Adaptação Curricular"
-                  handleOnChange={(value) => value}
                 />
 
                 <Input
                   type="checkbox"
-                  name="checkbox"
-                  id="checkbox"
-                  value=""
+                  name="proposal_eight"
+                  id="proposal_eight"
+                  isChecked={proposalEight}
+                  handleOnChange={() => setProposalEight(!proposalEight)}
                   label="Outro"
-                  handleOnChange={(value) => value}
                 />
               </div>
             </div>
@@ -1927,24 +2522,30 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name=""
-                value={''}
-                handleOnChange={(event) => event.target.value}
+                name="objective_adaptive"
+                id="objective_adaptive"
+                value={objectiveAdaptive ?? ''}
+                handleOnChange={(event) =>
+                  setObjectiveAdaptive(event.target.value)
+                }
               />
             </div>
           </div>
 
-          {/* Ações adaptativas.. */}
+          {/*a. Ações adaptativas.. */}
           <div className="sm:items-start sm:gap-4 sm:pt-5">
             <Label className="text-base sm:mt-px sm:pt-2 my-3">
               {' '}
-              Ações adaptativas por cada área de conhecimento:
+              a. Ações adaptativas por cada área de conhecimento:
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name=""
-                value={''}
-                handleOnChange={(event) => event.target.value}
+                name="action_adaptive"
+                id="action_adaptive"
+                value={actionAdaptive ?? ''}
+                handleOnChange={(event) =>
+                  setActionAdaptive(event.target.value)
+                }
               />
             </div>
           </div>
@@ -1957,9 +2558,10 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name=""
-                value={''}
-                handleOnChange={(event) => event.target.value}
+                name="resources_tech"
+                id="resources_tech"
+                value={resourcesTech ?? ''}
+                handleOnChange={(event) => setResourcesTech(event.target.value)}
               />
             </div>
           </div>
@@ -1972,9 +2574,12 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name=""
-                value={''}
-                handleOnChange={(event) => event.target.value}
+                name="resources_avaliation"
+                id="resources_avaliation"
+                value={resourcesAvaliation ?? ''}
+                handleOnChange={(event) =>
+                  setResourcesAvaliation(event.target.value)
+                }
               />
             </div>
           </div>
@@ -1987,9 +2592,10 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name=""
-                value={''}
-                handleOnChange={(event) => event.target.value}
+                name="object"
+                id="object"
+                value={object ?? ''}
+                handleOnChange={(event) => setObject(event.target.value)}
               />
             </div>
           </div>
@@ -2002,9 +2608,10 @@ export default function Leave() {
             </Label>
             <div className="sm:flex sm:justify-between sm:items-center sm:gap-4 sm:border-t sm:pt-5">
               <Textarea
-                name=""
-                value={''}
-                handleOnChange={(event) => event.target.value}
+                name="conclusion"
+                id="conclusion"
+                value={conclusion ?? ''}
+                handleOnChange={(event) => setConclusion(event.target.value)}
               />
             </div>
           </div>

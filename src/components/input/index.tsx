@@ -5,6 +5,7 @@ interface InputProps {
   defaultValue?: string
   name?: string
   type?: 'text' | 'search' | 'password' | 'email' | 'checkbox' | 'date'
+  isChecked?: boolean
   placeholder?: string
   className?: string
   disabled?: boolean
@@ -18,6 +19,7 @@ interface InputProps {
 
 export default function Input({
   type,
+  isChecked,
   placeholder,
   className,
   required,
@@ -36,6 +38,7 @@ export default function Input({
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           handleOnChange(e.target.value)
         }
+        checked={isChecked}
       />
       <label className="font-medium text-sm text-gray-700">{label}</label>
     </div>
