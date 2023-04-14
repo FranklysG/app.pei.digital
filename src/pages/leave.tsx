@@ -46,9 +46,16 @@ export default function Leave() {
   const [description, setDescription] = useState<string>('')
 
   const [specialistBool, setSpecialistBool] = useState<boolean>(false)
+  const [proposalOne, setProposalOne] = useState<boolean>(false)
+  const [proposalTwo, setProposalTwo] = useState<boolean>(false)
+  const [proposalThree, setProposalThree] = useState<boolean>(false)
+  const [proposalFour, setProposalFour] = useState<boolean>(false)
+  const [proposalFive, setProposalFive] = useState<boolean>(false)
+  const [proposalSix, setProposalSix] = useState<boolean>(false)
+  const [proposalSeven, setProposalSeven] = useState<boolean>(false)
+  const [proposalEight, setProposalEight] = useState<boolean>(false)
   const [familyDescription, setFamilyDescription] = useState<string>('')
   const [objective, setObjective] = useState<string>('')
-  const [proposal, setProposal] = useState<string>('')
   const [objectiveAdaptive, setObjectiveAdaptive] = useState<string>('')
   const [actionAdaptive, setActionAdaptive] = useState<string>('')
   const [resourcesTech, setResourcesTech] = useState<string>('')
@@ -96,7 +103,15 @@ export default function Leave() {
           setSpecialistBool(item.specialist_bool)
           setFamilyDescription(item.family_description)
           setObjective(item.objective)
-          setProposal(item.proposal)
+          setProposalOne(item.proposal_one)
+          setProposalTwo(item.proposal_two)
+          setProposalThree(item.proposal_three)
+          setProposalFour(item.proposal_four)
+          setProposalFive(item.proposal_five)
+          setProposalSix(item.proposal_six)
+          setProposalSeven(item.proposal_seven)
+          setProposalEight(item.proposal_eight)
+
           setObjectiveAdaptive(item.objective_adaptive)
           setActionAdaptive(item.action_adaptive)
           setResourcesTech(item.resources_tech)
@@ -193,14 +208,21 @@ export default function Leave() {
           birthdate,
           father,
           mother,
-          specialistBool,
-          familyDescription,
+          specialist_bool: specialistBool,
+          family_description: familyDescription,
           objective,
-          proposal,
-          objectiveAdaptive,
-          actionAdaptive,
-          resourcesTech,
-          resourcesAvaliation,
+          proposal_one: proposalOne,
+          proposal_two: proposalTwo,
+          proposal_three: proposalThree,
+          proposal_four: proposalFour,
+          proposal_five: proposalFive,
+          proposal_six: proposalSix,
+          proposal_seven: proposalSeven,
+          proposal_eight: proposalEight,
+          object_adaptive: objectiveAdaptive,
+          action_adaptive: actionAdaptive,
+          resources_tech: resourcesTech,
+          resources_avaliation: resourcesAvaliation,
           object,
           conclusion,
           description,
@@ -227,14 +249,21 @@ export default function Leave() {
         birthdate,
         father,
         mother,
-        specialistBool,
-        familyDescription,
+        specialist_bool: specialistBool,
+        family_description: familyDescription,
         objective,
-        proposal,
-        objectiveAdaptive,
-        actionAdaptive,
-        resourcesTech,
-        resourcesAvaliation,
+        proposal_one: proposalOne,
+        proposal_two: proposalTwo,
+        proposal_three: proposalThree,
+        proposal_four: proposalFour,
+        proposal_five: proposalFive,
+        proposal_six: proposalSix,
+        proposal_seven: proposalSeven,
+        proposal_eight: proposalEight,
+        object_adaptive: objectiveAdaptive,
+        action_adaptive: actionAdaptive,
+        resources_tech: resourcesTech,
+        resources_avaliation: resourcesAvaliation,
         object,
         conclusion,
         description,
@@ -261,7 +290,14 @@ export default function Leave() {
       specialistBool,
       familyDescription,
       objective,
-      proposal,
+      proposalOne,
+      proposalTwo,
+      proposalThree,
+      proposalFour,
+      proposalFive,
+      proposalSix,
+      proposalSeven,
+      proposalEight,
       objectiveAdaptive,
       actionAdaptive,
       resourcesTech,
@@ -2405,73 +2441,73 @@ export default function Leave() {
               <div className="sm:mb-4">
                 <Input
                   type="checkbox"
-                  name="proposal"
-                  id="proposal"
-                  value={proposal ?? ''}
-                  handleOnChange={(value) => setProposal(value)}
+                  name="proposal_one"
+                  id="proposal_one"
+                  isChecked={proposalOne}
+                  handleOnChange={() => setProposalOne(!proposalOne)}
                   label="Mediação individual nas atividades e avaliações."
                 />
 
                 <Input
                   type="checkbox"
-                  name="proposal"
-                  id="proposal"
-                  value={proposal ?? ''}
-                  handleOnChange={(value) => setProposal(value)}
+                  name="proposal_two"
+                  id="proposal_two"
+                  isChecked={proposalTwo}
+                  handleOnChange={() => setProposalTwo(!proposalTwo)}
                   label="Trabalhar os conceitos/conteúdos no concreto."
                 />
 
                 <Input
                   type="checkbox"
-                  name="proposal"
-                  id="proposal"
-                  value={proposal ?? ''}
-                  handleOnChange={(value) => setProposal(value)}
+                  name="proposal_three"
+                  id="proposal_three"
+                  isChecked={proposalThree}
+                  handleOnChange={() => setProposalThree(!proposalThree)}
                   label="Proporcionar tempo estendido para realização de atividades e avaliações"
                 />
 
                 <Input
                   type="checkbox"
-                  name="proposal"
-                  id="proposal"
-                  value={proposal ?? ''}
-                  handleOnChange={(value) => setProposal(value)}
+                  name="proposal_four"
+                  id="proposal_four"
+                  isChecked={proposalFour}
+                  handleOnChange={() => setProposalFour(!proposalFour)}
                   label="Reduzir textos e enunciados para melhor compreensão."
                 />
 
                 <Input
                   type="checkbox"
-                  name="proposal"
-                  id="proposal"
-                  value={proposal ?? ''}
-                  handleOnChange={(value) => setProposal(value)}
+                  name="proposal_five"
+                  id="proposal_five"
+                  isChecked={proposalFive}
+                  handleOnChange={() => setProposalFive(!proposalFive)}
                   label="Questões objetivas."
                 />
 
                 <Input
                   type="checkbox"
-                  name="proposal"
-                  id="proposal"
-                  value={proposal ?? ''}
-                  handleOnChange={(value) => setProposal(value)}
+                  name="proposal_six"
+                  id="proposal_six"
+                  isChecked={proposalSix}
+                  handleOnChange={() => setProposalSix(!proposalSix)}
                   label="Correção diferenciada nas avaliações."
                 />
 
                 <Input
                   type="checkbox"
-                  name="proposal"
-                  id="proposal"
-                  value={proposal ?? ''}
-                  handleOnChange={(value) => setProposal(value)}
+                  name="proposal_seven"
+                  id="proposal_seven"
+                  isChecked={proposalSeven}
+                  handleOnChange={() => setProposalSeven(!proposalSeven)}
                   label="Adaptação Curricular"
                 />
 
                 <Input
                   type="checkbox"
-                  name="proposal"
-                  id="proposal"
-                  value={proposal ?? ''}
-                  handleOnChange={(value) => setProposal(value)}
+                  name="proposal_eight"
+                  id="proposal_eight"
+                  isChecked={proposalEight}
+                  handleOnChange={() => setProposalEight(!proposalEight)}
                   label="Outro"
                 />
               </div>
