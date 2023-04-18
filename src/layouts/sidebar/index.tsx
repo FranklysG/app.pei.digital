@@ -8,6 +8,7 @@ import {
   ShieldCheckIcon,
   SquaresPlusIcon,
   UsersIcon,
+  UserPlusIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
@@ -23,6 +24,7 @@ const secondaryNavigation = [
     icon: SquaresPlusIcon,
   },
   { name: 'Usuários', href: '/users', icon: UsersIcon },
+  { name: 'Especialistas', href: '/specialists', icon: UserPlusIcon },
   { name: 'Configurações', href: '/setting', icon: CogIcon },
   { name: 'Ajuda', href: '#', icon: QuestionMarkCircleIcon },
   { name: 'Privacidade', href: '#', icon: ShieldCheckIcon },
