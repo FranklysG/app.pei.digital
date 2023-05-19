@@ -30,12 +30,12 @@ export default function Specialists() {
     status && toast.success(status)
   }, [status])
 
-  useEffect(() => {
-    if (user?.role != 'admin') {
-      toast.info('Parece que você não tem permissão :)')
-      router.push('dashboard')
-    }
-  }, [user])
+  // useEffect(() => {
+  //   if (user?.role != 'admin') {
+  //     toast.info('Parece que você não tem permissão :)')
+  //     router.push('dashboard')
+  //   }
+  // }, [user])
 
   const handleSpecialistDelete = useCallback((uuid: string) => {
     eliminate({
@@ -45,9 +45,9 @@ export default function Specialists() {
     })
   }, [])
 
-  if (!user?.role) {
-    return <Loading />
-  }
+  // if (!user?.role) {
+  //   return <Loading />
+  // }
 
   return (
     <App header={'Especialistas'}>

@@ -30,12 +30,12 @@ export default function Users() {
     status && toast.success(status)
   }, [status])
 
-  useEffect(() => {
-    if (user?.role != 'admin') {
-      toast.info('Parece que você não tem permissão :)')
-      router.push('dashboard')
-    }
-  }, [user])
+  // useEffect(() => {
+  //   if (user?.role != 'admin') {
+  //     toast.info('Parece que você não tem permissão :)')
+  //     router.push('dashboard')
+  //   }
+  // }, [user])
 
   const handleUserDelete = useCallback((uuid: string) => {
     eliminate({
@@ -45,9 +45,9 @@ export default function Users() {
     })
   }, [])
 
-  if (!user?.role) {
-    return <Loading />
-  }
+  // if (!user?.role) {
+  //   return <Loading />
+  // }
 
   return (
     <App header={'Usuários'}>
